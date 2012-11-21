@@ -1,0 +1,1223 @@
+<?xml version='1.0'?>
+<!DOCTYPE rfc SYSTEM 'rfc2629.dtd'>
+
+<?rfc comments='yes'?>
+<?rfc docmapping='yes'?>
+<?rfc inline='no'?>
+<?rfc compact='no'?>
+<?rfc editing='no'?>
+<?rfc header='README'?>
+<?rfc private='The README file'?>
+<?rfc subcompact='no'?>
+<?rfc symrefs='no'?>
+<?rfc toc='yes'?>
+<?rfc tocappendix='no'?>
+<?rfc tocindent='no'?>
+
+<rfc>
+<front>
+<title>xml2rfc v1.36pre1</title>
+
+<author initials='M.T.' surname='Rose' fullname='Marshall T. Rose'>
+    <organization>Dover Beach Consulting, Inc.</organization>
+    <address>
+    <postal>
+    <street>POB 255268</street>
+    <city>Sacramento</city> <region>CA</region> <code>95865-5268</code>
+    <country>US</country>
+    </postal>
+    <phone>+1 916 483 8878</phone>
+    <email>mrose@dbc.mtview.ca.us</email>
+    </address>
+</author>
+
+<author fullname="Bill Fenner" initials="B." surname="Fenner">
+    <organization>Arista Networks, Inc.</organization>
+    <address>
+    <postal>
+    <street>275 Middlefield Rd, Suite 50</street>
+    <city>Menlo Park</city>
+    <region>CA</region>
+    <code>94025</code>
+    <country>US</country>
+    </postal>
+    <phone>+1 650 924-2455</phone>
+    <email>fenner@gmail.com</email>
+    </address>
+</author>
+
+<author initials='C.' surname='Levert' fullname='Charles Levert'>
+    <organization/>
+    <address>
+    <postal>
+    <street/>
+    <city>Montr&eacute;al</city>
+    <region>QC</region>
+    <country>Canada</country>
+    </postal>
+    <email>charles.levert@gmail.com</email>
+    </address>
+</author>
+
+<author initials='T.' surname='Hansen' fullname='Tony Hansen'>
+    <organization>AT&amp;T Labs</organization>
+    <address>
+    <postal>
+    <street/>
+    <city>Middletown</city>
+    <region>NJ</region>
+    <country>USA</country>
+    </postal>
+    <email>tony+xml2rfc@maillennium.att.com</email>
+    </address>
+</author>
+<author initials="J. F." surname="Reschke" fullname="Julian F. Reschke">
+    <organization abbrev="greenbytes">greenbytes GmbH</organization>
+    <address>
+    <postal>
+    <street>Hafenweg 16</street>
+    <city>Muenster</city><region>NW</region><code>48155</code>
+    <country>Germany</country>
+    </postal>
+    <email>julian.reschke@greenbytes.de</email>   
+    <uri>http://greenbytes.de/tech/webdav/</uri>   
+    </address>
+</author> 
+
+<date month='January' year='2011' />
+</front>
+
+<middle>
+<section title='Introduction'>
+<t>This is a package to convert memos written in XML to the RFC format.</t>
+
+<t>If you don't want to install any software,
+you can use the
+<eref target='http://xml.resource.org/'>web-based service</eref>.</t>
+</section>
+
+<section title='Requirements'>
+<t>You need to have Tcl/Tk version&nbsp;8 running on your system.
+Tcl is a scripting language,
+Tk is Tcl with support for your windowing system.</t>
+
+<t>To get a source or binary distribution for your system,
+go to the
+<eref target='http://www.tcl.tk/software/tcltk/8.4.html'>Tcl Developer Xchange website</eref>
+and install it.
+If you get the binary distribution,
+this is pretty simple.</t>
+
+<figure>
+<preamble>Of course,
+you may already have Tcl version&nbsp;8.
+To find out,
+try typing this command from the shell
+(or the &ldquo;MS-DOS Prompt&rdquo;):</preamble>
+<artwork>
+    % tclsh
+</artwork>
+<postamble>If the program launches,
+you're good to go with Tcl version&nbsp;8.</postamble>
+</figure>
+
+<figure>
+<preamble>If you are running under a windowing system (e.g., X or MS-Windows),
+you can also try:</preamble>
+<artwork>
+    % wish
+</artwork>
+<postamble>If a new window comes up along with a &ldquo;Console&rdquo; window,
+then you're good to go with Tk version&nbsp;8.</postamble>
+</figure>
+
+<t>Finally,
+you may notice a file called <spanx style='verb'>xml2sgml.tcl</spanx>
+in the distribution.
+It contains some extra functionality for a few special users &mdash;
+so, if you don't know what it is, don't worry about it...</t>
+</section>
+
+<section title='Testing'>
+<t>Now test your installation.</t>
+
+<section title='Testing under a windowing system'>
+<figure>
+<preamble>Type this command from the shell:</preamble>
+<artwork>
+    % xml2rfc.tcl
+</artwork>
+</figure>
+
+<figure>
+<preamble>A new window should come up that looks like this:</preamble>
+<artwork align='center' src='xml2rfc-win.png'
+                        alt='[&ldquo;Convert XML to RFC&rdquo; window]'
+                        width='486' height='174'>
++------------------------------------------------------------+
+|                     Convert XML to RFC                     |
+|                                                            |
+|  Select input file: ____________________________  [Browse] |
+|                                                            |
+| Select output file: ____________________________  [Browse] |
+|                                                            |
+|               [Convert]               [Quit]               |
+|                                                            |
++------------------------------------------------------------+
+</artwork>
+<postamble>Fill-in the blanks and click on [Convert].</postamble>
+</figure>
+</section>
+
+<section title='Testing without a windowing system'>
+<figure>
+<preamble>Type this command from the shell:</preamble>
+<artwork>
+    % tclsh
+</artwork>
+</figure>
+
+<figure>
+<preamble>If the program launches, type this command to it:</preamble>
+<artwork>
+    % source xml2rfc.tcl
+</artwork>
+</figure>
+
+<figure>
+<preamble>and you should see these five lines:</preamble>
+<artwork>
+    invoke as "xml2rfc   input-file output-file"
+           or "xml2txt   input-file"
+           or "xml2html  input-file"
+           or "xml2nroff input-file"
+           or "xml2unpg  input-file"
+</artwork>
+</figure>
+</section>
+</section>
+
+<section title='Next steps'>
+<t>Read the <eref target='draft-mrose-writing-rfcs.html'>2629bis</eref>
+document.
+In particular,
+<eref target='draft-mrose-writing-rfcs.html#anchor13'>Section&nbsp;3</eref>
+has some good information.</t>
+
+<section anchor='processing.instructions' title='Processing Instructions'>
+<figure>
+<preamble>A <spanx style='emph'>processing instruction</spanx> contains
+directives to an XML application.
+If you want to give directives to <spanx style='strong'>xml2rfc</spanx>,
+the processing instructions (PIs) look like this:</preamble>
+<artwork>
+    &lt;?rfc keyword='value'?&gt;
+</artwork>
+<postamble>Of course,
+if you like the default behavior,
+you don't need any behavior-modifying directives in your input file!
+Although <spanx style='strong'>xml2rfc</spanx>
+supports putting several attribute-like directives in one PI,
+be warned that there are issues in
+doing this for a non-include-file directive following an
+<xref target='include.file.facility'>include-file directive</xref>.
+It is good practice to always surround the value with either
+single or double quotes.</postamble>
+</figure>
+
+<section title='Option Settings'>
+<texttable align='left'>
+<preamble>The list of valid keywords are:</preamble>
+
+<ttcol align='right'>keyword</ttcol>
+<ttcol align='center'>default</ttcol>
+<ttcol align='left'>meaning</ttcol>
+
+<c>artworkdelimiter</c>
+<c>""</c>
+<c>when producing txt or nroff files, use this string to delimit artwork</c>
+
+<c>artworklines</c>
+<c>0</c>
+<c>when producing txt or nroff files, add this many blank lines around artwork</c>
+
+<c>authorship</c>
+<c>yes</c>
+<c>render author information</c>
+
+<c>autobreaks</c>
+<c>yes</c>
+<c>automatically force page breaks to avoid widows and orphans (not perfect)</c>
+
+<c>background</c>
+<c>""</c>
+<c>when producing a html file, use this image</c>
+
+<c>colonspace</c>
+<c>no</c>
+<c>put two spaces instead of one after each colon (&ldquo;:&rdquo;) in txt or nroff files</c>
+
+<c>comments</c>
+<c>no</c>
+<c>render &lt;cref&gt; information</c>
+
+<c>compact</c>
+<c>(rfcedstyle)</c>
+<c>when producing a txt/nroff file, try to conserve vertical whitespace
+(the default value is the current value of the rfcedstyle PI)</c>
+
+<c>docmapping</c>
+<c>no</c>
+<c>use hierarchical tags (e.g., &lt;h1>, &lt;h2>, etc.)
+for (sub)section titles</c>
+
+<c>editing</c>
+<c>no</c>
+<c>insert editing marks for ease of discussing draft versions</c>
+
+<c>emoticonic</c>
+<c>no</c>
+<c>automatically replaces input sequences such as
+<spanx style='verb'>|*text|</spanx> by, e.g.,
+<spanx style='verb'>&lt;strong&gt;text&lt;/strong&gt;</spanx>
+in html output</c>
+
+<c>footer</c>
+<c>""</c>
+<c>override the center footer string</c>
+
+<c>header</c>
+<c>""</c>
+<c>override the leftmost header string</c>
+
+<c>include</c>
+<c>n/a</c>
+<c>see <xref target='include.file.facility' /></c>
+
+<c>inline</c>
+<c>no</c>
+<c>if comments is "yes",
+then render comments inline;
+otherwise render them in an &ldquo;Editorial Comments&rdquo; section</c>
+
+<c>iprnotified</c>
+<c>no</c>
+<c>include boilerplate from Section&nbsp;10.4(d) of <xref target='RFC2026' /></c>
+
+<c>linkmailto</c>
+<c>yes</c>
+<c>generate mailto: URL, as appropriate</c>
+
+<c>linefile</c>
+<c>n/a</c>
+<c>a string like "35:file.xml" or just "35"
+(file name then defaults to the containing file's real name
+or to the latest linefile specification that changed it)
+that will be used to override <spanx style='strong'>xml2rfc</spanx>'s
+reckoning of the current input position (right after this PI)
+for warning and error reporting purposes (line numbers are 1-based)</c>
+
+<c>needLines</c>
+<c>n/a</c>
+<c>an integer hint indicating how many contiguous lines are needed at this point in the output</c>
+
+<c>notedraftinprogress</c>
+<c>yes</c>
+<c>generates "(work in progress)", as appropriate</c>
+
+<c>private</c>
+<c>""</c>
+<c>produce a private memo rather than an RFC or Internet-Draft</c>
+
+<c>refparent</c>
+<c>"References"</c>
+<c>title of the top-level section containing all references</c>
+
+<c>rfcedstyle</c>
+<c>no</c>
+<c>attempt to closely follow finer details
+from the latest observable RFC-Editor style
+so as to minimize the probability of
+being sent back corrections after submission;
+this directive is a kludge whose exact behavior
+is likely to change on a regular basis
+to match the current flavor of the month;
+presently,
+it will capitalize the adjective &ldquo;This&rdquo;
+in automatically generated headings,
+use the variant &ldquo;acknowledgement&rdquo; spelling instead of
+Merriam Webster's main &ldquo;acknowledgment&rdquo; dictionary entry,
+use the &ldquo;eMail&rdquo; spelling instead of
+Knuth's more modern &ldquo;email&rdquo; spelling,
+only put one blank line instead of two before top sections,
+omit &ldquo;Intellectual Property and Copyright Statements&rdquo;
+and &ldquo;Author's Address&rdquo; from the table of content,
+and not limit the indentation to a maximum tag length
+in &lt;references&gt; sections.
+</c>
+
+<c>rfcprocack</c>
+<c>no</c>
+<c>if there already is an automatically generated Acknowledg(e)ment section,
+pluralize its title and add a short sentence acknowledging that
+<spanx style='strong'>xml2rfc</spanx> was used in the document's production
+to process an input XML source file in RFC-2629 format</c>
+
+<c>slides</c>
+<c>no</c>
+<c>when producing a html file, produce multiple files for a slide show</c>
+
+<c>sortrefs</c>
+<c>no</c>
+<c>sort references</c>
+
+<c>strict</c>
+<c>no</c>
+<c>try to enforce the ID-nits conventions and DTD validity</c>
+
+<c>subcompact</c>
+<c>(compact)</c>
+<c>if compact is "yes",
+then you can make things a little less compact by setting this to "no"
+(the default value is the current value of the compact PI)</c>
+
+<c>symrefs</c>
+<c>yes</c>
+<c>use anchors rather than numbers for references</c>
+
+<c>text-list-sybols</c>
+<c>o*+-</c>
+<c>modify the list of symbols used (when generated text) for list type="symbols".
+For example, specifying "abcde" will cause "a" to be used for 1st level, "b" for the 2nd level, etc, cycling back to the first character "a" at the 6th level.
+Specifying "o*" will cause the characters "o" and "*" to be alternated for each successive level.
+</c>
+
+<c>toc</c>
+<c>no</c>
+<c>generate a table-of-contents</c>
+
+<c>tocappendix</c>
+<c>yes</c>
+<c>control whether the word &ldquo;Appendix&rdquo; appears in the table-of-content</c>
+
+<c>tocdepth</c>
+<c>3</c>
+<c>if toc is "yes", then this determines the depth of the table-of-contents</c>
+
+<c>tocindent</c>
+<c>yes</c>
+<c>if toc is "yes", then setting this to "yes" will indent subsections
+in the table-of-contents</c>
+
+<c>tocnarrow</c>
+<c>yes</c>
+<c>affects horizontal spacing in the table-of-content</c>
+
+<c>tocompact</c>
+<c>yes</c>
+<c>if toc is "yes", then setting this to "no" will make it a little less compact</c>
+
+<c>topblock</c>
+<c>yes</c>
+<c>put the famous header block on the first page</c>
+
+<c>typeout</c>
+<c>n/a</c>
+<c>during processing pass&nbsp;2, print the value to standard output
+at that point in processing</c>
+
+<c>useobject</c>
+<c>no</c>
+<c>when producing a html file,
+use the <spanx style='verb'>&lt;object&gt;</spanx> html element with inner replacement content
+instead of the <spanx style='verb'>&lt;img&gt;</spanx> html element,
+when a source xml element includes an <spanx style='verb'>src</spanx> attribute</c>
+
+<postamble>Remember that,
+as with everything else in XML,
+keywords and values are case-sensitive.</postamble>
+</texttable>
+
+<t>With the exception of the <spanx style='verb'>needLines</spanx>,
+<spanx style='verb'>typeout</spanx>, and
+<spanx style='verb'>include</spanx> directives,
+you normally put all of these processing instructions at the beginning
+of the document
+(right after the XML declaration).</t>
+</section>
+
+<section title='Include Files' anchor='include.file.facility'>
+<figure>
+<preamble><spanx style='strong'>xml2rfc</spanx> has an include-file facility,
+e.g.,</preamble>
+<artwork>
+    &lt;?rfc include='file'?&gt;
+</artwork>
+<postamble><spanx style='strong'>xml2rfc</spanx> will consult the
+<spanx style='verb'>XML_LIBRARY</spanx> environment variable for a
+search path of where to look for files.
+(If this environment variable isn't set,
+the directory containing the file that contains the include-file
+directive is used.)
+The file's contents are inserted right after the PI.
+Putting non-include-file directives (especially needLines ones)
+after an include-file one in the same PI
+may not work as expected because of this.
+Remember that file names are generally case-sensitive and that
+an input file that is distributed to the outside world may be
+processed on a different operating system than that used by
+its author.</postamble>
+</figure>
+
+<figure>
+<preamble>You can also have <spanx style='strong'>xml2rfc</spanx> set
+the <spanx style='verb'>XML_LIBRARY</spanx> environment variable directly,
+by creating a file called <spanx style='verb'>.xml2rfc.rc</spanx> in
+the directory where your
+main file is,
+e.g.,</preamble>
+<artwork><![CDATA[
+global env tcl_platform
+
+if {![string compare $tcl_platform(platform) windows]} {
+    set sep ";"
+} else {
+    set sep ":"
+}
+
+if {[catch { set env(XML_LIBRARY) } library]} {
+    set library ""
+    foreach bibxmlD [lsort -dictionary \
+                           [glob -nocomplain $HOME/rfcs/bibxml/*]] {
+        append library $sep$bibxmlD
+    }
+}
+
+set nativeD [file nativename $inputD]
+if {[lsearch [split $library $sep] $nativeD] < 0} {
+    set library "$nativeD$sep$library"
+}
+
+set env(XML_LIBRARY) $library
+]]></artwork>
+</figure>
+
+<t>There are links to various bibliographic databases (RFCs, I-Ds, and so on)
+on the <spanx style='strong'>xml2rfc</spanx>
+<eref target='http://xml.resource.org/'>homepage</eref>.</t>
+</section>
+</section>
+</section>
+
+<section title='The Page Model'>
+<t>The <spanx style='strong'>html</spanx>
+rendering engine does not need to
+have a tightly defined page model.</t>
+
+<t>The <spanx style='strong'>txt</spanx> and
+<spanx style='strong'>nr</spanx> rendering engines
+assume the following page model.</t>
+
+<t>Each line has at most 72 columns from the left edge,
+including any left margin, but excluding the line terminator.
+Every output character is from the ASCII repertoire
+and the only control character used is the line-feed (LF);
+the character-tabulation (HT) character is never used.</t>
+
+<t>Each page has the following lines
+(in 1-based numbering, as reported to the user, but contrary to
+<spanx style='strong'>xml2rfc</spanx>'s
+internal 0-based numbering):<list>
+  <t>&nbsp;1:  header line (blank line on first page)</t>
+  <t>&nbsp;2:  blank line</t>
+  <t>&nbsp;3:  blank line</t>
+  <t>&nbsp;4:  1st line of content</t>
+  <t>...</t>
+  <t>51:  48th line of content</t>
+  <t>52:  blank line</t>
+  <t>53:  blank line</t>
+  <t>54:  blank line</t>
+  <t>55:  footer line</t>
+  <t>56:  form-feed character (followed by line terminator)</t>
+</list>
+Once processed through <spanx style='strong'>nroff</spanx>
+and the <spanx style='verb'>fix.sh</spanx> script (from
+<eref target='ftp://ftp.rfc-editor.org/in-notes/rfc-editor/2-nroff.template'
+>2-nroff.template</eref>), the <spanx style='strong'>nr</spanx>
+output differs from this in two ways.
+It has three extra blank lines
+(that could be numbered -2, -1, and 0, for a total of six)
+at the very beginning of the document
+(so the first page is that much longer).
+It also has no line terminator following the
+very last form-feed character of the file.
+These differences originate in the design of
+the <spanx style='verb'>fix.sh</spanx> script.</t>
+
+<t>Header and footer lines each have three parts:
+left, center, and right.</t>
+</section>
+
+<section title='Additions to RFC&nbsp;2629'>
+<t>A few additions have been made to the format originally defined in
+RFC&nbsp;2629.
+In particular,
+<eref target='draft-mrose-writing-rfcs.html#anchor19'>Appendix&nbsp;C</eref>
+of the 2629bis document enumerates the additions.</t>
+
+<section title='Extra Attributes'>
+<t>In addition,
+<spanx style='strong'>xml2rfc</spanx> recognizes the undocumented
+<spanx style='verb'>src</spanx>,
+<spanx style='verb'>alt</spanx>,
+<spanx style='verb'>width</spanx>, and
+<spanx style='verb'>height</spanx> attributes in the
+<spanx style='verb'>figure</spanx> and
+<spanx style='verb'>artwork</spanx> elements,
+but only if HTML is being generated.
+Here are two examples, one for each case.</t>
+<figure>
+<preamble>Here, the attributes are added to the
+<spanx style='verb'>artwork</spanx> element.</preamble>
+<artwork align='center'><![CDATA[
+<figure>
+    <preamble>This is the preamble.</preamble>
+    <artwork src='layers.png'
+             alt='[picture of layers only]'>
+.-----------.
+| ASCII art |
+`-----------'
+</artwork>
+    <postamble>This is the postamble.</postamble>
+</figure>
+]]></artwork>
+<postamble>In this case, the 
+<spanx style='verb'>preamble</spanx> and
+<spanx style='verb'>postamble</spanx> elements are kept and
+an <spanx style='verb'>img</spanx> tag is placed in the HTML output
+to replace the whole <spanx style='verb'>artwork</spanx> element
+and its textual drawing, which are ignored.</postamble>
+</figure>
+<figure>
+<preamble>Here, the attributes are added to the
+<spanx style='verb'>figure</spanx> element.</preamble>
+<artwork align='center'><![CDATA[
+<figure src='layers.png'
+        alt='[picture of layers and explanation]'>
+    <preamble>This is the preamble.</preamble>
+    <artwork>
+.-----------.
+| ASCII art |
+`-----------'
+</artwork>
+    <postamble>This is the postamble.</postamble>
+</figure>
+]]></artwork>
+<postamble>In this case,
+an <spanx style='verb'>img</spanx> tag is placed in the HTML output
+to replace the whole contents of the
+<spanx style='verb'>figure</spanx> element
+(the <spanx style='verb'>preamble</spanx>,
+     <spanx style='verb'>artwork</spanx>, and
+     <spanx style='verb'>postamble</spanx> inner elements
+ and the textual drawing itself)
+which are ignored.</postamble>
+</figure>
+
+<t><spanx style='strong'>xml2rfc</spanx> also recognizes
+an undocumented <spanx style='verb'>align</spanx> attribute
+(with possible values
+ <spanx style='verb'>left</spanx>,
+ <spanx style='verb'>center</spanx>, or
+ <spanx style='verb'>right</spanx>)
+in the
+<spanx style='verb'>figure</spanx> and
+<spanx style='verb'>artwork</spanx> elements.
+It affects the whole content of the targeted element
+for all types of generated output.
+Its default is inherited from the parent of its element.</t>
+</section>
+
+<section title='Typed-Artwork Interpretation'>
+<t>The <spanx style='verb'>artwork</spanx> element from RFC&nbsp;2629
+supports an optional <spanx style='verb'>type</spanx> attribute.
+While most possible values are just ignored,
+including the special case
+where the attribute is unspecified or just empty,
+some values are recognized.
+In particular, <spanx style='verb'>type='abnf'</spanx>
+can be used if the <spanx style='verb'>artwork</spanx>
+contains an Augmented Backus-Naur Form (ABNF)
+syntax specification&nbsp;<xref target='RFC4234' />.
+As a special extension in its <spanx style='emph'>behavior</spanx>,
+<spanx style='strong'>xml2rfc</spanx> will attempt
+to validate the syntax and colorize the HTML output of ABNF,
+since it is so widely used in RFCs.
+It does this colorizing by relying
+on the full parsing it does right before,
+not on a quick and partial (e.g., line-by-line) pattern-based hack.
+ABNF is the only artwork type to benefit
+from this kind of internal support at this time.
+If the <spanx style='verb'>strict</spanx> rfc-PI directive is activated,
+invalid ABNF content will cause <spanx style='strong'>xml2rfc</spanx>
+to abort with an error message.
+Omitting the <spanx style='verb'>type</spanx> attribute altogether
+is the obvious way to avoid having
+this validation and colorizing performed.</t>
+<figure align='left'>
+<preamble>For example (to be viewed in HTML):</preamble>
+<artwork align='center' type='abnf'><![CDATA[
+char-val       =  DQUOTE *(%x20-21 / %x23-7E) DQUOTE
+                       ; quoted string of SP and VCHAR
+                          without DQUOTE
+
+num-val        =  "%" (bin-val / dec-val / hex-val)
+
+bin-val        =  "b" 1*BIT
+                  [ 1*("." 1*BIT) / ("-" 1*BIT) ]
+                       ; series of concatenated bit values
+                       ; or single ONEOF range
+
+dec-val        =  "d" 1*DIGIT
+                  [ 1*("." 1*DIGIT) / ("-" 1*DIGIT) ]
+
+hex-val        =  "x" 1*HEXDIG
+                  [ 1*("." 1*HEXDIG) / ("-" 1*HEXDIG) ]
+
+prose-val      =  "<" *(%x20-3D / %x3F-7E) ">"
+                       ; bracketed string of SP and VCHAR
+                          without angles
+                       ; prose description, to be used as
+                          last resort
+]]></artwork>
+<postamble>This is from the
+original RFC on ABNF&nbsp;<xref target='RFC2234' />,
+with its minor mistakes in manually folded comment lines
+purposely left intact, for illustration.
+Since the result is still valid ABNF
+(but incorrect with respect to what was intended),
+this showcases how colorizing might give a human author
+(or editor or reader)
+a better chance to spot the three mistakes
+(and correct them, e.g., with extra semicolons,
+as has been done in
+a more recent version&nbsp;<xref target='RFC4234' />
+of the ABNF specification).
+Note that it is the white space characters
+at the beginning of the subsequent lines
+(including the commented ones)
+that conspire to extend the reach of those rules
+across several lines.</postamble>
+</figure>
+</section>
+</section>
+
+<section title='Limitations of xml2rfc'>
+<t><list style='symbols'>
+<t>The <spanx style='verb'>figure</spanx> element's <spanx style='verb'>title</spanx> attribute is ignored,
+except when generating HTML.</t>
+
+<t>The <spanx style='verb'>xref</spanx> element's
+<spanx style='verb'>pageno</spanx> attribute is ignored.</t>
+</list></t>
+</section>
+</middle>
+
+<back>
+<references>
+<reference anchor='RFC2026'>
+
+<front>
+<title abbrev='Internet Standards Process'>The Internet Standards Process -- Revision&nbsp;3</title>
+<author initials='S.' surname='Bradner' fullname='Scott O. Bradner'>
+<organization>Harvard University</organization>
+<address>
+<postal>
+<street>1350 Mass. Ave.</street>
+<city>Cambridge</city>
+<region>MA</region>
+<code>02138</code>
+<country>US</country></postal>
+<phone>+1 617 495 3864</phone>
+<email>sob@harvard.edu</email></address></author>
+<date month='October' year='1996' />
+<abstract>
+<t>This memo documents the process used by the Internet community for the standardization of protocols and procedures.  It defines the stages in the standardization process, the requirements for moving a document between stages and the types of documents used during this process.  It also addresses the intellectual property rights and copyright issues associated with the standards process.</t></abstract></front>
+
+<seriesInfo name='BCP' value='9' />
+<seriesInfo name='RFC' value='2026' />
+<format type='TXT' octets='86731' target='ftp://ftp.isi.edu/in-notes/rfc2026.txt' />
+</reference>
+
+<reference anchor='RFC2234'>
+
+<front>
+<title abbrev='ABNF for Syntax Specifications'>Augmented BNF for Syntax Specifications: ABNF</title>
+<author initials='D.' surname='Crocker' fullname='David H. Crocker' role='editor'>
+<organization>Internet Mail Consortium</organization>
+<address>
+<postal>
+<street>675 Spruce Dr.</street>
+<city>Sunnyvale</city>
+<region>CA</region>
+<code>94086</code>
+<country>US</country></postal>
+<phone>+1 408 246 8253</phone>
+<facsimile>+1 408 249 6205</facsimile>
+<email>dcrocker@imc.org</email></address></author>
+<author initials='P.' surname='Overell' fullname='Paul Overell'>
+<organization>Demon Internet Ltd.</organization>
+<address>
+<postal>
+<street>Dorking Business Park</street>
+<street>Dorking</street>
+<city>Surrey</city>
+<region>England</region>
+<code>RH4 1HN</code>
+<country>UK</country></postal>
+<email>paulo@turnpike.com</email></address></author>
+<date year='1997' month='November' />
+<keyword>ABNF</keyword>
+<keyword>Augmented</keyword>
+<keyword>Backus-Naur</keyword>
+<keyword>Form</keyword>
+<keyword>electronic</keyword>
+<keyword>mail</keyword></front>
+
+<seriesInfo name='RFC' value='2234' />
+<format type='TXT' octets='24265' target='ftp://ftp.isi.edu/in-notes/rfc2234.txt' />
+<format type='HTML' octets='36695' target='http://xml.resource.org/public/rfc/html/rfc2234.html' />
+<format type='XML' octets='24067' target='http://xml.resource.org/public/rfc/xml/rfc2234.xml' />
+</reference>
+
+<reference anchor='RFC4234'>
+
+<front>
+<title>Augmented BNF for Syntax Specifications: ABNF</title>
+<author initials='D.' surname='Crocker' fullname='D. Crocker'>
+<organization /></author>
+<author initials='P.' surname='Overell' fullname='P. Overell'>
+<organization /></author>
+<date year='2005' month='October' /></front>
+
+<seriesInfo name='RFC' value='4234' />
+<format type='TXT' octets='26351' target='ftp://ftp.isi.edu/in-notes/rfc4234.txt' />
+</reference>
+
+<reference anchor="RFC5741">
+  <front>
+    <title>RFC Streams, Headers, and Boilerplates</title>
+    <author initials="L." surname="Daigle" fullname="Leslie Daigle"/>
+    <author initials="O." surname="Kolkman" fullname="Olaf Kolkman"/>
+    <date month="December" year="2009"/>
+  </front>
+  <seriesInfo name="RFC" value="5741"/>
+</reference>
+
+</references>
+
+<section title="Producing the IETF 'Boilerplate'" anchor="boilerplate">
+<t>
+  This section was borrowed from <eref target="http://greenbytes.de/tech/webdav/rfc2629xslt/rfc2629xslt.html#boilerplate"/>.
+  <!-- So please notify Julian Reschke when making edits. -->
+</t>
+<t>
+  Various attributes of the <spanx style="verb">&lt;rfc&gt;</spanx>
+  element plus some child elements of <spanx style="verb">&lt;front&gt;</spanx>
+  affect the automatically generated parts of the front page, such as the
+  tabular information at the beginning, the "Status Of This Memo", and the
+  "Copyright Notice".
+</t>
+<t>
+  When submitting an Internet Draft, this "boilerplate" is checked
+  by "Idnits" (<eref target="http://tools.ietf.org/tools/idnits/"/>) for
+  compliance with the current Intellectual Property rules, and thus
+  it is important to set the correct values.
+</t>
+<t>
+  Furthermore, the RFC Production Center uses RFC2629-based tools to 
+  generate the final RFC text, so the more accurate the supplied information
+  is, the less additional work is left, and the risk for errors in producing
+  the final (and immutable!) document is reduced.
+</t>
+<t><list>
+  <t>
+    Note: this only applies to the case when IETF documents are
+    produced. The "private" processing instruction <iref item="private PI pseudo-attribute"/><iref item="Processing Instruction pseudo attributes" subitem="private"/>
+    allows to switch off most of the autogeneration logic.
+  </t>
+</list></t>
+
+<section title="The /rfc/@ipr Attribute" anchor="attribute-ipr">
+<t>
+  As of the time of this writing, this attribute value can take a long list of values. As
+  frequently, this is not the result of a grand plan, but simply for historic
+  reasons. Of these values, only a few are currently in use; all others are
+  supported by the various tools for backwards compatibility with old source
+  files.
+</t>
+<t><list>
+  <t>
+    Note: some variations of the boilerplate are selected based
+    on the document's date; therefore it is important to specify the "year",
+    "month" and "day" attributes of the <spanx style="verb">&lt;date&gt;</spanx> element
+    when archiving the XML source of an Internet Draft on the day of submission.
+  </t>
+</list></t>
+<t>
+  <spanx>Disclaimer: THIS ONLY PROVIDES IMPLEMENTATION INFORMATION. IF YOU NEED
+  LEGAL ADVICE, PLEASE CONTACT A LAWYER.</spanx>
+  For further information, refer to <eref target="http://trustee.ietf.org/docs/IETF-Copyright-FAQ.pdf"/>.
+</t>
+<t>
+  Finally, for the current "Status Of This Memo" text, the <spanx style="verb">submissionType</spanx> attribute
+  determines whether a statement about "Code Components" is inserted (this is the
+  case for the value "IETF", which also happens to be the default). Other values,
+  such as "independent", suppress this part of the text. 
+</t>
+
+
+<section title="Current Values: '*trust200902'" anchor="attribute-ipr-current">
+<t>
+  The name for these values refers to the "TLP" ("IETF TRUST Legal Provisions Relating 
+  to IETF Documents"), on effect February 15, 2009 (see <eref target="http://trustee.ietf.org/license-info/archive/IETF-Trust-License-Policy-20090215.pdf"/>).
+  Updates to this document were published on September 12, 2009 (TLP 3.0, <eref target="http://trustee.ietf.org/license-info/archive/IETF-Trust-License-Policy-20090912.pdf"/>)
+  and on December 28, 2009 (TLP 4.0, <eref target="http://trustee.ietf.org/license-info/archive/IETF-Trust-License-Policy-20091228.pdf"/>),
+  modifying the license for code components.
+  The actual text is located in Section 6 ("Text To Be Included in IETF Documents")
+  of these documents.
+</t>
+<t>  
+  The tools will automatically produce the "right" text depending on the
+  document's date information (see above):
+</t>
+<texttable align="left">
+  <ttcol width="10%">TLP</ttcol><ttcol>URI</ttcol><ttcol width="20%">starting with publication date</ttcol>
+
+  <c>3.0</c>
+  <c><eref target="http://trustee.ietf.org/license-info/archive/IETF-Trust-License-Policy-20090912.pdf"/></c>
+  <c>2009-11-01</c>
+
+  <c>4.0</c>
+  <c><eref target="http://trustee.ietf.org/license-info/archive/IETF-Trust-License-Policy-20091228.pdf"/></c>
+  <c>2010-04-01</c>
+
+</texttable> 
+
+
+<section title="trust200902" anchor="attribute-ipr-trust200902">
+<t>
+  This should be the default, unless one of the more specific '*trust200902'
+  values is a better fit. It produces the text in Sections 6.a and 6.b of
+  the TLP.
+</t>
+</section>
+
+<section title="noModificationTrust200902" anchor="attribute-ipr-noModificationTrust200902">
+<t>
+  This produces the additional text from Section 6.c.i of the TLP:
+</t>
+<t><list>
+  <t>
+    This document may not be modified, and derivative works of it may
+    not be created, except to format it for publication as an RFC or
+    to translate it into languages other than English.
+  </t>
+</list></t>
+</section>
+
+<section title="noDerivativesTrust200902" anchor="attribute-ipr-noDerivativesTrust200902">
+<t>
+  This produces the additional text from Section 6.c.ii of the TLP:
+</t>
+<t><list>
+  <t>
+    This document may not be modified, and derivative works of it may
+    not be created, and it may not be published except as an Internet-Draft.
+  </t>
+</list></t>
+</section>
+
+<section title="pre5378Trust200902" anchor="attribute-ipr-pre5378Trust200902">
+<t>
+  This produces the additional text from Section 6.c.iii of the TLP, frequently
+  called the "pre-5378 escape clause":
+</t>
+<t><list>
+  <t>
+    This document may contain material from IETF Documents or IETF Contributions published or
+    made publicly available before November 10, 2008. The person(s) controlling the copyright in
+    some of this material may not have granted the IETF Trust the right to allow modifications of such
+    material outside the IETF Standards Process. Without obtaining an adequate license from the
+    person(s) controlling the copyright in such materials, this document may not be modified outside
+    the IETF Standards Process, and derivative works of it may not be created outside the IETF
+    Standards Process, except to format it for publication as an RFC or to translate it into languages
+    other than English.
+  </t>
+</list></t>
+<t>
+  See Section 4 of <eref target="http://trustee.ietf.org/docs/IETF-Copyright-FAQ.pdf"/>
+  for further information about when to use this value.
+</t>
+<t><list>
+  <t>
+    Note: this text appears under "Copyright Notice", unless the 
+    document was published before November 2009, in which case it appears
+    under "Status Of This Memo".
+  </t>
+</list></t>
+</section>
+</section> 
+
+<section title="Historic Values" anchor="attribute-ipr-historic">
+
+<section title="Historic Values: '*trust200811'" anchor="attribute-ipr-200811">
+<t>
+  The attribute values "trust200811",
+  "noModificationTrust200811" and
+  "noDerivativesTrust200811"
+  are similar to their "trust200902" counterparts, except that they use text
+  specified in <eref target="http://trustee.ietf.org/license-info/archive/IETF-Trust-License-Policy_11-10-08.pdf"/>.
+</t>
+</section>
+
+<section title="Historic Values: '*3978'" anchor="attribute-ipr-3978">
+<t>
+  The attribute values "full3978",
+  "noModification3978" and
+  "noDerivatives3978"
+  are similar to their counterparts above, except that they use text
+  specified in RFC 3978 (March 2005).
+</t>
+</section>
+
+<section title="Historic Values: '*3667'" anchor="attribute-ipr-3667">
+<t>
+  The attribute values "full3667",
+  "noModification3667" and
+  "noDerivatives3667"
+  are similar to their counterparts above, except that they use text
+  specified in RFC 3667 (February 2004).
+</t>
+</section>
+
+<section title="Historic Values: '*2026'" anchor="attribute-ipr-2026">
+<t>
+  The attribute values "full2026" and
+  "noDerivativeWorks2026"
+  are similar to their counterparts above, except that they use text
+  specified in RFC 2026 (October 1996).
+</t>
+<t>
+  The special value "none"
+  was also used back then, and denied the IETF any rights beyond publication
+  as Internet Draft.
+</t>
+</section>
+
+</section>
+</section>
+
+<section title="The /rfc/@category Attribute" anchor="attribute-category">
+<t>
+  For RFCs, the <spanx style="verb">category</spanx> determines the "maturity level"
+  (see Section 4 of <xref target="RFC2026"/>). The allowed values
+  are "std" for "Standards Track", "bcp" for "BCP", "info" for "Informational",
+  "exp" for "Experimental", and "historic" for - surprise - "Historic".
+</t>
+<t>
+  For Internet Drafts, the category attribute is not needed, but <spanx>will</spanx>
+  appear on the front page ("Intended Status"). Supplying this information can 
+  be useful, because reviewers may want to know.
+</t>
+<t><list>
+  <t>
+    Note: the Standards Track consists of "Proposed Standard",
+    "Draft Standards", and "Internet Standard". These do not appear in the
+    boilerplate, thus the category attribute doesn't handle them.
+    However, this information can be useful for validity checkers, and thus
+    <spanx style="verb">rfc2629.xslt</spanx> supports an extension attribute
+    for that purpose (see <eref target="http://greenbytes.de/tech/webdav/rfc2629xslt/rfc2629xslt.html#ext-rfc2629.rfc"/> for details).
+  </t>
+</list></t>
+</section>
+
+<section title="The /rfc/@submissionType Attribute" anchor="attribute-submissiontype">
+<t>
+  The RFC Editor publishes documents from different "document streams", of which
+  the "IETF stream" of course is the most prominent one. Other streams are the "independent stream"
+  (used for things like administrative information or April 1st RFCs),
+  the "IAB stream" (Internet Architecture Board) and the "IRTF stream" (Internet Research Task Force).
+</t>
+<t>
+  Not surprisingly, the values for the attribute are "IETF" (the default value),
+  "independent", "IAB", and "IRTF".
+</t>
+<t>
+  Historically, this did not affect the final appearance of RFCs, except for
+  subtle differences in Copyright notices.
+  Nowadays (as of <xref target="RFC5741"/>), the stream name appears in the first
+  line of the front page, and it also affects the text in the "Status Of This Memo"
+  section.
+</t>
+<t>
+  For current documents, setting <spanx style="verb">submissionType</spanx> attribute will
+  have the following effect:
+  <list style="symbols">
+    <t>
+      For RFCs, the stream name appears in the upper left corner of the 
+      first page (in Internet Drafts, this is either "Network Working Group",
+      or the value of the <spanx style="verb">&lt;workgroup&gt;</spanx> element).
+    </t>
+    <t>
+      For RFCs, if affects the whole "Status Of This Memo" section (see
+      Section 3.2.2 of <xref target="RFC5741"/>).
+    </t>
+    <t>
+      For all RFCs and Internet Drafts, it determines whether the "Copyright
+      Notice" mentions the Copyright on Code Components (see TLP, Section "Text To Be Included in IETF Documents"). 
+    </t>
+  </list>
+</t>
+</section>
+
+<section title="The /rfc/@consensus Attribute" anchor="attribute-consensus">
+<t>
+  For some of the publication streams (see <xref target="attribute-submissiontype"/>),
+  the "Status Of This Memo" section depends on whether there was a consensus
+  to publish (again, see Section 3.2.2 of <xref target="RFC5741"/>).
+</t>
+<t>
+  The <spanx style="verb">consensus</spanx> attribute ("yes"/"no", defaulting to "yes")
+  can be used to supply this information. The effect for the various streams is:
+  <list style="symbols">
+    <t>"independent" and "IAB": none.</t>
+    <t>"IETF": mention that there was an IETF consensus.</t>
+    <t>"IRTF": mention that there was a research group consensus (where the name of the research
+    group is extracted from the <spanx style="verb">&lt;workgroup&gt;</spanx> element).</t>
+  </list>
+</t>
+</section>
+
+<section title="The /rfc/@number Attribute" anchor="attribute-number">
+<t>
+  For RFCs, this attribute supplies the RFC number.
+</t>
+</section>
+
+<section title="The /rfc/@docName Attribute" anchor="attribute-docname">
+<t>
+  For Internet Drafts, this specifies the draft name (which appears
+  below the title). The file extension is <spanx>not</spanx> part
+  of the draft, so in general it should end with the current draft number
+  ("-", plus two digits).
+</t>
+<t><list>
+  <t>
+  Note: "Idnits" (<eref target="http://tools.ietf.org/tools/idnits/"/>)
+  checks the in-document draft name for consistency with the filename of
+  the submitted document.
+  </t>
+</list></t>
+</section>
+
+<section title="The /rfc/@obsoletes Attribute" anchor="attribute-obsoletes">
+<t> 
+  The RFC Editor maintains a database (<eref target="http://www.rfc-editor.org/rfc.html"/>)
+  of all RFCs, including information about which one obsoletes which. Upon publication of an RFC, this
+  database is updated from the data on the front page.
+</t>
+<t>
+  This attribute takes a list of comma-separated RFC <spanx>numbers</spanx>.
+  Do <spanx>not</spanx> put the string "RFC" here.
+</t>
+</section>
+  
+<section title="The /rfc/@updates Attribute" anchor="attribute-updates">
+<t>
+  This is like <spanx style="verb">obsoletes</spanx>, but for the "updates"
+  relation.
+</t>
+</section>
+</section>
+
+
+<section title="MacOS&nbsp;9 Installation (courtesy of Ned Freed)">
+<t><list style='numbers'>
+<t>Install Tcl/Tk&nbsp;8.3.4</t>
+
+<t>When you performed Step&nbsp;1,
+a folder in your <spanx style='verb'>Extensions</spanx> folder
+called <spanx style='verb'>Tool Command Language</spanx> was
+created.
+Create a new folder under <spanx style='verb'>Extensions</spanx>,
+with any name you like.</t>
+
+<t>Drag the file <spanx style='verb'>xml2rfc.tcl</spanx> onto the
+<spanx style='verb'>Drag &amp; Drop Tclets</spanx>
+application that was installed in Step&nbsp;1.</t>
+
+<t>When asked for an appropriate <spanx style='verb'>wish</spanx> stub,
+select <spanx style='verb'>Wish&nbsp;8.3.4</spanx>.</t>
+
+<t>The <spanx style='verb'>Drag &amp; Drop Tclets</spanx>
+application will write out an executable version of
+<spanx style='strong'>xml2rfc</spanx>.</t>
+</list></t>
+</section>
+
+<section title='rfc2629.xslt (courtesy of Julian Reschke)' anchor='rfc2629.xslt'>
+<t>The file <spanx style='verb'>rfc2629.xslt</spanx>
+can be used with an XSLT-capable formatter
+(e.g., Saxon, Xalan, xsltproc, and most browsers) to produce HTML.
+A word of warning though:
+the XSLT script only supports a limited subset of
+the processing instruction directives discussed
+<xref target='processing.instructions'>earlier</xref>.
+The
+<eref target='http://greenbytes.de/tech/webdav/rfc2629.xslt'>latest version</eref>
+(and <eref target='http://greenbytes.de/tech/webdav/rfc2629xslt.zip'>full distribution ZIP file</eref>)
+can be downloaded from the
+<eref target='http://greenbytes.de/tech/webdav/#rfc2629.xslt'>original site</eref>
+which also hosts its
+<eref target='http://greenbytes.de/tech/webdav/rfc2629xslt/rfc2629xslt.html'>documentation</eref>.</t>
+</section>
+
+<section title="MS-Windows/Cygwin Installation (courtesy of Joe Touch)" anchor="cygwin">
+<t><list style='numbers'>
+
+<t>install Cygwin: follow instructions at the
+<eref target='http://www.cygwin.com/'>Cygwin website</eref> (also visit the
+<eref target='http://wiki.tcl.tk/2?cygwin'>Cygwin pages on the Tcl Wiki</eref>),
+make sure to
+select <spanx style='verb'>tcltk</spanx> in <spanx style='verb'>Libs</spanx></t>
+
+<t>place a copy of xml2rfc files on a local drive,  e.g., in
+<spanx style='verb'>C:\xml2rfc</spanx></t>
+
+<t>place a copy of bibxml* files on a local drive, e.g., in
+<spanx style='verb'>C:\xmlbib\</spanx> </t>
+
+<t>edit <spanx style='verb'>.xml2rfc.rc</spanx> to indicate the <spanx
+style='verb'>bibxml*</spanx> library path, e.g., as per Step&nbsp;3,
+change <spanx style='verb'>~/rfca/bibxml/*</spanx> to <spanx
+style='verb'>/cygdrive/c/xmlbib/*</spanx></t>
+
+<t>run xml2rfc as follows: <spanx style='verb'>tclsh
+/cygdrive/c/xml2rfc/xml2rfc.tcl</spanx></t>
+</list>
+</t>
+</section>
+
+<section title='A Special Thanks'>
+<t>A special thanks to Charles Levert for the v1.29 release,
+which includes many internal improvements made to the rendering engines.</t>
+</section>
+
+<section title='Copyrights'>
+<t>Copyright &copy; 2003&ndash;2011 Marshall T. Rose</t>
+
+<t>Hold harmless the author, and any lawful use is allowed.</t>
+</section>
+</back>
+</rfc>

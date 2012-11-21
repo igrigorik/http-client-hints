@@ -1,0 +1,131 @@
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt'?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc rfcedstyle="yes"?>
+<!-- BELOW YOU MAY NEED TO MODIFY THE ATTRIBUTE; IF NOT SURE CONSULT WITH THE MAILING LIST-->
+<rfc docName="draft-LASTNAME-FOOBAR-link-relation-latest" ipr="trust200902">
+<front>
+<title>The FOOBAR Link Relation</title>
+<author fullname="FIRSTNAME LASTNAME" surname="LASTNAME" initials="F.">
+  <address>
+    <email>FIRSTNAME.LASTNAME@EXAMPLE.COM</email>
+  </address>
+</author>
+<date/>
+<abstract>
+<t>
+  <cref>SHORT DESCRIPTION OF LINK RELATION</cref>
+</t>
+</abstract>
+<note title="Editorial Note (To be removed by RFC Editor)">
+<t>
+  <cref>STATE A VENUE FOR DISCUSSION, OPTIMALLY A PUBLIC, ARCHIVED IETF MAILING LIST, SUCH AS...:</cref>
+</t>
+<t>
+  Distribution of this document is unlimited. Comments should be sent to the 
+  IETF Apps-Discuss mailing list (see <eref target="https://www.ietf.org/mailman/listinfo/apps-discuss"/>).
+</t> 
+</note>
+</front>
+<middle>
+<section title="Introduction">
+<t>
+  <cref>INSERT INTRODUCTION</cref>
+</t>
+</section>
+<section title="Notational Conventions">
+<t>
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in <xref target="RFC2119"/>.
+</t>
+</section>
+<section title="The FOOBAR Link Relation">
+<t>
+  <cref>DESCRIBE THE SEMANTICS OF THE LINK RELATION</cref>
+</t>
+</section>
+<section title="IANA Considerations">
+<t>
+  IANA is asked to register the FOOBAR Link Relation below as per 
+  <xref target="RFC5988"/>.
+</t>
+<t>
+  Relation Name:
+  <list>
+    <t>
+      FOOBAR
+    </t>
+  </list>
+</t>
+<t>
+  Description:
+  <list>
+    <t>
+      <cref>SHORT DESCRIPTION THAT WILL APPEAR IN THE REGISTRY</cref>
+    </t>
+  </list>
+</t>
+<t>
+  Reference:
+  <list>
+    <t>
+      This specification.
+    </t>
+  </list>
+</t>
+<t>
+  Notes:
+  <list>
+    <t>
+      <cref>ADDITIONAL NOTES (OPTIONAL)</cref>
+    </t>
+  </list>
+</t>
+<t>
+  Application Data:
+  <list>
+    <t>
+      <cref>CONSULT WITH THE MAILING LIST (OPTIONAL)</cref>
+    </t>
+  </list>
+</t>
+</section>
+<section title="Security Considerations">
+<t>
+  <cref>INSERT TEXT</cref>
+</t>
+</section>
+<section title="Internationalisation Considerations">
+<t>
+  <cref>INSERT TEXT (CONSIDER RFC 5987)</cref>
+</t>
+</section>
+</middle>
+<back>
+<references title="Normative References">
+<reference anchor="RFC2119">
+  <front>
+    <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+    <author initials="S." surname="Bradner" fullname="Scott Bradner">
+      <organization>Harvard University</organization>
+      <address><email>sob at harvard.edu</email></address>
+    </author>
+    <date month="March" year="1997"/>
+  </front>
+  <seriesInfo name="BCP" value="14"/>
+  <seriesInfo name="RFC" value="2119"/>
+</reference>
+<reference anchor="RFC5988">
+  <front>
+    <title>Web Linking</title>
+    <author fullname="Mark Nottingham" initials="M." surname="Nottingham">
+      <address><email>mnot at mnot.net</email></address>
+    </author>
+    <date month="October" year="2010" />
+  </front>
+  <seriesInfo name="RFC" value="5988"/>
+</reference>
+</references>
+</back>
+</rfc>

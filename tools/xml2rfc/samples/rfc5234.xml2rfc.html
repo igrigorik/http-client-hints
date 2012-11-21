@@ -1,0 +1,1042 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Augmented BNF for Syntax Specifications: ABNF</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Augmented BNF for Syntax Specifications: ABNF">
+<meta name="keywords" content="ABNF, Augmented, Backus-Naur, Form, electronic, mail">
+<style type='text/css'><!--
+        body {
+                font-family: verdana, charcoal, helvetica, arial, sans-serif;
+                font-size: small; color: #000; background-color: #FFF;
+                margin: 2em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-weight: bold; font-style: normal;
+        }
+        h1 { color: #900; background-color: transparent; text-align: right; }
+        h3 { color: #333; background-color: transparent; }
+
+        td.RFCbug {
+                font-size: x-small; text-decoration: none;
+                width: 30px; height: 30px; padding-top: 2px;
+                text-align: justify; vertical-align: middle;
+                background-color: #000;
+        }
+        td.RFCbug span.RFC {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: bold; color: #666;
+        }
+        td.RFCbug span.hotText {
+                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: normal; text-align: center; color: #FFF;
+        }
+
+        table.TOCbug { width: 30px; height: 15px; }
+        td.TOCbug {
+                text-align: center; width: 30px; height: 15px;
+                color: #FFF; background-color: #900;
+        }
+        td.TOCbug a {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+                font-weight: bold; font-size: x-small; text-decoration: none;
+                color: #FFF; background-color: transparent;
+        }
+
+        td.header {
+                font-family: arial, helvetica, sans-serif; font-size: x-small;
+                vertical-align: top; width: 33%;
+                color: #FFF; background-color: #666;
+        }
+        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
+        td.author-text { font-size: x-small; }
+
+        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+        a.info {
+                /* This is the key. */
+                position: relative;
+                z-index: 24;
+                text-decoration: none;
+        }
+        a.info:hover {
+                z-index: 25;
+                color: #FFF; background-color: #900;
+        }
+        a.info span { display: none; }
+        a.info:hover span.info {
+                /* The span will display just on :hover state. */
+                display: block;
+                position: absolute;
+                font-size: smaller;
+                top: 2em; left: -5em; width: 15em;
+                padding: 2px; border: 1px solid #333;
+                color: #900; background-color: #EEE;
+                text-align: left;
+        }
+
+        a { font-weight: bold; }
+        a:link    { color: #900; background-color: transparent; }
+        a:visited { color: #633; background-color: transparent; }
+        a:active  { color: #633; background-color: transparent; }
+
+        p { margin-left: 2em; margin-right: 2em; }
+        p.copyright { font-size: x-small; }
+        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
+        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
+        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+
+        ol.text { margin-left: 2em; margin-right: 2em; }
+        ul.text { margin-left: 2em; margin-right: 2em; }
+        li      { margin-left: 3em; }
+
+        /* RFC-2629 <spanx>s and <artwork>s. */
+        em     { font-style: italic; }
+        strong { font-weight: bold; }
+        dfn    { font-weight: bold; font-style: normal; }
+        cite   { font-weight: normal; font-style: normal; }
+        tt     { color: #036; }
+        tt, pre, pre dfn, pre em, pre cite, pre span {
+                font-family: "Courier New", Courier, monospace; font-size: small;
+        }
+        pre {
+                text-align: left; padding: 4px;
+                color: #000; background-color: #CCC;
+        }
+        pre dfn  { color: #900; }
+        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
+        pre .key { color: #33C; font-weight: bold; }
+        pre .id  { color: #900; }
+        pre .str { color: #000; background-color: #CFF; }
+        pre .val { color: #066; }
+        pre .rep { color: #909; }
+        pre .oth { color: #000; background-color: #FCF; }
+        pre .err { background-color: #FCC; }
+
+        /* RFC-2629 <texttable>s. */
+        table.all, table.full, table.headers, table.none {
+                font-size: small; text-align: center; border-width: 2px;
+                vertical-align: top; border-collapse: collapse;
+        }
+        table.all, table.full { border-style: solid; border-color: black; }
+        table.headers, table.none { border-style: none; }
+        th {
+                font-weight: bold; border-color: black;
+                border-width: 2px 2px 3px 2px;
+        }
+        table.all th, table.full th { border-style: solid; }
+        table.headers th { border-style: none none solid none; }
+        table.none th { border-style: none; }
+        table.all td {
+                border-style: solid; border-color: #333;
+                border-width: 1px 2px;
+        }
+        table.full td, table.headers td, table.none td { border-style: none; }
+
+        hr { height: 1px; }
+        hr.insert {
+                width: 80%; border-style: none; border-width: 0;
+                color: #CCC; background-color: #CCC;
+        }
+--></style>
+</head>
+<body>
+
+<table border="0" cellpadding="0" cellspacing="2" width="30" align="right">
+    <tr>
+        <td class="RFCbug">
+                <span class="RFC">&nbsp;RFC&nbsp;</span><br /><span class="hotText">&nbsp;5234&nbsp;</span>
+        </td>
+    </tr>
+    <tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a><br /></td></tr>
+</table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">Network Working Group</td><td class="header">D. Crocker, Ed.</td></tr>
+<tr><td class="header">Request for Comments: 5234</td><td class="header">Brandenburg InternetWorking</td></tr>
+<tr><td class="header">STD: 68</td><td class="header">P. Overell</td></tr>
+<tr><td class="header">Obsoletes: <a href='http://tools.ietf.org/html/rfc4234'>4234</a></td><td class="header">THUS plc.</td></tr>
+<tr><td class="header">Category: Standards Track</td><td class="header">January 2008</td></tr>
+</table></td></tr></table>
+<h1><br />Augmented BNF for Syntax Specifications: ABNF</h1>
+
+<h3>Status of This Memo</h3>
+<p>
+This document specifies an Internet standards track protocol for the Internet
+community, and requests discussion and suggestions for improvements.
+Please refer to the current edition of the &ldquo;Internet Official Protocol
+Standards&rdquo; (STD&nbsp;1) for the standardization state and status of this
+protocol.
+Distribution of this memo is unlimited.</p>
+
+<h3>Abstract</h3>
+
+<p>Internet technical specifications often need to define a formal
+            syntax. Over the years, a modified version of Backus-Naur Form
+            (BNF), called Augmented BNF (ABNF), has been popular among many
+            Internet specifications. The current specification documents ABNF.
+            It balances compactness and simplicity with reasonable
+            representational power. The differences between standard BNF and
+            ABNF involve naming rules, repetition, alternatives, order-
+            independence, and value ranges. This specification also supplies
+            additional rule definitions and encoding for a core lexical
+            analyzer of the type common to several Internet specifications.
+         
+</p><a name="toc"></a><hr />
+
+<table border="0" cellpadding="0" cellspacing="2" width="30" align="right">
+    <tr>
+        <td class="RFCbug">
+                <span class="RFC">&nbsp;RFC&nbsp;</span><br /><span class="hotText">&nbsp;5234&nbsp;</span>
+        </td>
+    </tr>
+    <tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a><br /></td></tr>
+</table>
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#anchor1">1.</a>&nbsp;
+Introduction<br />
+<a href="#anchor2">2.</a>&nbsp;
+Rule Definition<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor3">2.1.</a>&nbsp;
+Rule Naming<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor4">2.2.</a>&nbsp;
+Rule Form<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">2.3.</a>&nbsp;
+Terminal Values<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">2.4.</a>&nbsp;
+External Encodings<br />
+<a href="#anchor7">3.</a>&nbsp;
+Operators<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">3.1.</a>&nbsp;
+Concatenation:  Rule1 Rule2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Alternatives">3.2.</a>&nbsp;
+Alternatives:  Rule1 / Rule2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Incremental">3.3.</a>&nbsp;
+Incremental Alternatives: Rule1 =/ Rule2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Range">3.4.</a>&nbsp;
+Value Range Alternatives:  %c##-##<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Sequence">3.5.</a>&nbsp;
+Sequence Group:  (Rule1 Rule2)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#VarRep">3.6.</a>&nbsp;
+Variable Repetition:  *Rule<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#SpecRep">3.7.</a>&nbsp;
+Specific Repetition:  nRule<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OptSeq">3.8.</a>&nbsp;
+Optional Sequence:  [RULE]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Comment">3.9.</a>&nbsp;
+Comment:  ; Comment<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">3.10.</a>&nbsp;
+Operator Precedence<br />
+<a href="#anchor10">4.</a>&nbsp;
+ABNF Definition of ABNF<br />
+<a href="#anchor11">5.</a>&nbsp;
+Security Considerations<br />
+<a href="#rfc.references1">6.</a>&nbsp;
+References<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references1">6.1.</a>&nbsp;
+Normative References<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references2">6.2.</a>&nbsp;
+Informative References<br />
+<a href="#anchor14">Appendix&nbsp;A.</a>&nbsp;
+Acknowledgements<br />
+<a href="#CORE">Appendix&nbsp;B.</a>&nbsp;
+Core ABNF of ABNF<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">B.1.</a>&nbsp;
+Core Rules<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor16">B.2.</a>&nbsp;
+Common Encoding<br />
+</p>
+<br clear="all" />
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;
+Introduction</h3>
+
+<p> Internet technical specifications often need to define a formal
+            syntax and are free to employ whatever notation their authors deem
+            useful. Over the years, a modified version of Backus-Naur Form
+            (BNF), called Augmented BNF (ABNF), has been popular among many
+            Internet specifications. It balances compactness and simplicity
+            with reasonable representational power. In the early days of the
+            Arpanet, each specification contained its own definition of ABNF.
+            This included the email specifications, <a class='info' href='#RFC733'>[RFC733]<span> (</span><span class='info'>Crocker, D., Vittal, J., Pogran, K., and D. Henderson, &ldquo;Standard for the format of ARPA network text messages,&rdquo; November&nbsp;1977.</span><span>)</span></a>
+            and then <a class='info' href='#RFC822'>[RFC822]<span> (</span><span class='info'>Crocker, D., &ldquo;Standard for the format of ARPA Internet text messages,&rdquo; August&nbsp;1982.</span><span>)</span></a>, which came to be the common
+            citations for defining ABNF. The current document separates those
+            definitions to permit selective reference. Predictably, it also
+            provides some modifications and enhancements.
+</p>
+<p> The differences between standard BNF and ABNF involve naming
+            rules, repetition, alternatives, order-independence, and value
+            ranges. <a class='info' href='#CORE'>Appendix&nbsp;B<span> (</span><span class='info'>Core ABNF of ABNF</span><span>)</span></a> supplies rule definitions and
+            encoding for a core lexical analyzer of the type common to several
+            Internet specifications. It is provided as a convenience and is
+            otherwise separate from the meta language defined in the body of
+            this document, and separate from its formal status.
+</p>
+<a name="anchor2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;
+Rule Definition</h3>
+
+<a name="anchor3"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.1"></a><h3>2.1.&nbsp;
+Rule Naming</h3>
+
+<p> The name of a rule is simply the name itself, that is, a
+               sequence of characters, beginning with an alphabetic character,
+               and followed by a combination of alphabetics, digits, and
+               hyphens (dashes).
+</p>
+<p>
+               </p>
+<blockquote class="text"><dl>
+<dt>NOTE:  </dt>
+<dd>
+</dd>
+<dt></dt>
+<dd>Rule names are case insensitive.
+</dd>
+</dl></blockquote><p>
+            
+</p>
+<p> The names &lt;rulename&gt;, &lt;Rulename&gt;,
+               &lt;RULENAME&gt;, and &lt;rUlENamE&gt; all
+               refer to the same rule.
+</p>
+<p> Unlike original BNF, angle brackets ("&lt;", "&gt;")
+               are not required. However, angle brackets may be used around a
+               rule name whenever their presence facilitates in discerning the
+               use of a rule name. This is typically restricted to rule name
+               references in free-form prose, or to distinguish partial rules
+               that combine into a string not separated by white space, such
+               as shown in the discussion about repetition, below.
+</p>
+<a name="anchor4"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.2"></a><h3>2.2.&nbsp;
+Rule Form</h3>
+
+<p> A rule is defined by the following sequence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      name =  elements crlf</pre></div>
+<p> where &lt;name&gt; is the name of the rule,
+               &lt;elements&gt; is one or more rule names or terminal
+               specifications, and &lt;crlf&gt; is the end-of-line
+               indicator (carriage return followed by line feed). The equal
+               sign separates the name from the definition of the rule. The
+               elements form a sequence of one or more rule names and/or value
+               definitions, combined according to the various operators
+               defined in this document, such as alternative and repetition.
+</p>
+<p> For visual ease, rule definitions are left aligned. When a
+               rule requires multiple lines, the continuation lines are
+               indented. The left alignment and indentation are relative to
+               the first lines of the ABNF rules and need not match the left
+               margin of the document.
+</p>
+<a name="anchor5"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.3"></a><h3>2.3.&nbsp;
+Terminal Values</h3>
+
+<p> Rules resolve into a string of terminal values, sometimes
+               called characters. In ABNF, a character is merely a
+               non-negative integer. In certain contexts, a specific mapping
+               (encoding) of values into a character set (such as ASCII) will
+               be specified.
+</p>
+<p style='text-align: left'> Terminals are specified by one or more numeric
+                  characters, with the base interpretation of those characters
+                  indicated explicitly. The following bases are currently
+                  defined:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      b           =  binary
+
+      d           =  decimal
+
+      x           =  hexadecimal</pre></div>
+<p style='text-align: left'> Hence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      CR          =  %d13
+
+      CR          =  %x0D
+</pre></div>
+<p style='text-align: left'> respectively specify the decimal and hexadecimal
+                  representation of <a class='info' href='#US-ASCII'>[US&#8209;ASCII]<span> (</span><span class='info'>American National Standards                   Institute, &ldquo;Coded Character Set -- 7-bit American Standard Code for                   Information Interchange,&rdquo; 1986.</span><span>)</span></a> for carriage
+                  return.
+</p>
+<p style='text-align: left'> A concatenated string of such values is specified
+                  compactly, using a period (".") to indicate a separation of
+                  characters within that value. Hence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      CRLF        =  %d13.10</pre></div>
+<p style='text-align: left'> ABNF permits the specification of literal text
+                  strings directly, enclosed in quotation marks. Hence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      command     =  "command string"</pre></div>
+<p> Literal text strings are interpreted as a concatenated set of
+               printable characters.
+</p>
+<p>
+               </p>
+<blockquote class="text"><dl>
+<dt>NOTE:  </dt>
+<dd>
+</dd>
+<dt></dt>
+<dd>ABNF strings are case insensitive and the character set
+                     for these strings is US-ASCII. 
+</dd>
+</dl></blockquote><p>
+            
+</p>
+<p style='text-align: left'> Hence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      rulename = "abc"</pre></div>
+<p style='text-align: left'> and:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      rulename = "aBc"
+</pre></div>
+<p style='text-align: left'> will match "abc", "Abc", "aBc", "abC", "ABc",
+                  "aBC", "AbC", and "ABC".
+</p>
+<p>
+               </p>
+<blockquote class="text">
+<p> To specify a rule that is case sensitive, specify the
+                     characters individually. 
+</p>
+</blockquote><p>
+            
+</p>
+<p style='text-align: left'> For example:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      rulename    =  %d97 %d98 %d99
+</pre></div>
+<p style='text-align: left'> or
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      rulename    =  %d97.98.99
+</pre></div>
+<p style='text-align: left'> will match only the string that comprises only the
+                  lowercase characters, abc.
+</p>
+<a name="anchor6"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.4"></a><h3>2.4.&nbsp;
+External Encodings</h3>
+
+<p> External representations of terminal value characters will
+               vary according to constraints in the storage or transmission
+               environment. Hence, the same ABNF-based grammar may have
+               multiple external encodings, such as one for a 7-bit US-ASCII
+               environment, another for a binary octet environment, and still
+               a different one when 16-bit Unicode is used. Encoding details
+               are beyond the scope of ABNF, although <a class='info' href='#CORE'>Appendix&nbsp;B<span> (</span><span class='info'>Core ABNF of ABNF</span><span>)</span></a>
+               provides definitions for a 7-bit US-ASCII environment as has
+               been common to much of the Internet.
+</p>
+<p> By separating external encoding from the syntax, it is
+               intended that alternate encoding environments can be used for
+               the same syntax.
+</p>
+<a name="anchor7"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;
+Operators</h3>
+
+<a name="anchor8"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
+Concatenation:  Rule1 Rule2</h3>
+
+<p> A rule can define a simple, ordered string of values (i.e., a
+               concatenation of contiguous characters) by listing a sequence
+               of rule names. For example:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      foo         =  %x61           ; a
+
+      bar         =  %x62           ; b
+
+      mumble      =  foo bar foo</pre></div>
+<p> So that the rule &lt;mumble&gt; matches the lowercase
+               string "aba". 
+</p>
+<p> Linear white space: Concatenation is at the core of the ABNF
+               parsing model. A string of contiguous characters (values) is
+               parsed according to the rules defined in ABNF. For Internet
+               specifications, there is some history of permitting linear
+               white space (space and horizontal tab) to be freely and
+               implicitly interspersed around major constructs, such as
+               delimiting special characters or atomic strings. 
+</p>
+<p>NOTE: </p>
+<blockquote class="text">
+<p> This specification for ABNF does not provide for
+                     implicit specification of linear white space.
+</p>
+</blockquote><p>
+            
+</p>
+<p> Any grammar that wishes to permit linear white space around
+               delimiters or string segments must specify it explicitly. It is
+               often useful to provide for such white space in "core" rules
+               that are then used variously among higher-level rules. The
+               "core" rules might be formed into a lexical analyzer or simply
+               be part of the main ruleset.
+</p>
+<a name="Alternatives"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
+Alternatives:  Rule1 / Rule2</h3>
+
+<p> Elements separated by a forward slash ("/") are alternatives.
+               Therefore,
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      foo / bar
+</pre></div>
+<p style='text-align: left'> will accept &lt;foo&gt; or
+                  &lt;bar&gt;.
+</p>
+<p>
+               </p>
+<blockquote class="text"><dl>
+<dt>NOTE:  </dt>
+<dd>
+</dd>
+<dt></dt>
+<dd>A quoted string containing alphabetic characters is a
+                     special form for specifying alternative characters and is
+                     interpreted as a non-terminal representing the set of
+                     combinatorial strings with the contained characters, in
+                     the specified order but with any mixture of upper- and
+                     lowercase.
+</dd>
+</dl></blockquote><p>
+            
+</p>
+<a name="Incremental"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.3"></a><h3>3.3.&nbsp;
+Incremental Alternatives: Rule1 =/ Rule2</h3>
+
+<p> It is sometimes convenient to specify a list of alternatives
+               in fragments. That is, an initial rule may match one or more
+               alternatives, with later rule definitions adding to the set of
+               alternatives. This is particularly useful for otherwise
+               independent specifications that derive from the same parent
+               ruleset, such as often occurs with parameter lists. ABNF
+               permits this incremental definition through the construct:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      oldrule     =/ additional-alternatives</pre></div>
+<p style='text-align: left'> So that the ruleset
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      ruleset     =  alt1 / alt2
+
+      ruleset     =/ alt3
+
+      ruleset     =/ alt4 / alt5</pre></div>
+<p style='text-align: left'> is the same as specifying
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      ruleset     =  alt1 / alt2 / alt3 / alt4 / alt5</pre></div>
+<a name="Range"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.4"></a><h3>3.4.&nbsp;
+Value Range Alternatives:  %c##-##</h3>
+
+<p style='text-align: left'> A range of alternative numeric values can be
+                  specified compactly, using a dash ("-") to indicate the
+                  range of alternative values. Hence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      DIGIT       =  %x30-39</pre></div>
+<p style='text-align: left'> is equivalent to:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      DIGIT       =  "0" / "1" / "2" / "3" / "4" / "5" / "6" /
+
+                     "7" / "8" / "9"</pre></div>
+<p style='text-align: left'> Concatenated numeric values and numeric value ranges
+                  cannot be specified in the same string. A numeric value may
+                  use the dotted notation for concatenation or it may use the
+                  dash notation to specify one value range. Hence, to specify
+                  one printable character between end-of-line sequences, the
+                  specification could be:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      char-line = %x0D.0A %x20-7E %x0D.0A</pre></div>
+<a name="Sequence"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.5"></a><h3>3.5.&nbsp;
+Sequence Group:  (Rule1 Rule2)</h3>
+
+<p style='text-align: left'> Elements enclosed in parentheses are treated as a
+                  single element, whose contents are strictly ordered. Thus,
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      elem (foo / bar) blat
+</pre></div>
+<p style='text-align: left'>matches (elem foo blat) or (elem bar blat),
+               and
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      elem foo / bar blat
+</pre></div>
+<p style='text-align: left'> matches (elem foo) or (bar blat).
+</p>
+<p>
+               </p>
+<blockquote class="text"><dl>
+<dt>NOTE:  </dt>
+<dd>
+</dd>
+<dt></dt>
+<dd>It is strongly advised that grouping notation be used,
+                     rather than relying on the proper reading of "bare"
+                     alternations, when alternatives consist of multiple rule
+                     names or literals. 
+</dd>
+</dl></blockquote><p>
+            
+</p>
+<p style='text-align: left'> Hence, it is recommended that the following form be
+                  used:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+     (elem foo) / (bar blat)
+</pre></div>
+<p style='text-align: left'>It will avoid misinterpretation by casual
+               readers.
+</p>
+<p> The sequence group notation is also used within free text to
+               set off an element sequence from the prose.
+</p>
+<a name="VarRep"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.6"></a><h3>3.6.&nbsp;
+Variable Repetition:  *Rule</h3>
+
+<p style='text-align: left'> The operator "*" preceding an element indicates
+                  repetition. The full form is:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      &lt;a&gt;*&lt;b&gt;element
+</pre></div>
+<p style='text-align: left'> where &lt;a&gt; and &lt;b&gt; are
+                  optional decimal values, indicating at least
+                  &lt;a&gt; and at most &lt;b&gt; occurrences
+                  of the element.
+</p>
+<p> Default values are 0 and infinity so that
+               *&lt;element&gt; allows any number, including zero;
+               1*&lt;element&gt; requires at least one;
+               3*3&lt;element&gt; allows exactly 3; and
+               1*2&lt;element&gt; allows one or two.
+</p>
+<a name="SpecRep"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.7"></a><h3>3.7.&nbsp;
+Specific Repetition:  nRule</h3>
+
+<p style='text-align: left'> A rule of the form:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      &lt;n&gt;element</pre></div>
+<p style='text-align: left'> is equivalent to
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      &lt;n&gt;*&lt;n&gt;element</pre></div>
+<p> That is, exactly &lt;n&gt; occurrences of
+               &lt;element&gt;. Thus, 2DIGIT is a 2-digit number, and
+               3ALPHA is a string of three alphabetic characters.
+</p>
+<a name="OptSeq"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.8"></a><h3>3.8.&nbsp;
+Optional Sequence:  [RULE]</h3>
+
+<p style='text-align: left'> Square brackets enclose an optional element
+                  sequence:
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      [foo bar]</pre></div>
+<p style='text-align: left'> is equivalent to
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      *1(foo bar).</pre></div>
+<a name="Comment"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.9"></a><h3>3.9.&nbsp;
+Comment:  ; Comment</h3>
+
+<p> A semicolon starts a comment that continues to the end of
+               line. This is a simple way of including useful notes in
+               parallel with the specifications.
+</p>
+<a name="anchor9"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.10"></a><h3>3.10.&nbsp;
+Operator Precedence</h3>
+
+<p> The various mechanisms described above have the following
+               precedence, from highest (binding tightest) at the top, to
+               lowest (loosest) at the bottom: </p>
+<blockquote class="text">
+<p>Rule name, prose-val, Terminal value
+</p>
+<p>Comment
+</p>
+<p>Value range
+</p>
+<p>Repetition
+</p>
+<p>Grouping, Optional
+</p>
+<p>Concatenation
+</p>
+<p>Alternative
+</p>
+</blockquote><p>
+            
+</p>
+<p> Use of the alternative operator, freely mixed with
+               concatenations, can be confusing.
+</p>
+<p>
+               </p>
+<blockquote class="text">
+<p> Again, it is recommended that the grouping operator be
+                     used to make explicit concatenation groups. 
+</p>
+</blockquote><p>
+            
+</p>
+<a name="anchor10"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;
+ABNF Definition of ABNF</h3>
+
+<p>
+            </p>
+<blockquote class="text"><dl>
+<dt>NOTES:</dt>
+<dd>
+                  
+<ol class="text">
+<li>This syntax requires a formatting of rules that is
+                        relatively strict. Hence, the version of a ruleset
+                        included in a specification might need preprocessing
+                        to ensure that it can be interpreted by an ABNF
+                        parser.
+</li>
+<li>This syntax uses the rules provided in <a class='info' href='#CORE'>Appendix&nbsp;B<span> (</span><span class='info'>Core ABNF of ABNF</span><span>)</span></a>.
+</li>
+</ol>
+               
+</dd>
+</dl></blockquote><p>
+         
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      <dfn>rulelist</dfn>       =  <span class='rep'>1*</span>( <cite class='id'>rule</cite> / (<span class='rep'>*</span><cite class='id'>c-wsp</cite> <cite class='id'>c-nl</cite>) )
+
+      <dfn>rule</dfn>           =  <cite class='id'>rulename</cite> <cite class='id'>defined-as</cite> <cite class='id'>elements</cite> <cite class='id'>c-nl</cite>
+                             <em>; continues if next line starts</em>
+                             <em>;  with white space</em>
+
+      <dfn>rulename</dfn>       =  <cite class='key'>ALPHA</cite> <span class='rep'>*</span>(<cite class='key'>ALPHA</cite> / <cite class='key'>DIGIT</cite> / "<span class='str'>-</span>")
+
+      <dfn>defined-as</dfn>     =  <span class='rep'>*</span><cite class='id'>c-wsp</cite> ("<span class='str'>=</span>" / "<span class='str'>=/</span>") <span class='rep'>*</span><cite class='id'>c-wsp</cite>
+                             <em>; basic rules definition and</em>
+                             <em>;  incremental alternatives</em>
+
+      <dfn>elements</dfn>       =  <cite class='id'>alternation</cite> <span class='rep'>*</span><cite class='id'>c-wsp</cite>
+
+      <dfn>c-wsp</dfn>          =  <cite class='key'>WSP</cite> / (<cite class='id'>c-nl</cite> <cite class='key'>WSP</cite>)
+
+      <dfn>c-nl</dfn>           =  <cite class='id'>comment</cite> / <cite class='key'>CRLF</cite>
+                             <em>; comment or newline</em>
+
+      <dfn>comment</dfn>        =  "<span class='str'>;</span>" <span class='rep'>*</span>(<cite class='key'>WSP</cite> / <cite class='key'>VCHAR</cite>) <cite class='key'>CRLF</cite>
+
+      <dfn>alternation</dfn>    =  <cite class='id'>concatenation</cite>
+                        <span class='rep'>*</span>(<span class='rep'>*</span><cite class='id'>c-wsp</cite> "<span class='str'>/</span>" <span class='rep'>*</span><cite class='id'>c-wsp</cite> <cite class='id'>concatenation</cite>)
+
+      <dfn>concatenation</dfn>  =  <cite class='id'>repetition</cite> <span class='rep'>*</span>(<span class='rep'>1*</span><cite class='id'>c-wsp</cite> <cite class='id'>repetition</cite>)
+
+      <dfn>repetition</dfn>     =  [<cite class='id'>repeat</cite>] <cite class='id'>element</cite>
+
+      <dfn>repeat</dfn>         =  <span class='rep'>1*</span><cite class='key'>DIGIT</cite> / (<span class='rep'>*</span><cite class='key'>DIGIT</cite> "<span class='str'>*</span>" <span class='rep'>*</span><cite class='key'>DIGIT</cite>)
+
+      <dfn>element</dfn>        =  <cite class='id'>rulename</cite> / <cite class='id'>group</cite> / <cite class='id'>option</cite> /
+                        <cite class='id'>char-val</cite> / <cite class='id'>num-val</cite> / <cite class='id'>prose-val</cite>
+
+      <dfn>group</dfn>          =  "<span class='str'>(</span>" <span class='rep'>*</span><cite class='id'>c-wsp</cite> <cite class='id'>alternation</cite> <span class='rep'>*</span><cite class='id'>c-wsp</cite> "<span class='str'>)</span>"
+
+      <dfn>option</dfn>         =  "<span class='str'>[</span>" <span class='rep'>*</span><cite class='id'>c-wsp</cite> <cite class='id'>alternation</cite> <span class='rep'>*</span><cite class='id'>c-wsp</cite> "<span class='str'>]</span>"
+
+      <dfn>char-val</dfn>       =  <cite class='key'>DQUOTE</cite> <span class='rep'>*</span>(<span class='val'>%x20-21</span> / <span class='val'>%x23-7E</span>) <cite class='key'>DQUOTE</cite>
+                             <em>; quoted string of SP and VCHAR</em>
+                             <em>;  without DQUOTE</em>
+
+      <dfn>num-val</dfn>        =  "<span class='str'>%</span>" (<cite class='id'>bin-val</cite> / <cite class='id'>dec-val</cite> / <cite class='id'>hex-val</cite>)
+
+      <dfn>bin-val</dfn>        =  "<span class='str'>b</span>" <span class='rep'>1*</span><cite class='key'>BIT</cite>
+                        [ <span class='rep'>1*</span>("<span class='str'>.</span>" <span class='rep'>1*</span><cite class='key'>BIT</cite>) / ("<span class='str'>-</span>" <span class='rep'>1*</span><cite class='key'>BIT</cite>) ]
+                             <em>; series of concatenated bit values</em>
+                             <em>;  or single ONEOF range</em>
+
+      <dfn>dec-val</dfn>        =  "<span class='str'>d</span>" <span class='rep'>1*</span><cite class='key'>DIGIT</cite>
+                        [ <span class='rep'>1*</span>("<span class='str'>.</span>" <span class='rep'>1*</span><cite class='key'>DIGIT</cite>) / ("<span class='str'>-</span>" <span class='rep'>1*</span><cite class='key'>DIGIT</cite>) ]
+
+      <dfn>hex-val</dfn>        =  "<span class='str'>x</span>" <span class='rep'>1*</span><cite class='key'>HEXDIG</cite>
+                        [ <span class='rep'>1*</span>("<span class='str'>.</span>" <span class='rep'>1*</span><cite class='key'>HEXDIG</cite>) / ("<span class='str'>-</span>" <span class='rep'>1*</span><cite class='key'>HEXDIG</cite>) ]
+
+
+
+
+      <dfn>prose-val</dfn>      =  "<span class='str'>&lt;</span>" <span class='rep'>*</span>(<span class='val'>%x20-3D</span> / <span class='val'>%x3F-7E</span>) "<span class='str'>&gt;</span>"
+                             <em>; bracketed string of SP and VCHAR</em>
+                             <em>;  without angles</em>
+                             <em>; prose description, to be used as</em>
+                             <em>;  last resort </em></pre></div>
+<a name="anchor11"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;
+Security Considerations</h3>
+
+<p> Security is truly believed to be irrelevant to this document.
+</p>
+<a name="rfc.references"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;
+References</h3>
+
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>6.1.&nbsp;Normative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="US-ASCII">[US-ASCII]</a></td>
+<td class="author-text">American National Standards
+                  Institute, &ldquo;Coded Character Set -- 7-bit American Standard Code for
+                  Information Interchange,&rdquo; ANSI&nbsp;X3.4, 1986.</td></tr>
+</table>
+
+<a name="rfc.references2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>6.2.&nbsp;Informative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC733">[RFC733]</a></td>
+<td class="author-text"><a href="mailto:DCrocker@Rand-Unix">Crocker, D.</a>, <a href="mailto:Vittal@BBN-TenexD">Vittal, J.</a>, <a href="mailto:Pogran@MIT-Multics">Pogran, K.</a>, and <a href="mailto:Henderson@BBN-TenexD">D. Henderson</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc733">Standard for the format of ARPA network text messages</a>,&rdquo; RFC&nbsp;733, November&nbsp;1977.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC822">[RFC822]</a></td>
+<td class="author-text"><a href="mailto:DCrocker@UDel-Relay">Crocker, D.</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc822">Standard for the format of ARPA Internet text messages</a>,&rdquo; STD&nbsp;11, RFC&nbsp;822, August&nbsp;1982.</td></tr>
+</table>
+
+<a name="anchor14"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.A"></a><h3>Appendix A.&nbsp;
+Acknowledgements</h3>
+
+<p> The syntax for ABNF was originally specified in RFC 733. Ken L.
+            Harrenstien, of SRI International, was responsible for re-coding
+            the BNF into an Augmented BNF that makes the representation
+            smaller and easier to understand.
+</p>
+<p> This recent project began as a simple effort to cull out the
+            portion of RFC 822 that has been repeatedly cited by non-email
+            specification writers, namely the description of Augmented BNF.
+            Rather than simply and blindly converting the existing text into a
+            separate document, the working group chose to give careful
+            consideration to the deficiencies, as well as benefits, of the
+            existing specification and related specifications made available
+            over the last 15 years, and therefore to pursue enhancement. This
+            turned the project into something rather more ambitious than was
+            first intended. Interestingly, the result is not massively
+            different from that original, although decisions, such as removing
+            the list notation, came as a surprise.
+</p>
+<p> This "separated" version of the specification was part of the
+            DRUMS working group, with significant contributions from Jerome
+            Abela, Harald Alvestrand, Robert Elz, Roger Fajman, Aviva Garrett,
+            Tom Harsch, Dan Kohn, Bill McQuillan, Keith Moore, Chris Newman,
+            Pete Resnick, and Henning Schulzrinne.
+</p>
+<p>Julian Reschke warrants a special thanks for converting the Draft
+            Standard version to XML source form.
+</p>
+<a name="CORE"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.B"></a><h3>Appendix B.&nbsp;
+Core ABNF of ABNF</h3>
+
+<p>This appendix contains some basic rules that are in common use.
+            Basic rules are in uppercase. Note that these rules are only valid
+            for ABNF encoded in 7-bit ASCII or in characters sets that are a
+            superset of 7-bit ASCII.
+</p>
+<a name="anchor15"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.B.1"></a><h3>B.1.&nbsp;
+Core Rules</h3>
+
+<p> Certain basic rules are in uppercase, such as SP, HTAB, CRLF,
+               DIGIT, ALPHA, etc.
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+      <dfn>ALPHA</dfn>          =  <span class='val'>%x41-5A</span> / <span class='val'>%x61-7A</span>   <em>; A-Z / a-z</em>
+
+      <dfn>BIT</dfn>            =  "<span class='str'>0</span>" / "<span class='str'>1</span>"
+
+      <dfn>CHAR</dfn>           =  <span class='val'>%x01-7F</span>
+                             <em>; any 7-bit US-ASCII character,</em>
+                             <em>;  excluding NUL</em>
+
+      <dfn>CR</dfn>             =  <span class='val'>%x0D</span>
+                             <em>; carriage return</em>
+
+      <dfn>CRLF</dfn>           =  <cite class='key'>CR</cite> <cite class='key'>LF</cite>
+                             <em>; Internet standard newline</em>
+
+      <dfn>CTL</dfn>            =  <span class='val'>%x00-1F</span> / <span class='val'>%x7F</span>
+                             <em>; controls</em>
+
+      <dfn>DIGIT</dfn>          =  <span class='val'>%x30-39</span>
+                             <em>; 0-9</em>
+
+      <dfn>DQUOTE</dfn>         =  <span class='val'>%x22</span>
+                             <em>; " (Double Quote)</em>
+
+      <dfn>HEXDIG</dfn>         =  <cite class='key'>DIGIT</cite> / "<span class='str'>A</span>" / "<span class='str'>B</span>" / "<span class='str'>C</span>" / "<span class='str'>D</span>" / "<span class='str'>E</span>" / "<span class='str'>F</span>"
+
+      <dfn>HTAB</dfn>           =  <span class='val'>%x09</span>
+                             <em>; horizontal tab</em>
+
+      <dfn>LF</dfn>             =  <span class='val'>%x0A</span>
+                             <em>; linefeed</em>
+
+      <dfn>LWSP</dfn>           =  <span class='rep'>*</span>(<cite class='key'>WSP</cite> / <cite class='key'>CRLF</cite> <cite class='key'>WSP</cite>)
+                             <em>; Use of this linear-white-space rule</em>
+                             <em>;  permits lines containing only white</em>
+                             <em>;  space that are no longer legal in</em>
+                             <em>;  mail headers and have caused</em>
+                             <em>;  interoperability problems in other</em>
+                             <em>;  contexts.</em>
+                             <em>; Do not use when defining mail</em>
+                             <em>;  headers and use with caution in</em>
+                             <em>;  other contexts.</em>
+
+      <dfn>OCTET</dfn>          =  <span class='val'>%x00-FF</span>
+                             <em>; 8 bits of data</em>
+
+      <dfn>SP</dfn>             =  <span class='val'>%x20</span>
+
+      <dfn>VCHAR</dfn>          =  <span class='val'>%x21-7E</span>
+                             <em>; visible (printing) characters</em>
+
+      <dfn>WSP</dfn>            =  <cite class='key'>SP</cite> / <cite class='key'>HTAB</cite>
+                             <em>; white space </em></pre></div>
+<a name="anchor16"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.B.2"></a><h3>B.2.&nbsp;
+Common Encoding</h3>
+
+<p> Externally, data are represented as "network virtual ASCII"
+               (namely, 7-bit US-ASCII in an 8-bit field), with the high (8th)
+               bit set to zero. A string of values is in "network byte order",
+               in which the higher-valued bytes are represented on the
+               left-hand side and are sent over the network first.
+</p>
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Authors' Addresses</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Dave Crocker (editor)</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Brandenburg InternetWorking</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">675 Spruce Dr.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Sunnyvale, CA  94086</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">US</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+1.408.246.8253</td></tr>
+<tr><td class="author" align="right">EMail:&nbsp;</td>
+<td class="author-text"><a href="mailto:dcrocker@bbiw.net">dcrocker@bbiw.net</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Paul Overell</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">THUS plc.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">1/2 Berkeley Square,</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">99 Berkeley Street</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Glasgow  G3 7HR</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">UK</td></tr>
+<tr><td class="author" align="right">EMail:&nbsp;</td>
+<td class="author-text"><a href="mailto:paul.overell@thus.net">paul.overell@thus.net</a></td></tr>
+</table>
+<a name="rfc.copyright"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Full Copyright Statement</h3>
+<p class='copyright'>
+Copyright &copy; The IETF Trust (2008).</p>
+<p class='copyright'>
+This document is subject to the rights,
+licenses and restrictions contained in BCP&nbsp;78,
+and except as set forth therein,
+the authors retain all their rights.</p>
+<p class='copyright'>
+This document and the information contained herein are provided
+on an &ldquo;AS IS&rdquo; basis and THE CONTRIBUTOR,
+THE ORGANIZATION HE/SHE REPRESENTS
+OR IS SPONSORED BY (IF ANY), THE INTERNET SOCIETY, THE IETF TRUST
+AND THE INTERNET ENGINEERING TASK FORCE DISCLAIM ALL WARRANTIES,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT
+THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY
+IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR
+PURPOSE.</p>
+<h3>Intellectual Property</h3>
+<p class='copyright'>
+The IETF takes no position regarding the validity or scope of any
+Intellectual Property Rights or other rights that might be claimed
+to pertain to the implementation or use of the technology
+described in this document or the extent to which any license
+under such rights might or might not be available; nor does it
+represent that it has made any independent effort to identify any
+such rights.
+Information on the procedures with respect to
+rights in RFC documents can be found in BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p class='copyright'>
+Copies of IPR disclosures made to the IETF Secretariat and any
+assurances of licenses to be made available,
+or the result of an attempt made to obtain a general license or
+permission for the use of such proprietary rights by implementers or
+users of this specification can be obtained from the IETF on-line IPR
+repository at <a href='http://www.ietf.org/ipr'>http://www.ietf.org/ipr</a>.</p>
+<p class='copyright'>
+The IETF invites any interested party to bring to its attention
+any copyrights,
+patents or patent applications,
+or other
+proprietary rights that may cover technology that may be required
+to implement this standard.
+Please address the information to the IETF at <a href='mailto:ietf-ipr@ietf.org'>ietf-ipr@ietf.org</a>.</p>
+</body></html>

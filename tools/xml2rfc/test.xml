@@ -1,0 +1,78 @@
+<?xml version='1.0'?>
+<!DOCTYPE rfc SYSTEM 'rfc2629.dtd'>
+
+<?rfc comments='yes'?>
+<?rfc docmapping='yes'?>
+<?rfc inline='no'?>
+<?rfc compact='no'?>
+<?rfc editing='no'?>
+<?rfc header='README'?>
+<?rfc private='The README file'?>
+<?rfc subcompact='no'?>
+<?rfc symrefs='no'?>
+<?rfc toc='yes'?>
+<?rfc tocappendix='no'?>
+<?rfc tocindent='no'?>
+
+<rfc>
+<front>
+<title>xml2rfc v1.33</title>
+
+<author initials='M.T.' surname='Rose' fullname='Marshall T. Rose'>
+<organization>Dover Beach Consulting, Inc.</organization>
+
+<address>
+<postal>
+<street>POB 255268</street>
+<city>Sacramento</city> <region>CA</region> <code>95865-5268</code>
+<country>US</country>
+</postal>
+
+<phone>+1 916 483 8878</phone>
+<email>mrose@dbc.mtview.ca.us</email>
+</address>
+</author>
+
+<author fullname="Bill Fenner" initials="B." surname="Fenner">
+<organization>AT&amp;T Labs - Research</organization>
+<address>
+<postal>
+<street>1 River Oaks Place</street>
+<city>San Jose</city>
+<region>CA</region>
+<code>95134-1918</code>
+<country>US</country>
+</postal>
+<phone>+1 408 493-8505</phone>
+<email>fenner@research.att.com</email>
+</address>
+</author>
+
+<author initials='C.' surname='Levert' fullname='Charles Levert'>
+<organization/>
+<address>
+<postal>
+<street/>
+<city>Montr&eacute;al</city>
+<region>QC</region>
+<country>Canada</country>
+</postal>
+<email>charles.levert@gmail.com</email>
+</address>
+</author>
+
+<date month='February' year='2008' />
+</front>
+
+<middle>
+<section title='Introduction'>
+<t>This is a paragraph before</t>
+<figure>
+<preamble>For example, the header field:</preamble>
+<artwork>Subject: This is a test</artwork>
+<postamble>Is a nice header field.</postamble>
+</figure>
+<t>This is another paragraph</t>
+</section>
+</middle>
+</rfc>

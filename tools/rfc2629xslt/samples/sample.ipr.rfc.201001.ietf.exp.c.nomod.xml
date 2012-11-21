@@ -1,0 +1,26 @@
+<?xml version='1.0'?> 
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc compact="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc rfcedstyle="yes"?>
+<rfc number="9999" category="exp" submissionType="IETF" consensus="yes" ipr="noModificationTrust200902">
+  <front>
+    <title abbrev="IETF exp cons nomod example">IETF Experimental w/ consensus and ipr="noModificationTrust200902"</title>
+    <author fullname="John Doe" initials="J." surname="Doe"/>
+    <date year="2010" month="January"/>
+    <abstract>
+      <t>
+        Dummy Abstract.
+      </t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Dummy Section">
+      <t>
+        Dummy Section.
+      </t>
+    </section>
+  </middle>
+  <back>
+  </back>
+</rfc>

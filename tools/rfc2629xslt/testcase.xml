@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc comments="yes"?>
+<?rfc inline="no"?>
+<?rfc-ext include-references-in-index="yes" ?>
+<?rfc-ext parse-xml-in-artwork="yes" ?>
+<?rfc-ext allow-markup-in-artwork="yes" ?>
+<?rfc-ext vspace-pagebreak="999" ?>
+<?rfc private="RFC2629 test cases"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY nbsp "&#160;">
+  <!ENTITY thinsp "&#8202;">
+  <!ENTITY nbhy "&#8209;">
+  <!ENTITY ndash "&#8211;">
+  <!ENTITY mdash "&#8212;">
+]>
+<rfc xmlns:x="http://purl.org/net/xml2rfc/ext">
+	<front>
+  	<title>Test cases for RFC2629 formatting</title>
+
+  	<author initials="J. F." surname="Reschke" fullname="Julian F. Reschke">
+  		<organization abbrev="greenbytes">greenbytes GmbH</organization>
+        <address>
+        	<postal>
+          	<street>Hafenweg 16</street>
+            <city>Muenster</city><region>NW</region><code>48155</code>
+           	<country>Germany</country>
+         	</postal>
+    		  <phone>+49 251 2807760</phone>	
+      	<facsimile>+49 251 2807761</facsimile>	
+  		  <email>julian.reschke@greenbytes.de</email>	
+  		  <uri>http://greenbytes.de/tech/webdav/</uri>	
+  		</address>
+  	</author>
+      
+    <date month="January" year="2011"/>
+    <keyword>RFC2629</keyword>
+    <keyword>test case</keyword>
+    <keyword>xml2rfc</keyword>
+	</front>
+
+	<middle>
+
+<section title="Lists" anchor="lists">
+<section title="hanging list">
+<t><list style="hanging">
+  <t hangText="Name:">timeout</t>
+  <t hangText="Namespace:">DAV:</t>
+  <t hangText="Purpose:">The timeout associated with a lock</t>
+  <t hangText="Value:">TimeType ;Defined in section 9.8</t>
+</list></t></section>
+
+<section title="numbered list">
+<t>
+A numbered list:
+<list style="numbers">
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+</list>
+</t>
+</section>
+
+<section title="ordered list (letters)" anchor="ordered.list.letters">
+<t>
+An ordered list using letters:
+<list style="letters">
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t>three</t>
+  <t>one</t>
+  <t>two</t>
+  <t anchor="ordered.list.letters.last">three</t>
+</list>
+</t>
+</section>
+
+<section title="no explicit counters">
+<t>
+  Example for numbered list with user-defined-format:
+  <list style="format R%d:">
+    <t>R1</t>
+    <t>R2</t>
+  </list>
+</t>
+<t>
+  Another list:
+  <list style="format S%d:">
+    <t>S1</t>
+    <t>S2</t>
+  </list>
+</t>
+<t>
+  Next list should continue counting R's:
+  <list style="format R%d:">
+    <t>R3</t>
+    <t>R4</t>
+  </list>
+</t>
+<t>
+  Same with character-based numbering:
+  <list style="format c-%c:">
+    <t>c-a</t>
+    <t>c-b</t>
+  </list>
+</t>
+</section>
+
+<section title="with explicit counters">
+<t>
+  A few requirements:
+  <list style="format R%d:" counter="requirements">
+    <t>req R1</t>
+    <t>req R2</t>
+  </list>
+</t>
+<t>
+  More requirements:
+  <list style="format R%d:" counter="requirements">
+    <t>req R3</t>
+    <t>req R4</t>
+  </list>
+</t>
+<t>
+  A few rules:
+  <list style="format R%d:" counter="rules">
+    <t>rule R1</t>
+    <t>rule R2</t>
+    <t>rule R3</t>
+  </list> 
+</t>
+<t>
+  Explicit counter with name matching it's format string:
+  <list style="format c-%c:" counter="c-%c:">
+    <t>c-c</t>
+    <t>c-d</t>
+  </list>
+</t>
+<t>
+  Same, without counter:
+  <list style="format c-%c:">
+    <t>c-e</t>
+    <t>c-f</t>
+  </list>
+ </t>
+</section>
+
+<section title="Nested list">
+  <t>
+    <list style="numbers">
+      <t>One</t>
+      <t>Two
+        <list style="letters">
+          <t>17</t>
+          <t>42</t>
+        </list>
+      </t>
+      <t>Three</t>
+    </list>
+  </t>
+</section>
+
+<section title="list without style">
+<t><list>
+  <t>One</t>
+  <t>Two</t>
+  <t>Three</t>
+</list></t></section>
+
+<section title="list with multiple paragraphs in a single list item">
+<t><list style="numbers">
+  <x:lt><t>Simple list item.</t></x:lt>
+  <x:lt>
+    <t>This one has two paragraphs. This is the first one.</t>
+    <t>This one has two paragraphs. This is the second one.</t>
+  </x:lt>
+  <x:lt><t>Another simple list item.</t></x:lt>
+</list></t></section>
+
+</section>
+
+<section title="spanx">
+<t>
+This is <spanx>default</spanx>.
+</t>
+<t>
+This is <spanx style="emph">emph(asized)</spanx>.
+</t>
+<t>
+This is <spanx style="strong">strong</spanx>.
+</t>
+<t>
+This is <spanx style="verb">verb(atim)</spanx>.
+</t>
+<t>
+Here is <spanx style="verb">a carriage return
+inside</spanx> a spanx element.
+</t>
+</section>
+
+<section title="Tables">
+<texttable>
+<preamble>The list of valid keywords are:</preamble>
+<ttcol width="20%" align="right">keyword</ttcol>
+<ttcol width="20%" align="center">default</ttcol>
+<ttcol align="left">meaning</ttcol>
+<ttcol>not aligned</ttcol>
+
+<c>strict</c>
+<c>no</c>
+<c>try to enforce the ID-nits conventions and DTD validity</c>
+<c>a</c>
+
+<c>iprnotified</c>
+<c>no</c>
+<c>include boilerplate from Section 10.4(d) of <xref target="RFC2026"/></c>
+<c>bb bb</c>
+
+<c>compact</c>
+<c>no</c>
+<c>when producing a txt/nroff file, try to conserve vertical whitespace</c>
+<c>ccc ccc ccc</c>
+    
+<c>subcompact</c>
+<c>compact</c>
+<c>if compact is "yes", then setting this to "no" will make things a little less
+compact</c>
+<c>dddd dddd dddd dddd</c>
+    
+<!--
+    ...                                                          ...
+    
+  -->
+    
+<c>needLines</c>
+<c>n/a</c>
+<c>an integer hint indicating how many contiguous lines are needed at this point
+in the output</c>
+<c>eeeee eeeee eeeee eeeee eeeee </c>
+
+<c>here come empty cells</c>
+<c></c>
+<c/>
+<c/>
+
+<postamble>Remember,
+that as with everything else in XML,
+keywords and values are case-sensitive.</postamble>
+</texttable>
+
+<section title="no borders">
+<texttable style="none" anchor="tablenoborder" title="a table with no borders">
+<preamble>The table below should appear with no borders.</preamble>
+<ttcol>C1</ttcol>
+<ttcol>C2</ttcol>
+<c>11</c>
+<c>12</c>
+<c>21</c>
+<c>22</c>
+</texttable>
+</section>
+
+<section title="borders around headers">
+<texttable style="headers">
+<preamble>The table below should appear with borders just around the headers.</preamble>
+<ttcol>C1</ttcol>
+<ttcol>C2</ttcol>
+<c>11</c>
+<c>12</c>
+<c>21</c>
+<c>22</c>
+</texttable>
+</section>
+
+<section title="example from xml2rc README">
+       <texttable anchor='table_example'>
+           <preamble>So,
+           putting it all together, we have, e.g.,</preamble>
+           <ttcol align='center'>ttcol #1</ttcol>
+           <ttcol align='center'>ttcol #2</ttcol>
+           <c>c #1</c>
+           <c>c #2</c>
+           <c>c #3</c>
+           <c>c #4</c>
+           <c>c #5</c>
+           <c>c #6</c>
+           <postamble>which is a very simple example.</postamble>
+       </texttable>
+</section>
+
+<section title="no column titles">
+<texttable anchor="tablenotitles" title="a table with no column titles">
+<preamble>The table below should appear with no titles.</preamble>
+<ttcol></ttcol>
+<ttcol></ttcol>
+<c>11</c>
+<c>12</c>
+<c>21</c>
+<c>22</c>
+</texttable>
+<texttable anchor="tableonetitle" title="a table with a single column title">
+<preamble>The table below should appear with column titles (one being non-empty).</preamble>
+<ttcol>FOO</ttcol>
+<ttcol></ttcol>
+<c>11</c>
+<c>12</c>
+<c>21</c>
+<c>22</c>
+</texttable>
+</section>
+
+<section title="referencing tables">
+  <t>
+    <xref target="tablenoborder"/> shows a table with no borders.
+  </t>
+  <t>
+    <xref target="tablenoborder">The table above</xref> shows a table with no borders.
+  </t>
+</section>
+
+<section title="table captions">
+<texttable>
+<preamble>No anchor, no title</preamble>
+<ttcol>Anchor</ttcol>
+<ttcol>Title</ttcol>
+<c>-</c>
+<c>-</c>
+</texttable>
+
+<texttable anchor="texttable1">
+<preamble>Anchor (not being referenced), no title</preamble>
+<ttcol>Anchor</ttcol>
+<ttcol>Title</ttcol>
+<c>yes</c>
+<c>-</c>
+</texttable>
+
+<texttable title="title">
+<preamble>No anchor, with title</preamble>
+<ttcol>Anchor</ttcol>
+<ttcol>Title</ttcol>
+<c>-</c>
+<c>"title"</c>
+</texttable>
+
+<texttable anchor="texttable2" title="title">
+<preamble>Both anchor and title</preamble>
+<ttcol>Anchor</ttcol>
+<ttcol>Title</ttcol>
+<c>yes</c>
+<c>"title"</c>
+</texttable>
+
+</section>
+
+
+<section title="single column">
+<texttable>
+<ttcol>title</ttcol>
+<c>1</c>
+<c>2</c>
+</texttable>
+</section>
+
+<section title="table alignment">
+<texttable align="left">
+<ttcol>left</ttcol>
+<c>1</c>
+</texttable>
+<texttable align="center">
+<ttcol>center</ttcol>
+<c>1</c>
+</texttable>
+<texttable align="right">
+<ttcol>right</ttcol>
+<c>1</c>
+</texttable>
+<texttable>
+<ttcol>default</ttcol>
+<c>1</c>
+</texttable>
+</section>
+
+</section>
+
+
+<section title="Figures">
+<section title="with preamble, no title...">
+<figure>
+  <preamble>with preamble, no title...</preamble>
+  <artwork>
+  +--+
+  |  |
+  +--+
+</artwork>
+</figure>
+</section>
+
+<section title="with postamble and title...">
+<figure title="another figure" anchor="testfig">
+  <artwork>
+  +--+
+  |  |
+  +--+
+</artwork>
+<postamble>with postamble and title...</postamble>
+</figure>
+<t>
+  The figure above has the title "<xref target="testfig" format="title" />".
+</t>
+</section>
+
+<section title="Whitespace handling">
+<t>
+  Para...
+</t>  
+<figure>
+  <preamble>Leading whitespace</preamble>
+  <artwork>
+test test (leading ws)</artwork>
+</figure>
+<t>
+  Para...
+</t>  
+<figure>
+  <preamble>Trailing whitespace</preamble>
+  <artwork>test test (trailing ws)
+   </artwork>
+</figure>
+<t>
+  Para...
+</t>  
+<figure>
+  <preamble>No whitespace</preamble>
+  <artwork>test test (no ws)</artwork>
+</figure>
+<t>
+  Para...
+</t>  
+</section>
+
+<!-- as proposed by Bill F -->
+<section title="Whitespace around figures">
+<t>spacing paragraph</t>
+<figure><artwork>ART</artwork></figure>
+<t>spacing paragraph</t>
+<figure><preamble>preamble, then</preamble><artwork>ART</artwork></figure>
+<t>spacing paragraph</t>
+<figure><artwork>ART</artwork><postamble>then postamble</postamble></figure>
+<t>spacing paragraph</t>
+</section>
+
+<section title="SVG">
+<t>
+  Inclusion of SVG:
+</t>
+<figure><artwork src="testcase.svg" type="image/svg+xml">
+  Fallback content for UAs that do not support SVG.
+</artwork></figure>
+</section>
+
+<section title="Code Components" anchor="code.components">
+<t>
+  Marking up Code Components according to the
+  <eref target="http://trustee.ietf.org/docs/IETF-Trust-License-Policy.pdf">Legal Provisions Relating to IETF Documents</eref>:
+</t>
+<figure><artwork type="code" x:isCodeComponent="yes">
+int main(int argc, char **argv) {
+  return -1;
+}
+</artwork></figure>
+</section>
+
+</section>
+
+<section title="References" anchor="refs">
+
+<section title="xref with no content" anchor="xref.with.no.content">
+<t anchor="xref.with.no.content.first.sentence">
+  <xref target="refs" /> is the parent section.
+</t>
+</section>
+
+<section title="xref to named &lt;t> element">
+<t>
+  With content: see <xref target="xref.with.no.content.first.sentence" format="none">first sentence</xref>
+  of previous section. 
+</t>
+<t>
+  Without content: see <xref target="xref.with.no.content.first.sentence"/>. 
+</t>
+</section>
+
+<section title="xref to named &lt;spanx> element">
+<t>
+  <spanx anchor="spanx.anchor">With content</spanx>: see <xref target="spanx.anchor" format="none">this sentence</xref>.
+</t>
+</section>
+
+<section title="xref to named &lt;t> element inside list">
+<t>
+  With content: see <xref target="listelement.anchor" format="none">first element in list below</xref>.
+</t>
+<t>
+  <list style="hanging">
+    <t anchor="listelement.anchor" hangText="test">Test</t>
+  </list>
+</t>
+</section>
+
+<section title="xref to named &lt;cref> element">
+<t>
+  With content: see <xref target="comment-test" format="none">test comment</xref>.
+</t>
+<t>
+  Without content: see <xref target="comment-test"/>. 
+</t>
+</section>
+
+<section title="xref to named &lt;t> element inside list">
+<t>
+  See <xref target="ordered.list.letters.last" format="none">last entry</xref> in
+  <xref target="ordered.list.letters"/>.
+</t>
+</section>
+
+<section title="xref with no auto-formatting">
+<t>
+So far we have sections <xref target="lists" format="counter" /> ("<xref target="lists" format="title" />") through <xref target="refs" format="counter"/>
+("<xref target="refs" format="title"/>").
+</t>
+</section>
+
+<section title="xref with content and auto-formatting">
+<t>
+This is a subsection of <xref target="refs">References</xref>.
+</t>
+</section>
+
+<section title="xref with content and no formatting">
+<t>
+This is a subsection of <xref target="refs" x:fmt="none">References</xref>.
+Here we are referring to <xref target="RFC2026" x:fmt="none">RFC 2026</xref>,
+without emitting extra formatting.
+</t>
+</section>
+
+<section title="xref with content and 'none' formatting" anchor="formatting.none">
+<t>
+Here we are referring to <xref target="RFC2026" format="none">RFC 2026</xref>,
+without emitting extra formatting.
+</t>
+<t>
+Here we are referring to <xref target="formatting.none" format="none">this Section</xref>,
+without emitting extra formatting.
+</t>
+</section>
+
+<section title="xref with no content and anchor formatting">
+<t>
+See [<xref target="RFC2026" x:fmt="anchor"/>, <xref target="RFC2396" x:fmt="anchor"/>].
+</t>
+</section>
+
+<section title="eref with no content">
+<t>
+See also <eref target="http://greenbytes.de/tech/webdav" />. Here's another
+one that is quite long: <eref target="http://greenbytes.de/tech/webdav/draft-reschke-rfc3744bis-issues.html#5.7_inherited-acl-set-protected"/>. Does it break properly?
+</t>
+</section>
+
+<section title="eref with content">
+<t>
+See also <eref target="http://greenbytes.de/tech/webdav">greenbytes WebDAV resources</eref>.
+</t>
+</section>
+
+<section title="iref inside paragraph">
+<t>
+This paragraph contains an <iref item="inline iref"/>inline iref. 
+</t>
+</section>
+
+</section>
+
+<section title="Paragraph formatting">
+<t>
+  This is the first sentence of the paragraph.  This is the second sentence of
+  the paragraph (with two leading blanks).
+  Here's another sentence that was started on a separate line in the input
+  file.
+</t>
+<t>
+  This is the second paragraph.
+</t>
+</section>
+
+<section title="Sections">
+
+<section title="Subsection with TOC entry">
+</section>
+
+<section title="Subsection without TOC entry" toc="exclude">
+
+<section title="Sub-subsection with TOC entry">
+</section>
+
+</section>
+
+</section>
+
+<section title="Comments">
+<t>
+  This line contains a few comments.
+  <cref anchor="comment-test" source="JRE">No anchor, source given.</cref>
+  This line contains a few comments.
+  <cref anchor="comment1">Anchor given, no source.</cref>
+  This line contains a few comments.
+  <cref anchor="comment2" source="JRE">Both specified.</cref>
+  This line contains a few comments.
+  <cref>No anchor, no source.</cref>
+  This line contains a few comments.
+  <cref>No anchor, no source, but embedded markup: <eref target="http://xml.resource.org"/>.</cref>
+  This line contains a few comments.
+</t>
+</section>
+
+<section title="Artwork Width">
+<figure>
+<preamble>
+This should fit (69 characters plus three spaces of indentation in text output).
+</preamble>
+<artwork>
+012345678901234567890123456789012345678901234567890123456789012345678
+</artwork>
+</figure>
+<figure>
+<preamble>
+This shouldn't.
+</preamble>
+<artwork>
+0123456789012345678901234567890123456789012345678901234567890123456789
+</artwork>
+</figure>
+<figure><artwork x:indent-with="**********">
+(IN TEXT OUTPUT INDENTED BY 10)
+012345678901234567890123456789012345678901234567890123456789012
+</artwork></figure>
+</section>
+
+<section title="Extensions" anchor="extensions">
+<t>
+  These are tests for extensions done in <spanx style="verb">rfc2629.xslt</spanx>.
+  Do not expect them to work out-of-the-box in <spanx style="verb">xml2rfc</spanx>.
+</t>
+
+<section title="Markup in figure/artwork">
+<figure>
+<artwork>
+Internal References: a test reference to <xref target="RFC2396"/>
+
+External References: a test reference to <eref target="http://xml.resource.org"/>
+
+<iref item="&lt;iref> in &lt;artwork>"/>a test index entry inside a figure
+
+Styling: <spanx>&lt;spanx></spanx> inside artwork
+</artwork>
+</figure>
+</section>
+
+<section title="Measuring Lengths">
+<figure>
+<artwork type="message/http; msgtype=&#34;request&#34;">
+PUT / HTTP/1.1
+Host: example.org
+Content-Type: application/xml
+Content-Length: <x:length-of target="req1"/>
+
+<x:span anchor="req1">&lt;foo/></x:span></artwork></figure>
+
+<figure>
+<preamble>...without indentation:</preamble>
+<artwork type="message/http; msgtype=&#34;request&#34;">
+PUT / HTTP/1.1
+Host: example.org
+Content-Type: text/plain
+Content-Length: <x:length-of target="req2"/>
+
+<x:span anchor="req2">Line 1
+Line 2
+</x:span></artwork></figure>
+
+<figure>
+<preamble>...with indentation:</preamble>
+<artwork type="message/http; msgtype=&#34;request&#34;">
+  PUT / HTTP/1.1
+  Host: example.org
+  Content-Type: text/plain
+  Content-Length: <x:length-of target="req3" indented="2"/>
+
+<x:span anchor="req3">  Line 1
+  Line 2
+</x:span></artwork></figure>
+</section>
+
+<section title="Quotations">
+  <t>
+    Here's a quote:
+    <x:q>This is a Quote.</x:q>
+  </t>
+  <t>
+    Here's a block level quote:
+  </t>
+  <x:blockquote>
+    <t>
+      Here's a quote.
+    </t>
+    <t>
+      More text.
+    </t>
+  </x:blockquote>
+</section>
+
+<section title="Subsections">
+  <t>
+    <x:h>Foo</x:h>
+  </t>
+  <t>
+    The line above should be marked up similar to a subsection heading.
+  </t>
+</section>
+
+<section title="Box Drawing">
+<figure>
+  <preamble>
+    The figure below should use box drawing characters instead of
+    "+", "-" and "|".
+  </preamble>
+  <artwork>
+  <x:bt>+----------------+</x:bt>
+  <x:bc>| This is a Box. |</x:bc>
+  <x:bb>+----------------+</x:bb>
+  </artwork>
+</figure>
+
+</section>
+
+<section title="Computed Reference Targets" anchor="computed.reference.targets">
+<t>
+  Referring to this section by anchor name indirectly through the references:
+  <xref target="TSTCS" x:fmt="of" x:rel="#computed.reference.targets"/>.
+</t>
+<t>
+  (default formatting):
+  <xref target="TSTCS" x:rel="#computed.reference.targets"/>.
+</t>
+<figure><artwork>
+  Default inside a figure: <xref target="TSTCS" x:rel="#computed.reference.targets"/>
+</artwork></figure>
+<t>
+  With a broken anchor:
+  <xref target="TSTCS" x:rel="#a-target-that-isnt-defined"/>.
+</t>
+</section>
+
+<section title="ABNF Support" anchor="abnf.support">
+<figure><artwork>
+case-insensitive1 = "abcdefghijlkmnopqrstuvwxyz"
+case-insensitive2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+case-sensitive1 = <x:abnf-char-sequence>"abcdefghijlkmnopqrstuvwxyz"</x:abnf-char-sequence>
+case-sensitive2 = <x:abnf-char-sequence>"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</x:abnf-char-sequence>
+</artwork></figure>
+</section>
+
+
+</section>
+
+<section title="Blank Lines">
+<t>
+Just a forced <vspace/>
+line break.
+</t>
+<t>
+One <vspace blankLines="1"/>
+blank line.
+</t>
+<t>
+Seven <vspace blankLines="7"/>
+blank lines.
+</t>
+<t>
+999 <vspace blankLines="999"/>
+blank lines (this is likely an attempt to force a pagebreak, thus the
+generated HTML should <spanx>not</spanx> contain the blank lines, but only
+one).
+</t>
+</section>
+
+<section title="Other">
+
+<section title="Comments in Text">
+<t>
+  First sentence (before XML comment, invisible here).
+<!-- a comment -->
+  Second sentence.
+</t>
+</section>
+
+<section title="Special Characters">
+<section title="Non-Breaking Space" anchor="nbsp">
+<t>
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+  Non&nbsp;breaking&nbsp;space.
+</t>
+</section>
+<section title="Non-Breaking Hyphen" anchor="nbhy">
+<t>
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  Non&nbhy;breaking&nbhy;hyphen.
+  (wrt Apache FOP, see <eref target="http://mail-archives.apache.org/mod_mbox/xmlgraphics-fop-users/200905.mbox/%3C4A035745.10601@freemail.gr%3E"/>)
+</t>
+</section>
+<section title="Dashes" anchor="dashes">
+<t>
+  mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces.
+  mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces.
+  mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces.
+  mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces.
+  mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces. mdash &mdash; with regular spaces.
+</t>
+<t>
+  mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces.
+  mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces.
+  mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces.
+  mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces.
+  mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces. mdash&mdash;with no spaces.
+</t>
+<t>
+  mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces.
+  mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces.
+  mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces.
+  mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces.
+  mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces. mdash&thinsp;&mdash;&thinsp;with thin spaces.
+</t>
+</section>
+</section>
+
+</section>
+
+    </middle>
+
+	<back>
+  <references>
+  <reference anchor='RFC2026'>
+
+<front>
+<title abbrev='Internet Standards Process'>The Internet Standards Process -- Revision 3</title>
+<author initials='S.' surname='Bradner' fullname='Scott O. Bradner'>
+<organization>Harvard University</organization>
+<address>
+<postal>
+<street>1350 Mass. Ave.</street>
+<city>Cambridge</city>
+<region>MA</region>
+<code>02138</code>
+<country>US</country></postal>
+<phone>+1 617 495 3864</phone>
+<email>sob@harvard.edu</email></address></author>
+<date month='October' year='1996' />
+<abstract>
+<t>This memo documents the process used by the Internet community for the standardization of protocols and procedures.  It defines the stages in the standardization process, the requirements for moving a document between stages and the types of documents used during this process.  It also addresses the intellectual property rights and copyright issues associated with the standards process.</t></abstract></front>
+
+<seriesInfo name='BCP' value='9' />
+<seriesInfo name='RFC' value='2026' />
+<format type='TXT' octets='86731' target='ftp://ftp.isi.edu/in-notes/rfc2026.txt' />
+</reference>
+
+<reference anchor="RFC2396">
+
+<front>
+<title abbrev="URI Generic Syntax">Uniform Resource Identifiers (URI): Generic Syntax</title>
+<author initials="T." surname="Berners-Lee" fullname="Tim Berners-Lee">
+<organization>World Wide Web Consortium</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science, NE43-356</street>
+<street>545 Technology Square</street>
+<city>Cambridge</city>
+<region>MA</region>
+<code>02139</code></postal>
+<facsimile>+1(617)258-8682</facsimile>
+<email>timbl@w3.org</email></address></author>
+<author initials="R.T." surname="Fielding" fullname="Roy T. Fielding">
+<organization>Department of Information and Computer Science</organization>
+<address>
+<postal>
+<street>University of California, Irvine</street>
+<city>Irvine</city>
+<region>CA</region>
+<code>92697-3425</code></postal>
+<facsimile>+1(949)824-1715</facsimile>
+<email>fielding@ics.uci.edu</email></address></author>
+<author initials="L." surname="Masinter" fullname="Larry Masinter">
+<organization>Xerox PARC</organization>
+<address>
+<postal>
+<street>3333 Coyote Hill Road</street>
+<city>Palo Alto</city>
+<region>CA</region>
+<code>94034</code></postal>
+<facsimile>+1(415)812-4333</facsimile>
+<email>masinter@parc.xerox.com</email></address></author>
+<date month="August" year="1998"/>
+<area>Applications</area>
+<keyword>uniform resource</keyword>
+<keyword>URI</keyword>
+</front>
+<seriesInfo name="RFC" value="2396"/>
+<annotation>
+  This RFC will soon be updated, check
+  <eref target="http://cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/rfc2396bis.html" /> for the latest draft.
+</annotation>
+<annotation>
+  The issues list is at <eref target="http://cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/issues.html" />.
+</annotation>
+
+</reference>
+
+<reference anchor="TSTCS">
+	<front>
+  	<title>Test cases for RFC2629 formatting</title>
+
+  	<author initials="J. F." surname="Reschke" fullname="Julian F. Reschke">
+  		<organization abbrev="greenbytes">greenbytes GmbH</organization>
+        <address>
+        	<postal>
+          	<street>Hafenweg 16</street>
+            <city>Muenster</city><region>NW</region><code>48155</code>
+           	<country>Germany</country>
+         	</postal>
+    		  <phone>+49 251 2807760</phone>	
+      	<facsimile>+49 251 2807761</facsimile>	
+  		  <email>julian.reschke@greenbytes.de</email>	
+  		  <uri>http://greenbytes.de/tech/webdav/</uri>	
+  		</address>
+  	</author>
+    <date month="March" year="2008"/>
+	</front>
+  <x:source href="testcase.xml"/>
+</reference>
+
+  </references>
+  </back>
+</rfc>

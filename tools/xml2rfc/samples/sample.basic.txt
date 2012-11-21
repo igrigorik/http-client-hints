@@ -1,0 +1,1456 @@
+
+
+
+RFC2629 basis sample                                          J. Reschke
+                                                              greenbytes
+                                                          March 31, 2010
+
+
+                Basic Test Cases for RFC2629 Formatting
+
+
+
+Table of Contents
+
+   1.  Lists  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.1.  hanging list . . . . . . . . . . . . . . . . . . . . . . .  3
+     1.2.  numbered list  . . . . . . . . . . . . . . . . . . . . . .  3
+     1.3.  ordered list (letters) . . . . . . . . . . . . . . . . . .  3
+     1.4.  no explicit counters . . . . . . . . . . . . . . . . . . .  4
+     1.5.  with explicit counters . . . . . . . . . . . . . . . . . .  5
+     1.6.  Nested list  . . . . . . . . . . . . . . . . . . . . . . .  6
+     1.7.  list without style . . . . . . . . . . . . . . . . . . . .  6
+   2.  spanx  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  7
+   3.  Tables . . . . . . . . . . . . . . . . . . . . . . . . . . . .  8
+     3.1.  no borders . . . . . . . . . . . . . . . . . . . . . . . .  9
+     3.2.  borders around headers . . . . . . . . . . . . . . . . . .  9
+     3.3.  example from xml2rc README . . . . . . . . . . . . . . . .  9
+     3.4.  no column titles . . . . . . . . . . . . . . . . . . . . . 10
+     3.5.  referencing tables . . . . . . . . . . . . . . . . . . . . 10
+     3.6.  table captions . . . . . . . . . . . . . . . . . . . . . . 10
+     3.7.  single column  . . . . . . . . . . . . . . . . . . . . . . 11
+     3.8.  table alignment  . . . . . . . . . . . . . . . . . . . . . 11
+   4.  Figures  . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+     4.1.  with preamble, no title... . . . . . . . . . . . . . . . . 13
+     4.2.  with postamble and title...  . . . . . . . . . . . . . . . 13
+     4.3.  Whitespace handling  . . . . . . . . . . . . . . . . . . . 13
+     4.4.  Whitespace around figures  . . . . . . . . . . . . . . . . 13
+   5.  References . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+     5.1.  xref with no content . . . . . . . . . . . . . . . . . . . 15
+     5.2.  xref to named <t> element  . . . . . . . . . . . . . . . . 15
+     5.3.  xref to named <t> element inside list  . . . . . . . . . . 15
+     5.4.  xref to named <cref> element . . . . . . . . . . . . . . . 15
+     5.5.  xref to named <t> element inside list  . . . . . . . . . . 15
+     5.6.  xref with no auto-formatting . . . . . . . . . . . . . . . 15
+     5.7.  xref with content and auto-formatting  . . . . . . . . . . 15
+     5.8.  xref with content and 'none' formatting  . . . . . . . . . 15
+     5.9.  eref with no content . . . . . . . . . . . . . . . . . . . 15
+     5.10. eref with content  . . . . . . . . . . . . . . . . . . . . 16
+     5.11. iref inside paragraph  . . . . . . . . . . . . . . . . . . 16
+   6.  Paragraph formatting . . . . . . . . . . . . . . . . . . . . . 17
+   7.  Sections . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+
+
+
+Reschke                                                         [Page 1]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+     7.1.  Subsection with TOC entry  . . . . . . . . . . . . . . . . 18
+       7.2.1.  Sub-subsection with TOC entry  . . . . . . . . . . . . 18
+   8.  Comments . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+   9.  Artwork width  . . . . . . . . . . . . . . . . . . . . . . . . 20
+   10. Blank Lines  . . . . . . . . . . . . . . . . . . . . . . . . . 21
+   11. Other  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+     11.1. Comments in Text . . . . . . . . . . . . . . . . . . . . . 22
+   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+   Editorial Comments . . . . . . . . . . . . . . . . . . . . . . . .
+   Index  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 26
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                         [Page 2]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+1.  Lists
+
+1.1.  hanging list
+
+   Name:  timeout
+
+   Namespace:  DAV:
+
+   Purpose:  The timeout associated with a lock
+
+   Value:  TimeType ;Defined in section 9.8
+
+1.2.  numbered list
+
+   A numbered list:
+
+   1.  one
+
+   2.  two
+
+   3.  three
+
+1.3.  ordered list (letters)
+
+   An ordered list using letters:
+
+   a.   one
+
+   b.   two
+
+   c.   three
+
+   d.   one
+
+   e.   two
+
+   f.   three
+
+   g.   one
+
+   h.   two
+
+   i.   three
+
+   j.   one
+
+   k.   two
+
+
+
+
+Reschke                                                         [Page 3]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+   l.   three
+
+   m.   one
+
+   n.   two
+
+   o.   three
+
+   p.   one
+
+   q.   two
+
+   r.   three
+
+   s.   one
+
+   t.   two
+
+   u.   three
+
+   v.   one
+
+   w.   two
+
+   x.   three
+
+   y.   one
+
+   z.   two
+
+   aa.  three
+
+   ab.  one
+
+   ac.  two
+
+   ad.  three
+
+1.4.  no explicit counters
+
+   Example for numbered list with user-defined-format:
+
+   R1:  R1
+
+   R2:  R2
+
+   Another list:
+
+
+
+
+Reschke                                                         [Page 4]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+   S1:  S1
+
+   S2:  S2
+
+   Next list should continue counting R's:
+
+   R1:  R3
+
+   R2:  R4
+
+   Same with character-based numbering:
+
+   c-a:  c-a
+
+   c-b:  c-b
+
+1.5.  with explicit counters
+
+   A few requirements:
+
+   R1:  req R1
+
+   R2:  req R2
+
+   More requirements:
+
+   R3:  req R3
+
+   R4:  req R4
+
+   A few rules:
+
+   R1:  rule R1
+
+   R2:  rule R2
+
+   R3:  rule R3
+
+   Explicit counter with name matching it's format string:
+
+   c-a:  c-c
+
+   c-b:  c-d
+
+   Same, without counter:
+
+
+
+
+
+
+Reschke                                                         [Page 5]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+   c-a:  c-e
+
+   c-b:  c-f
+
+1.6.  Nested list
+
+   1.  One
+
+   2.  Two
+
+       A.  17
+
+       B.  42
+
+   3.  Three
+
+1.7.  list without style
+
+      One
+
+      Two
+
+      Three
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                         [Page 6]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+2.  spanx
+
+   This is _default_.
+
+   This is _emph(asized)_.
+
+   This is *strong*.
+
+   This is "verb(atim)".
+
+   Here is "a carriage return inside" a spanx element.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                         [Page 7]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+3.  Tables
+
+                      The list of valid keywords are:
+
+   +--------------+--------------+--------------------------+----------+
+   |      keyword |    default   | meaning                  | not      |
+   |              |              |                          | aligned  |
+   +--------------+--------------+--------------------------+----------+
+   |       strict |      no      | try to enforce the       | a        |
+   |              |              | ID-nits conventions and  |          |
+   |              |              | DTD validity             |          |
+   |              |              |                          |          |
+   |  iprnotified |      no      | include boilerplate from | bb bb    |
+   |              |              | Section 10.4(d) of       |          |
+   |              |              | [RFC2026]                |          |
+   |              |              |                          |          |
+   |      compact |      no      | when producing a         | ccc ccc  |
+   |              |              | txt/nroff file, try to   | ccc      |
+   |              |              | conserve vertical        |          |
+   |              |              | whitespace               |          |
+   |              |              |                          |          |
+   |   subcompact |    compact   | if compact is "yes",     | dddd     |
+   |              |              | then setting this to     | dddd     |
+   |              |              | "no" will make things a  | dddd     |
+   |              |              | little less compact      | dddd     |
+   |              |              |                          |          |
+   |    needLines |      n/a     | an integer hint          | eeeee    |
+   |              |              | indicating how many      | eeeee    |
+   |              |              | contiguous lines are     | eeeee    |
+   |              |              | needed at this point in  | eeeee    |
+   |              |              | the output               | eeeee    |
+   |              |              |                          |          |
+   |    here come |              |                          |          |
+   |  empty cells |              |                          |          |
+   +--------------+--------------+--------------------------+----------+
+
+    Remember, that as with everything else in XML, keywords and values
+                            are case-sensitive.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                         [Page 8]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+3.1.  no borders
+
+              The table below should appear with no borders.
+
+                                   C1 C2
+
+                                   11 12
+
+                                   21 22
+
+                     Table 1: a table with no borders
+
+3.2.  borders around headers
+
+    The table below should appear with borders just around the headers.
+
+                                   C1 C2
+                                   -- --
+                                   11 12
+
+                                   21 22
+
+3.3.  example from xml2rc README
+
+                So, putting it all together, we have, e.g.,
+
+                          +----------+----------+
+                          | ttcol #1 | ttcol #2 |
+                          +----------+----------+
+                          |   c #1   |   c #2   |
+                          |          |          |
+                          |   c #3   |   c #4   |
+                          |          |          |
+                          |   c #5   |   c #6   |
+                          +----------+----------+
+
+                      which is a very simple example.
+
+                                  Table 2
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                         [Page 9]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+3.4.  no column titles
+
+               The table below should appear with no titles.
+
+                                +----+----+
+                                | 11 | 12 |
+                                |    |    |
+                                | 21 | 22 |
+                                +----+----+
+
+                  Table 3: a table with no column titles
+
+     The table below should appear with column titles (one being non-
+                                  empty).
+
+                               +-----+----+
+                               | FOO |    |
+                               +-----+----+
+                               | 11  | 12 |
+                               |     |    |
+                               | 21  | 22 |
+                               +-----+----+
+
+                Table 4: a table with a single column title
+
+3.5.  referencing tables
+
+   Table 1 shows a table with no borders.
+
+   The table above (Table 1) shows a table with no borders.
+
+3.6.  table captions
+
+                            No anchor, no title
+
+                            +--------+-------+
+                            | Anchor | Title |
+                            +--------+-------+
+                            | -      | -     |
+                            +--------+-------+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 10]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+                  Anchor (not being referenced), no title
+
+                            +--------+-------+
+                            | Anchor | Title |
+                            +--------+-------+
+                            | yes    | -     |
+                            +--------+-------+
+
+                                  Table 5
+
+                           No anchor, with title
+
+                           +--------+---------+
+                           | Anchor | Title   |
+                           +--------+---------+
+                           | -      | "title" |
+                           +--------+---------+
+
+                                   title
+
+                           Both anchor and title
+
+                           +--------+---------+
+                           | Anchor | Title   |
+                           +--------+---------+
+                           | yes    | "title" |
+                           +--------+---------+
+
+                              Table 6: title
+
+3.7.  single column
+
+                                 +-------+
+                                 | title |
+                                 +-------+
+                                 | 1     |
+                                 |       |
+                                 | 2     |
+                                 +-------+
+
+3.8.  table alignment
+
+   +------+
+   | left |
+   +------+
+   | 1    |
+   +------+
+
+
+
+
+Reschke                                                        [Page 11]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+                                +--------+
+                                | center |
+                                +--------+
+                                | 1      |
+                                +--------+
+
+                                                               +-------+
+                                                               | right |
+                                                               +-------+
+                                                               | 1     |
+                                                               +-------+
+
+                                +---------+
+                                | default |
+                                +---------+
+                                | 1       |
+                                +---------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 12]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+4.  Figures
+
+4.1.  with preamble, no title...
+
+   with preamble, no title...
+
+     +--+
+     |  |
+     +--+
+
+4.2.  with postamble and title...
+
+     +--+
+     |  |
+     +--+
+
+   with postamble and title...
+
+                         Figure 1: another figure
+
+   The figure above has the title "another figure".
+
+4.3.  Whitespace handling
+
+   Para...
+
+   Leading whitespace
+
+   test test (leading ws)
+
+   Para...
+
+   Trailing whitespace
+   test test (trailing ws)
+
+   Para...
+
+   No whitespace
+   test test (no ws)
+
+   Para...
+
+4.4.  Whitespace around figures
+
+   spacing paragraph
+   ART
+
+   spacing paragraph
+
+
+
+Reschke                                                        [Page 13]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+   preamble, then
+   ART
+
+   spacing paragraph
+   ART
+   then postamble
+
+   spacing paragraph
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 14]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+5.  References
+
+5.1.  xref with no content
+
+   Section 5 is the parent section.
+
+5.2.  xref to named <t> element
+
+   With content: see first sentence of previous section.
+
+   Without content: see Paragraph 1.
+
+5.3.  xref to named <t> element inside list
+
+   With content: see first element in list below.
+
+   test  Test
+
+5.4.  xref to named <cref> element
+
+   With content: see test comment.
+
+   Without content: see Comment comment-test.
+
+5.5.  xref to named <t> element inside list
+
+   See last entry in Section 1.3.
+
+5.6.  xref with no auto-formatting
+
+   So far we have sections 1 ("Lists") through 5 ("References").
+
+5.7.  xref with content and auto-formatting
+
+   This is a subsection of References (Section 5).
+
+5.8.  xref with content and 'none' formatting
+
+   Here we are referring to RFC 2026, without emitting extra formatting.
+
+   Here we are referring to this Section, without emitting extra
+   formatting.
+
+5.9.  eref with no content
+
+   See also <http://greenbytes.de/tech/webdav>.  Here's another one that
+   is quite long: <http://greenbytes.de/tech/webdav/
+   draft-reschke-rfc3744bis-issues.html#5.7_inherited-acl-set-
+
+
+
+Reschke                                                        [Page 15]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+   protected>.  Does it break properly?
+
+5.10.  eref with content
+
+   See also greenbytes WebDAV resources [1].
+
+5.11.  iref inside paragraph
+
+   This paragraph contains an inline iref.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 16]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+6.  Paragraph formatting
+
+   This is the first sentence of the paragraph.  This is the second
+   sentence of the paragraph (with two leading blanks).  Here's another
+   sentence that was started on a separate line in the input file.
+
+   This is the second paragraph.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 17]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+7.  Sections
+
+7.1.  Subsection with TOC entry
+
+7.2.  Subsection without TOC entry
+
+7.2.1.  Sub-subsection with TOC entry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 18]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+8.  Comments
+
+   This line contains a few comments. [comment-test] This line contains
+   a few comments. [comment1] This line contains a few comments.
+   [comment2] This line contains a few comments. [anchor37] This line
+   contains a few comments. [anchor38]<http://xml.resource.org> This
+   line contains a few comments.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 19]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+9.  Artwork width
+
+   This should fit (69 characters plus three spaces of indentation in
+   text output).
+
+   012345678901234567890123456789012345678901234567890123456789012345678
+
+   This shouldn't.
+
+  0123456789012345678901234567890123456789012345678901234567890123456789
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 20]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+10.  Blank Lines
+
+   Just a forced
+   line break.
+
+   One
+
+   blank line.
+
+   Seven
+
+
+
+
+
+
+
+   blank lines.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 21]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+11.  Other
+
+11.1.  Comments in Text
+
+   First sentence (before XML comment, invisible here).  Second
+   sentence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 22]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+12.  References
+
+   [RFC2026]  Bradner, S., "The Internet Standards Process -- Revision
+              3", BCP 9, RFC 2026, October 1996.
+
+   [RFC2396]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifiers (URI): Generic Syntax", RFC 2396,
+              August 1998.
+
+              This RFC will soon be updated, check <http://
+              cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/
+              rfc2396bis.html> for the latest draft.
+
+              The issues list is at <http://cvs.apache.org/viewcvs.cgi/
+              *checkout*/ietf-uri/rev-2002/issues.html>.
+
+   [1]  <http://greenbytes.de/tech/webdav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 23]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+Editorial Comments
+
+   [anchor37]      No anchor, no source.
+
+   [anchor38]      No anchor, no source, but embedded markup:.
+
+   [comment-test]  JRE: No anchor, source given.
+
+   [comment1]      Anchor given, no source.
+
+   [comment2]      JRE: Both specified.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 24]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+Index
+
+   I
+      inline iref  16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 25]
+
+                 Basic Test Cases for RFC2629 Formatting      March 2010
+
+
+Author's Address
+
+   Julian F. Reschke
+   greenbytes GmbH
+   Hafenweg 16
+   Muenster, NW  48155
+   Germany
+
+   Email: julian.reschke@greenbytes.de
+   URI:   http://greenbytes.de/tech/webdav/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reschke                                                        [Page 26]
+

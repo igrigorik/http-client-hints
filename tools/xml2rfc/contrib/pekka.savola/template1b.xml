@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<!-- processing instructions (for a complete list and description,
+     see file http://xml.resource.org/authoring/README.html -->
+
+    <!-- try to enforce the ID-nits conventions and DTD validity -->
+<?rfc strict="yes" ?>
+
+    <!-- items used when reviewing the document -->
+<?rfc comments="no" ?>  <!-- controls display of <cref> elements -->
+<?rfc inline="no" ?>    <!-- when no, put comments at end in comments section,
+                                otherwise, put inline -->
+<?rfc editing="no" ?>   <!-- when yes, insert editing marks -->
+
+    <!-- create table of contents (set it options).  
+         Note the table of contents may be omitted
+         for very short documents --> 
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="3"?>
+
+    <!-- choose the options for the references. Some like
+         symbolic tags in the references (and citations)
+         and others prefer numbers. --> 
+<?rfc symrefs="no"?>
+<?rfc sortrefs="yes" ?>
+
+    <!-- these two save paper: start new paragraphs from the same page etc. -->
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<!-- end of list of processing instructions -->
+
+    <!-- Information about the document.
+         categories values: std, bcp, info, exp, and historic
+         For Internet-Drafts, specify attribute "ipr".
+         (ipr values are: full3667, noModification3667, noDerivatives3667),
+         Also for Internet-Drafts, can specify values for
+         attributes "iprExtract", and "docName".  Note
+         that the value for iprExtract is the anchor attribute
+         value of a section that can be extracted, and is only
+         useful when the value of "ipr" is not "full3667". -->
+    <!-- TODO: verify which attributes are specified only
+            by the RFC editor.  It appears that attributes
+            "number", "obsoletes", "updates", and "seriesNo"
+            are specified by the RFC editor (and not by
+            the document author). -->
+<rfc
+    category="info"
+    ipr="noModification3667"
+    iprExtract="codeExample"
+    docName="draft-savola-xml2rfc-template-00.txt" >
+
+<front>
+    <title abbrev="Abbreviated-Title">Full Title</title>
+
+    <!-- add 'role="editor"' below for the editors if appropriate -->
+    <author
+        fullname="Pekka Savola" 
+        initials="P." 
+        surname="Savola">
+
+    <!-- abbrev not needed but can be used for the header
+         if the full organization name is too long -->
+        <organization abbrev="Abbreviated OrgName">Full Organization name</organization>
+        <address>
+            <postal>
+                <!-- I've omitted my street address here -->
+                <street/>
+                <city>Espoo</city>
+                <!--
+                    The IETF seems to meet once a year in Minneapolis,
+                    so that's practically my US address. If so, I would
+                    add the following elements:
+                <region>MN</region>
+                <code>55403</code>
+                -->
+                <country>Finland</country>
+            </postal>
+        <email> psavola@funet.fi </email>
+        <!--
+            If I had a phone, fax machine, and a URI, I could add the following:
+                <phone>+1-408-555-1234</phone>
+                <facsimile>+1-555-911-9111</facsimile>
+                <uri>http://127.0.0.1/</uri>
+    -->
+        </address>
+    </author>
+
+    <date year="2004" month="May"/> <!-- month="May" is no longer necessary
+                                          note also, day="30" is optional -->
+
+    <area>Operations &amp; Management</area>
+
+    <!-- WG name at the upperleft corner of the doc,
+         IETF fine for individual submissions -->
+    <workgroup>Internet Engineering Task Force</workgroup>
+    <abstract>
+    <t>This is an abstract abstract.  Remember, don't add references here.</t>
+    </abstract>
+
+    <note title="Foreword">
+<t>This "forward" section is an unnumbered section that is not included
+in the table of contents.  It is primarily used for the IESG to
+make comments about the document.  It can also be used for
+ ...TODO: list uses...</t>
+<t>In this example, it is used as a handy place to specify URLs to
+documents and tools to author RFC-style documents using XML.</t>
+<t>RFC2629 is the original published document on authoring RFC-style
+documents in XML (http://xml.resource.org/public/rfc/html/rfc2629.html).
+It is being updated (and called RFC2629(bis) and is
+http://xml.resource.org/authoring/draft-mrose-writing-rfcs.html.
+The tool to convert XML documents to RFC-style text (and HTML) files
+is described in document http://xml.resource.org/authoring/README.html.</t>
+<t>Please also remember to check out
+http://www.ietf.org/ID-Checklist.html for issues to note when writing
+drafts.</t>
+<t>Remember, you don't need to have any other tools than a 'notepad'
+or your favorite editor to write xml2rfc drafts.  You can use the web
+interface at http://xml.resource.org for processing.  The benefit of using
+XML editors is mostly catching those missing tags which the processor will
+warn you about, but you don't need to worry about the editors when getting
+started.</t>
+<t>This template is not meant to be a conclusive list of everything,
+but summarize the often-needed basic features to get one started.</t>
+    </note>
+
+
+    <note title="Requirements Language">
+<t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;,
+&quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+&quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;,
+&quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be
+interpreted as described in <xref target="RFC2119">RFC 2119</xref>.
+</t>
+    </note>
+
+
+</front>
+
+<middle>
+<section title="Introduction">
+    <t>Now you can have a bit more lengthier text here.</t>
+    <t>Let's refer to a couple of documents:  
+    <xref target="I-D.ietf-v6ops-3gpp-analysis"/> and
+    <xref target="RFC2661">L2TP</xref>. For text generation, these look equivalent,
+but the latter looks a bit neater in the HTML representation.</t>
+    <t>You might also add a note about the usage of RFC2119 keywords here..</t>
+    <t>You can cross-reference the sections in a stable manner; 
+       <xref target="sect2"/>.</t>
+</section>
+
+<section anchor="sect2" title="An example section">
+    <t>There are multiple list styles: 'symbols', 'letters', 'numbers',
+'hanging', 'format', etc.</t>
+    <t>
+    <list style="symbols">
+        <t>First bullet</t>
+        <t>Second bullet</t>
+    </list>
+    </t>
+    <t>One can draw fancy diagrams as well; remember to ensure that they
+don't exceed 72 chars/line.</t>
+    <figure anchor="xml_happy">
+    <artwork>
+<![CDATA[
++-----------------------+
+| Use XML, be Happy :-) |
+|_______________________|
+
+]]>
+    </artwork>
+    </figure>
+    <t>Note that including a CDATA you don't need to escape most special characters
+you might otherwise have to.</t>
+    <section title="A Subsection">
+        <t>There can be a lot of subsections.  By default 3 levels of
+nesting show in table of contents but that can be adjusted with the
+value of the "tocdepth" processing instruction.</t>
+    </section>
+</section>
+<section title="Decrypting XML2RFC Parsing errors">
+    <t>The most common form of xml2rfc parsing erros are those where a
+closing tag has been expected to be present before a new kind of tag is
+specified.  In the example below, Introduction section's last paragraph was
+missing the closing t-element.  The rest of the error messages can be rather
+easily understood as well by reading it carefully and examining the context. 
+The reason is typically a missing tag somewhere.</t>
+        <figure>
+        <artwork>
+<![CDATA[
+======8<=========
+end tag "section" does not match open element "t" around line 65
+
+Context: 
+    <rfc ipr="full3667" category="info" 
+         docName="draft-savola-xml2rfc-template-00.txt" 
+         updates="1,2"
+         obsoletes="3">
+    <middle>
+    <section title="Introduction">
+    <t>
+=======8<========
+]]>
+    </artwork>
+    </figure>
+</section>
+<section title="Example of code or MIB module to be extracted"
+         anchor="codeExample">
+<figure>
+<artwork>
+<![CDATA[
+/**** an example C program */
+
+#include <stdio.h>
+
+void
+main(int argc, char *argv[])
+{
+    int i;
+
+    printf("program arguments are:\n");
+    for (i = 0; i < argc; i++) {
+        printf("%d: \"%s\"\n", i, argv[i]);
+    }
+
+    exit(0);
+} /* main */
+
+/* end of file */
+]]>
+</artwork>
+</figure>
+</section>
+<section anchor="Acknowledgements" title="Acknowledgements">
+    <t>Remember, it's important to acknowledge people who have
+contributed to the work.</t>
+</section>
+
+<!-- possibly a 'Contributors' section ... -->
+
+<section anchor="IANA" title="IANA Considerations">
+    <t>This memo includes no request to IANA.</t>
+    <t>(It's good to have an explicit note because otherwise IANA wastes
+cycles trying to figure out if something is needed..)</t>
+</section>
+
+<section anchor="Security" title="Security Considerations">
+    <t>Remember to consider security from the start..</t>
+</section>
+</middle>
+<back>
+<!-- references split to informative and normative -->
+<references title="Normative References">
+    <reference
+        anchor="RFC2661">
+<!-- proposal to add attribute copy-reference-from="reference.RFC.2661.xml"> -->
+<!-- the following is the minimum to make xml2rfc happy -->
+        <front>
+            <title>RFC2661</title>
+            <author initials="authInitials" surname="authSurName">
+                <organization>orgName</organization>
+            </author>
+            <date year="year" />
+        </front>
+    </reference>
+
+    <reference anchor='RFC2119'>
+    <front>
+    <title abbrev='RFC Key Words'>Key words for use in RFCs to Indicate Requirement Levels</title>
+    <author initials='S.' surname='Bradner' fullname='Scott Bradner'>
+    <organization>Harvard University</organization>
+    <address>
+    <postal>
+    <street>1350 Mass. Ave.</street>
+    <street>Cambridge</street>
+    <street>MA 02138</street></postal>
+    <phone>- +1 617 495 3864</phone>
+    <email>sob@harvard.edu</email></address></author>
+    <date year='1997' month='March' />
+    <area>General</area>
+    <keyword>keyword</keyword>
+    <abstract>
+    <t>
+In many standards track documents several words are used to signify
+the requirements in the specification.  These words are often
+capitalized.  This document defines these words as they should be
+interpreted in IETF documents.  Authors who follow these guidelines
+should incorporate this phrase near the beginning of their document:
+
+    <list>
+    <t>
+The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL
+NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;,  &quot;MAY&quot;, and
+&quot;OPTIONAL&quot; in this document are to be interpreted as described in
+RFC 2119.
+    </t></list></t>
+    <t> 
+Note that the force of these words is modified by the requirement
+level of the document in which they are used.
+    </t></abstract></front>
+
+    <seriesInfo name='BCP' value='14' />
+    <seriesInfo name='RFC' value='2119' />
+    <format type='TXT' octets='4723' target='ftp://ftp.isi.edu/in-notes/rfc2119.txt' />
+    <format type='HTML' octets='14486' target='http://xml.resource.org/public/rfc/html/rfc2119.html' />
+    <format type='XML' octets='5661' target='http://xml.resource.org/public/rfc/xml/rfc2119.xml' />
+    </reference>
+
+</references>
+
+<references title="Informative References">
+    <reference
+        anchor="I-D.ietf-v6ops-3gpp-analysis" >
+        <front>
+            <title>I-D.ietf-v6ops-3gpp-analysis</title>
+            <author initials="authInitials" surname="authSurName">
+                <organization>orgName</organization>
+            </author>
+            <date year="year" />
+        </front>
+    </reference>
+</references>
+
+<section anchor="app-additional" title="Additional stuff">
+    <t>You can add appendices just as regular sections, the only
+difference is that they go within the "back" element, and not
+within the "middle" element. And they follow the "reference"
+elements.</t>
+</section>
+</back>
+
+</rfc>

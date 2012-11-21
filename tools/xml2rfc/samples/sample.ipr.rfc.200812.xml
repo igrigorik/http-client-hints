@@ -1,0 +1,24 @@
+<?xml version='1.0'?> 
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc compact="yes"?>
+<?rfc symrefs="yes"?>
+<rfc number="5402" category="info">
+  <front>
+    <title abbrev="default RFC IPR example">Default RFC IPR as of December 2008</title>
+    <author fullname="John Doe" initials="J." surname="Doe"/>
+    <date year="2008" month="December"/>
+    <abstract>
+      <t>
+				 This is a test case document, it is not RFC 5402 (which was never
+				 issued by the RFC-Editor).
+      </t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Dummy Section">
+      <t>
+        Dummy Section.
+      </t>
+    </section>
+  </middle>
+</rfc>

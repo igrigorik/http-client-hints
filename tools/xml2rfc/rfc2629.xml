@@ -1,0 +1,1389 @@
+<?xml version="1.0"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!-- 
+(c) 1999 Marshall T. Rose
+    All rights reserved.
+
+This file is licenced under the same terms as xml2rfc, even though
+running it through xml2rfc adds the more restrictive Internet Society
+copyright notices.
+-->
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<rfc number="2629" category="info">
+<front>
+<title>Writing I-Ds and RFCs using XML</title>
+<author initials="M.T." surname="Rose" fullname="Marshall T. Rose">
+<organization>Invisible Worlds, Inc.</organization>
+<address>
+<postal>
+<street>660 York Street</street>
+<city>San Francisco</city> <region>CA</region> <code>94110</code>
+<country>US</country>
+</postal>
+<phone>+1 415 695 3975</phone>
+<email>mrose@not.invisible.net</email>
+<uri>http://invisible.net/</uri>
+</address>
+</author>
+<date month="June" year="1999" />
+<area>General</area>
+<keyword>RFC</keyword>
+<keyword>Request for Comments</keyword>
+<keyword>I-D</keyword>
+<keyword>Internet-Draft</keyword>
+<keyword>XML</keyword>
+<keyword>Extensible Markup Language</keyword>
+<abstract><t>This memo presents a technique for using XML
+(Extensible Markup Language)
+as a source format for documents in the Internet-Drafts (I-Ds) and
+Request for Comments (RFC) series.</t></abstract>
+</front>
+<middle>
+<section title="Introduction">
+<t>This memo describes how to write a document for the I-D and RFC series
+using <xref target="XML">the Extensible Markup Language</xref> (XML).
+This memo has three goals:
+<list style="numbers">
+<t>To describe a simple XML Document Type Definition (DTD) that is
+powerful enough to handle the simple formatting requirements of RFC-like
+documents whilst allowing for meaningful markup of descriptive
+qualities.</t>
+<t>To describe software that processes XML source files,
+including a tool that produces documents
+conforming to <xref target="refs.RFC2223">RFC 2223</xref>,
+HTML format, and so on.</t>
+<t>To provide the proof-of-concept for the first two goals
+(this memo was written using this DTD and produced using that
+software).</t>
+</list>
+</t>
+<t>It is beyond the scope of this memo to discuss the political
+ramifications of using XML as a source format for RFC-like documents.
+Rather,
+it is simply noted that adding minimal markup to plain text:
+<list style="symbols">
+<t>allows the traditional production of textual RFC-like documents using
+familiar editors;</t>
+<t>requires some, albeit minimal, additions to existing software
+environments; and,</t>
+<t>permits information to be organized, searched, and retrieved
+using both unstructured and structured mechanisms.</t>
+</list>
+</t>
+</section>
+<section title="Using the DTD to Write I-Ds and RFCs">
+<t>We do not provide a formal or comprehensive description of XML.
+Rather,
+this section discusses just enough XML to use a Document Type
+Declaration (DTD) to write RFC-like documents.</t>
+<t>If you're already familiar with XML,
+skip to <xref target="rfc.dtd" /> to look at the DTD.</t>
+<section anchor="xml_basics" title="XML basics">
+<t>There are very few rules when writing in XML,
+as the syntax is simple.
+There are five terms you'll need to know:
+<list style="numbers">
+<t>An "element" usually refers to a start tag, an end tag, and all the
+characters in between,
+e.g.,
+"&lt;example&gt;text and/or nested elements&lt;/example&gt;"</t>
+<t>An "empty element" combines the start tag and the end tag,
+e.g.,
+"&lt;empty/&gt;".
+You don't find these in HTML.</t>
+<t>An "attribute" is part of an element.
+If present, they occur in the start tag, e.g.,
+"&lt;example name='value'&gt;".
+Of course,
+they can also appear in empty elements, e.g.,
+"&lt;empty name='value'/&gt;".</t>
+<t>An "entity" is a textual macro that starts with "&amp;".
+Don't worry about these,
+you'll only use them whenever you want to put a "&amp;" or a "&lt;" in
+your text.</t>
+<t>A "token" is a string of characters.
+The first character is either a letter or an underscore ("_").
+Any characters that follow are either letters, numbers, an
+underscore, or a period (".").</t>
+</list>
+</t>
+<figure>
+<preamble>First,
+start your source file with an XML declaration,
+a reference to the DTD,
+and the "rfc" element:</preamble>
+<artwork><![CDATA[
+    <?xml version="1.0"?>
+    <!DOCTYPE rfc SYSTEM "rfc]]>&rfc.number;<![CDATA[.dtd">
+    <rfc>
+        ...
+    </rfc>
+]]></artwork>
+<postamble>Ignore the first two lines
+-- the declaration and the reference --
+and simply treat them as opaque strings.
+Nothing else should be present after the "&lt;/rfc&gt;" tag.</postamble>
+</figure>
+<t>Second,
+make sure that all elements are properly matched and nested.
+A properly matched element that starts with
+"&lt;example&gt;" is eventually followed with "&lt;/example&gt;".
+(Empty elements are always matched.)
+Elements are properly nested when they don't overlap.</t>
+<figure>
+<preamble>For example,</preamble>
+<artwork><![CDATA[
+    <outer>
+        ...
+        <inner>
+            ...
+        </inner>
+        ...
+    </outer>
+]]></artwork>
+<postamble>is properly nested.</postamble>
+</figure>
+<figure>
+<preamble>However,</preamble>
+<artwork><![CDATA[
+    <outer>
+        ...
+        <inner>
+            ...
+        </outer>
+        ...
+    </inner>
+]]></artwork>
+<postamble>overlaps, so the elements aren't properly nested.</postamble>
+</figure>
+<t>Third,
+never use "&lt;" or "&amp;" in your text.
+Instead, use either "&amp;lt;" or "&amp;amp;", respectively.</t>
+<t>Fourth,
+there are two quoting characters in XML, 'apostrophe' and "quotation".
+Make sure that all attributes values are quoted,
+e.g., "&lt;example name='value'&gt;",
+If the value contains one of the quoting characters,
+then use the other to quote the value,
+e.g., "&lt;example name='"'&gt;",
+If the value contains both quoting characters,
+then use one of them to quote the value,
+and replace occurrances of that character in the attribute value with
+either '&amp;apos;' (apostrophe) or "&amp;quot;" (quotation),
+e.g., "&lt;example name='"&amp;apos;"'&gt;".</t>
+<figure>
+<preamble>If you want to put a comment in your source file,
+here's the syntax:</preamble>
+<artwork><![CDATA[
+        <!-- comments can be multiline,
+         if you wish -->
+]]></artwork>
+</figure>
+<t>Finally,
+XML is case sensitive.</t>
+</section>
+<section anchor="front_matter" title="Front matter">
+<figure>
+<preamble>Immediately following the "&lt;rfc&gt;" tag is the "front"
+element:</preamble>
+<artwork><![CDATA[
+    <?xml version="1.0"?>
+    <!DOCTYPE rfc SYSTEM "rfc]]>&rfc.number;<![CDATA[.dtd">
+    <rfc>
+        <front>
+            <title ...>
+            <author ...>
+            <author ...>
+            <date ...>
+            <area ...>
+            <workgroup ...>
+            <keyword ...>
+            <keyword ...>
+            <abstract ...>
+            <note ...>
+        </front>
+        ...
+    </rfc>
+]]></artwork>
+<postamble>(Note that in all examples,
+indentation is used only for expository purposes.)</postamble>
+</figure>
+<t>The "front" element consists of a "title" element,
+one or more "author" elements,
+a "date" element,
+one or more optional "area" elements,
+one or more optional "workgroup" elements,
+one or more optional "keyword" elements,
+an optional "abstract" element.
+and,
+one or more optional "note" elements.</t>
+<section title="The title Element">
+<figure>
+<preamble>The "title" element identifies the title of the document.
+Because the title will be used in the headers of the document when formatted
+according to <xref target="refs.RFC2223" />,
+if the title is more than 42 characters,
+then an abbreviation should also be provided,
+e.g.,</preamble>
+<artwork><![CDATA[
+    <title abbrev="Much Ado about Nothing">
+    The IETF's Discussion on "Source Format of RFC Documents"
+    </title>
+]]></artwork>
+</figure>
+</section>
+<section anchor="author" title="The author Element">
+<figure>
+<preamble>Each "author" element identifies a document author.
+Since a document may have more than one author,
+more than one "author" element may be present.
+If the author is a person,
+then three attributes must be present in the "&lt;author&gt;" tag,
+"initials", "surname", and "fullname",
+e.g.,</preamble>
+<artwork><![CDATA[
+    <author initials="M.T." surname="Rose"
+            fullname="Marshall T. Rose">
+]]></artwork>
+</figure>
+<t>The "author" element itself consists of an "organization" element,
+and,
+an optional "address" element.</t>
+<figure>
+<preamble>The "organization" element is similar to the "title"
+element,
+in that an abbreviation may be paired with a long organization name
+using the "abbrev" attribute, e.g.,</preamble>
+<artwork><![CDATA[
+    <organization abbrev="ISI">
+        USC/Information Sciences Institute
+    </organization>
+]]></artwork>
+</figure>
+<t>The "address" element consists of an optional "postal" element,
+an optional "phone" element,
+an optional "facsimile" element,
+an optional "email" element,
+and,
+an optional "uri" element.</t>
+<figure>
+<preamble>The "postal" element contains one or more "street" elements,
+followed by any combination of "city", "region" (state or province),
+"code" (zipcode or postal code), and "country" elements, e.g.,</preamble>
+<artwork><![CDATA[
+    <postal>
+        <street>660 York Street</street>
+        <street>M/S 40</street>
+        <city>San Francisco</city> <region>CA</region>
+        <code>94110</code>
+        <country>US</country>
+    </postal>
+]]></artwork>
+<postamble>This flexibility is provided to allow for different national
+formats for postal addresses.
+Note however,
+that although the order of the "city", "region", "code", and "country"
+elements isn't specified,
+at most one of each may be present.
+Regardless,
+these elements must not be re-ordered during processing by an XML
+application
+(e.g., display applications must preserve the ordering of the
+information contained in these elements).
+Finally,
+the value of the "country" element should be a two-letter
+code from ISO 3166.</postamble>
+</figure>
+<figure>
+<preamble>The "phone", "facsimile", "email", and "uri" elements are
+simple, e.g.,</preamble>
+<artwork><![CDATA[
+    <phone>+1 415 695 3975</phone>
+    <email>mrose@not.invisible.net</email>
+    <uri>http://invisible.net/</uri>
+]]></artwork>
+</figure>
+</section>
+<section anchor="date" title="The date Element">
+<figure>
+<preamble>The "date" element identifies the publication date of the
+document.
+It consists of a month and a year, e.g.,</preamble>
+<artwork><![CDATA[
+    <date month="February" year="1999" />
+]]></artwork>
+<postamble>The "date" element also has an optional day attribute.</postamble>
+</figure>
+</section>
+<section title="Meta Data Elements">
+<t>The "front" element may contain meta data --
+the content of these elements does not appear in printed versions of
+the document.</t>
+<figure>
+<preamble>A document has one or more optional "area",
+"workgroup" and "keyword" elements, e.g.,</preamble>
+<artwork><![CDATA[
+    <area>General</area>
+    <workgroup>RFC Beautification Working Group</workgroup>
+    <keyword>RFC</keyword>
+    <keyword>Request for Comments</keyword>
+    <keyword>I-D</keyword>
+    <keyword>Internet-Draft</keyword>
+    <keyword>XML</keyword>
+    <keyword>Extensible Markup Language</keyword>
+]]></artwork>
+<postamble>The "area" elements identify a general category for the
+document
+(e.g., one of "Applications", "General", "Internet", "Management",
+"Operations", "Routing", "Security", "Transport", or "User"),
+while the "workgroup" elements identify the IETF working groups that
+produced the document,
+and the "keyword" elements identify useful search terms.</postamble>
+</figure>
+</section>
+<section title="The abstract Element">
+<figure>
+<preamble>A document may have an "abstract" element,
+which contains one or more <xref target="t">"t" elements</xref>.
+In general,
+only a single "t" element is present,
+e.g.,</preamble>
+<artwork><![CDATA[
+    <abstract>
+        <t>This memo presents a technique for using XML
+        (Extensible Markup Language) as a source format
+        for documents in the Internet-Drafts (I-Ds) and
+        Request for Comments (RFC) series.</t>
+    </abstract>
+]]></artwork>
+</figure>
+</section>
+<section title="The note Element">
+<figure>
+<preamble>A document may have one or more "note" elements,
+each of which contains one or more <xref target="t">"t" elements</xref>.
+There is a mandatory "title" attribute.
+In general,
+the "note" element contains text from the IESG, 
+e.g.,</preamble>
+<artwork><![CDATA[
+    <note title="IESG Note">
+        <t>The IESG has something to say.</t>
+    </note>
+]]></artwork>
+</figure>
+</section>
+<section title="Status, Copyright Notice, Table of Contents">
+<t>Note that text relating to the memo's status, copyright notice, or
+table of contents is not included in the document's markup -- this is
+automatically inserted by an XML application when it produces either
+a text or HTML version of the document.</t>
+<section anchor="ipr" title="Conformance with RFC 2026">
+<t>If an Internet-Draft is being produced,
+then the "ipr" attribute should be present in the "&lt;rfc&gt;"
+tag at the beginning of the file.
+The value of the attribute should be one of:
+<list style="hanging">
+<t hangText="full2026:">indicating that the document is in full conformance with all
+the provisions of Section 10 of RFC 2026;</t>
+<t hangText="noDerivativeWorks2026:">indicating that the document is in full
+conformance with all the provisions of Section 10 of RFC 2026 except that the
+right to produce derivative works is not granted; or,</t>
+<t hangText="none:">indicating that the document is NOT offered in accordance with
+Section 10 of RFC 2026, and the author does not provide the IETF with any rights
+other than to publish as an Internet-Draft.</t>
+</list>
+In the latter case,
+a copyright notice will not be automatically inserted during
+processing by an XML application.</t>
+<t>Consult <xref target="refs.RFC2026" /> for further details.</t>
+<figure>
+<preamble>Finally,
+if the Internet-Draft is being submitted to an automated process,
+then the "docName" attribute should be present in the "&lt;rfc&gt;"
+tag at the beginning of the file.
+The value of this attribute contains the document (not file) name
+associated with this Internet-Draft, e.g.,</preamble>
+<artwork><![CDATA[
+    <rfc ipr="full" docName="draft-mrose-writing-rfcs-01">
+        ...
+    </rfc>
+]]></artwork>
+<postamble></postamble>
+</figure>
+</section>
+</section>
+<section title="Everything in the Front">
+<figure>
+<preamble>So,
+putting it all together, we have, e.g.,</preamble>
+<artwork><![CDATA[
+    <front>
+        <title>Writing I-Ds and RFCs using XML</title>
+    
+        <author initials="M.T." surname="Rose"
+                fullname="Marshall T. Rose">
+            <organization>Invisible Worlds, Inc.</organization>
+    
+            <address>
+                <postal>
+                    <street>660 York Street</street>
+                    <street>M/S 40</street>
+                    <city>San Francisco</city> <region>CA</region>
+                    <code>94110</code>
+                    <country>US</country>
+                </postal>
+    
+                <phone>+1 415 695 3975</phone>
+                <email>mrose@not.invisible.net</email>
+                <uri>http://invisible.net/</uri>
+            </address>
+        </author>
+    
+        <date month="February" year="1999" />
+    
+        <area>General</area>
+        <workgroup>RFC Beautification Working Group</workgroup>
+        <keyword>RFC</keyword>
+        <keyword>Request for Comments</keyword>
+        <keyword>I-D</keyword>
+        <keyword>Internet-Draft</keyword>
+        <keyword>XML</keyword>
+        <keyword>Extensible Markup Language</keyword>
+        <abstract>
+            <t>This memo presents a technique for using XML
+            (Extensible Markup Language) as a source format
+            for documents in the Internet-Drafts (I-Ds) and
+            Request for Comments (RFC) series.</t>
+        </abstract>
+    </front>
+]]></artwork>
+</figure>
+</section>
+</section>
+<section title="The Middle">
+<figure>
+<preamble>The "middle" element contains all the sections of the document
+except for the bibliography and appendices:</preamble>
+<artwork><![CDATA[
+    ...
+    </front>
+    <middle>
+        <section ...>
+        <section ...>
+        <section ...>
+    </middle>
+    <back>
+    ...
+]]></artwork>
+<postamble>The "middle" element consists of one or more "section"
+elements.</postamble>
+</figure>
+<section anchor="section" title="The section Element">
+<figure>
+<preamble>Each "section" element contains a section of the document.
+There is a mandatory attribute,
+"title",
+that identifies the title of the section.
+There is also an optional attribute,
+"anchor",
+that is used for cross-referencing with
+<xref target="xref">the "xref" element</xref>,
+e.g.,</preamble>
+<artwork><![CDATA[
+    <section anchor="intro" title="Introduction">
+        ...
+    </section>
+]]></artwork>
+</figure>
+<figure>
+<preamble>The "section" element is recursive --
+each contains any number and combination of "t", "figure", and "section"
+elements, e.g.,</preamble>
+<artwork><![CDATA[
+    <section title="The Middle">
+        ...
+        <section title="The section Element">
+            ...
+            <section title="The t Element">...</section>
+            <section title="The list Element">...</section>
+            <section title="The figure Element">...</section>
+            <section title="The xref Element">...</section>
+            <section title="The eref Element">...</section>
+            <section title="The iref Element">...</section>
+        </section>
+    </section>
+]]></artwork>
+</figure>
+<section anchor="t" title="The t Element">
+<t>The "t" element contains any number and combination of
+paragraphs, lists, and figures.
+If a cross-reference is needed to a section, figure, or reference,
+<xref target="xref">the "xref" element</xref> is used;
+similarly,
+if an external-reference is needed,
+<xref target="eref">the "eref" element</xref> is used.
+Indexing of text is provided by the
+<xref target="iref">the "iref" element</xref>.</t>
+</section>
+<section title="The list Element">
+<figure>
+<preamble>The "list" element contains one or more items.
+Each item is a "t" element,
+allowing for recursion, e.g.,</preamble>
+<artwork><![CDATA[
+    <list style="numbers">
+        <t>The first item.</t>
+        <t>The second item, which contains two bulleted sub-items:
+            <list style="symbols">
+                <t>The first sub-item.</t>
+                <t>The second sub-item.</t>
+            </list>
+        </t>
+    </list>
+]]></artwork>
+<postamble>The "list" element has an optional attribute,
+"style",
+having the value "numbers" (for numeric lists),
+"symbols" (for bulleted lists),
+"hanging" (for hanging lists),
+or,
+"empty" (for indented text).
+If a "list" element is nested,
+the default value is taken from its closest parent;
+otherwise,
+the default value is "empty".
+</postamble>
+</figure>
+<figure>
+<preamble>When nested within a "hanging list" element,
+the "t" element has an optional attribute,
+"hangText" that specifies the text to be inserted, e.g.,</preamble>
+<artwork><![CDATA[
+    <list style="hanging">
+        <t hangText="full2026:">indicating that the document is in
+        full conformance with all the provisions of Section 10 of
+        RFC 2026;</t>
+
+        <t hangText="noDerivativeWorks2026:">indicating that the
+        document is in full conformance with all the provisions of
+        Section 10 of RFC 2026 except that the right to produce
+        derivative works is not granted; or,</t>
+
+        <t hangText="none:">indicating that the document is NOT
+        offered in accordance with Section 10 of RFC 2026, and
+        the author does not provide the IETF with any rights other
+        than to publish as an Internet-Draft.</t>
+    </list>
+]]></artwork>
+</figure>
+</section>
+<section anchor="figure" title="The figure Element">
+<t>The "figure" element groups an optional "preamble" element,
+an "artwork" element,
+and an optional "postamble" element together.
+The "figure" element also has an optional "anchor" attribute that is
+used for cross-referencing with
+<xref target="xref">the "xref" element</xref>.
+There is also an optional "title" attribute that identifies the title
+of the figure.
+</t>
+<t>The "preamble" and "postamble" elements,
+if present,
+are simply text.
+If a cross-reference is needed to a section, figure, or reference,
+<xref target="xref">the "xref" element</xref> is used;
+similarly,
+if an external-reference is needed,
+<xref target="eref">the "eref" element</xref> is used.
+Indexing of text is provided by the
+<xref target="iref">the "iref" element</xref>.</t>
+<t>The "artwork" element,
+which must be present,
+contains "ASCII artwork".
+Unlike text contained in the "t", "preamble", or "postamble" elements,
+both horizontal and vertical whitespace is significant in the "artwork"
+element.</t>
+<figure>
+<preamble>So,
+putting it all together, we have, e.g.,</preamble>
+<artwork><![CDATA[
+    <figure anchor="figure_example">
+        <preamble>So,
+        putting it all together, we have, e.g.,</preamble>
+        <artwork>
+            ascii artwork goes here...
+    
+            be sure to use "&lt;" or "&amp;" instead of "<" and "&",
+            respectively!
+        </artwork>
+        <postamble>which is a very simple example.</postamble>
+    </figure>
+]]></artwork>
+<postamble>which is a very simple example.</postamble>
+</figure>
+<figure>
+<preamble>If you have artwork with a lot of "&lt;" characters,
+then there's an XML trick you can use:</preamble>
+<artwork>
+    &lt;figure>
+        &lt;preamble>If you have artwork with a lot of "&amp;lt;"
+        characters, then there's an XML trick you can
+        use:&lt;/preamble>
+        &lt;artwork>&lt;![CDATA[
+            ascii artwork goes here...
+    
+            just don't use "]]" in your artwork!
+        ]]&gt;&lt;/artwork>
+        &lt;postamble>The "&amp;lt;![CDATA[ ... ]]&gt;" construct is called
+        a CDATA block -- everything between the innermost brackets
+        is left alone by the XML application.&lt;/postamble>
+    &lt;/figure>
+</artwork>
+<postamble>The "&lt;![CDATA[ ... ]]&gt;" construct is called a CDATA
+block -- everything between the innermost brackets is left alone by
+the XML application.</postamble>
+</figure>
+<t>Because the "figure" element represents a logical grouping of text
+and artwork,
+an XML application producing a text version of the document should
+attempt to keep these elements on the same page.
+Because <xref target="refs.RFC2223">RFC 2223</xref> allows no more than 69
+characters by 49 lines of content on each page,
+XML applications should be prepared to prematurely introduce page
+breaks to allow for better visual grouping.</t>
+<t>Finally,
+the "artwork" element has two optional attributes:
+"name" and "type".
+The former is used to suggest a filename to use when storing the
+content of the "artwork" element,
+whilst the latter contains a suggestive data-typing for the content.
+</t>
+</section>
+<section anchor="xref" title="The xref Element">
+<t>The "xref" element is used to cross-reference sections, figures, and
+references.
+The mandatory "target" attribute is used to link back to the "anchor"
+attribute of the "section", "figure", and "reference" elements.
+The value of the "anchor" and "target" attributes should be formatted
+according to the token syntax in <xref target="xml_basics" />.</t>
+<figure>
+<preamble>If used as an empty element,
+e.g.,</preamble>
+<artwork><![CDATA[
+    according to the token syntax in <xref target="xml_basics" />.
+]]></artwork>
+<postamble>then the XML application inserts an appropriate phrase
+during processing,
+such as "Section 2.1" or
+<![CDATA["<a href="#xml_basics">XML Basics</a>"]]>.</postamble>
+</figure>
+<figure>
+<preamble>If used with content, e.g.,</preamble>
+<artwork><![CDATA[
+    conforming to <xref target="refs.RFC2223">RFC 2223</xref>.
+]]></artwork>
+<postamble>then the XML application inserts an appropriate
+designation during processing,
+such as "RFC 2223[2]" or
+<![CDATA["<a href="#refs.RFC2223">RFC 2223</a>"]]>.
+Although the XML application decides what "an appropriate designation"
+might be,
+its choice is consistent throughout the processing of the document.
+</postamble>
+</figure>
+</section>
+
+<section anchor="eref" title="The eref Element">
+<figure>
+<preamble>The "eref" element is used to reference external documents.
+The mandatory "target" attribute is a
+<xref target="URI">URI</xref>, e.g.,</preamble>
+<artwork><![CDATA[
+    <eref target="http://metalab.unc.edu/xml/">Cafe con Leche</eref>
+]]></artwork>
+</figure>
+<figure>
+<preamble>Note that while the "target" attribute is always present,
+the "eref" element may be empty, e.g.,</preamble>
+<artwork><![CDATA[
+    <eref target="http://invisible.net/" />
+]]></artwork>
+<postamble>and the XML application inserts an appropriate designation during
+processing such as "[9]" or
+<![CDATA["<a href="http://invisible.net/">http://invisible.net/</a>"]]>.</postamble>
+</figure>
+</section>
+<section anchor="iref" title="The iref Element">
+<figure>
+<preamble><iref item="indexing" subitem="how to" />The "iref" element
+is used to add information to an index.
+The mandatory "item" attribute is the primary key the information is stored
+under,
+whilst the optional "subitem" attribute is the secondary key, e.g.,</preamble>
+<artwork><![CDATA[
+    <iref item="indexing" subitem="how to" />
+]]></artwork>
+</figure>
+<t>Finally, note that the "iref" element is always empty -- it never
+contains any text.</t>
+</section>
+<section title="The vspace Element">
+<t>The "vspace" element,
+which may occur only inside the "t" element,
+is used by the author to provide formatting guidance to the XML
+application.
+There is an attribute,
+"blankLines",
+that indicates the number of blank lines that should be inserted.
+A physical linebreak is specified by using the default value, "0".</t>
+<figure>
+<preamble>In addition,
+the "vspace" element can be used to force a new physical paragraph
+within a list item, e.g.,</preamble>
+<artwork><![CDATA[
+    <list style="numbers">
+        <t>This is list item.
+           <vspace blankLines="1" />
+           This is part of the same list item,
+           although when displayed, it appears
+           as a separate physical paragraph.</t>
+    </list>
+]]></artwork>
+</figure>
+<t>An XML application producing a text version of the document should
+exercise care when encountering a value for "blankLines" that causes a
+pagebreak --
+in particular,
+if a "vspace" element causes a pagebreak,
+then no further blank lines should be inserted.
+This allows authors to "force" a pagebreak by using an arbitrarily
+large value, e.g., "blankLines='100'".</t>
+<t>Finally, note that the "vspace" element is always empty -- it never
+contains any text.</t>
+</section>
+</section>
+</section>
+<section anchor="back_matter" title="Back matter">
+<figure>
+<preamble>Finally,
+the "back" element is used for references and
+appendices:</preamble>
+<artwork><![CDATA[
+        ...
+        </middle>
+        <back>
+            <references>
+                <reference ...>
+                <reference ...>
+            </references>
+            <section ...>
+            <section ...>
+        </back>
+    </rfc>
+]]></artwork>
+<postamble>The "back" element consists of an optional "references" element,
+and,
+one or more optional "section" elements.
+The "back" element itself is optional,
+if your document doesn't have any references or appendices,
+you don't have to include it.</postamble>
+</figure>
+<section anchor="references" title="The references Element">
+<t>The "references" element contains the document's bibliography.
+It contains one or more "reference" elements.</t>
+<t>Each "reference" element contains a "front" element and one or more
+optional "seriesInfo" elements.</t>
+<t>We've already discussed the "front" element back in
+<xref target="front_matter" />.</t>
+<t>The "seriesInfo" element has two attributes,
+"name" and "value" that identify the document series and series entry,
+respectively.</t>
+<figure>
+<preamble>The "reference" element has an optional "anchor"
+attribute that is used for cross-referencing with
+<xref target="xref">the "xref" element</xref>, e.g.,</preamble>
+<artwork><![CDATA[
+    <reference anchor="refs.RFC2200">
+        <front>
+            <title>Internet Official Protocol Standards</title>
+            <author initials="J." surname="Postel"
+                    fullname="Jon Postel">
+                <organization abbrev="ISI">
+                USC/Information Sciences Institute
+                </organization>
+            </author>
+    
+            <date month="June" year="1997" />
+        </front>
+        <seriesInfo name="RFC" value="2200" />
+        <seriesInfo name="STD" value="1" />
+    </reference>
+]]></artwork>
+</figure>
+<t>The "reference" element also has an optional "target"
+attribute that is used for external references
+(c.f., <xref target="eref" />).
+The XML application,
+if producing an HTML version of the document will use the "target"
+attribute accordingly;
+however, if the "name" attribute of the "seriesInfo" element has the value
+"RFC",
+then the XML application should automatically provide an appropriate
+default for the "target" attribute
+(e.g., <![CDATA["http://example.com/rfcs/rfc2200.txt"]]>).</t>
+</section>
+<section title="Appendices">
+<t>To include appendices after the bibliography,
+simply add more "section" elements.
+(For an example,
+look at the example at the beginning of <xref target="back_matter" />.)</t>
+</section>
+<section title="Copyright Status">
+<t>The copyright status for the document is not included in the
+document's markup -- this is automatically inserted by an XML
+application that produces either a text or HTML version of the document.</t>
+</section>
+</section>
+</section>
+<section title="Processing the XML Source File">
+<t>This section concerns itself with applications that operate on
+an XML source file.
+A lot of XML tools are available,
+as are many lists of XML resources,
+e.g.,
+<eref target="http://metalab.unc.edu/xml/">Cafe con Leche</eref>.</t>
+<t>There are two kinds of XML tools: validating and non-validating.
+Both check that the source file conforms to the rules given in
+<xref target="xml_basics" />.
+However,
+in addition to making sure that the source file is well-formed,
+a validating tool also reads the DTD referenced by the source file
+to make sure that they match.
+There are a number of both validating and non-validating tools available.</t>
+<section title="Editing">
+<t>There are several XML editors available.
+Ideally,
+you want an editor that validates.
+This has two advantages:
+<list style="symbols">
+<t>the editor provides guidance in fleshing-out the document structure;
+and,</t>
+<t>the editor validates that the source file matches the rules in the DTD.</t>
+</list>
+</t>
+<figure>
+<preamble>There are two major modes in Emacs that support XML:
+<eref target="http://www.mulberrytech.com/tdtd/">tdtd</eref> and
+<eref target="http://www.inria.fr/koala/plh/sxml.html">psgml</eref>.
+The latter mode allows you to validate the source file
+(by calling an external program).
+If you visit the source file in Emacs and the major mode isn't
+"SGML" or "XML", 
+then usually all it takes is adding these lines to your ".emacs"
+file:</preamble>
+<artwork><![CDATA[
+    (setq auto-mode-alist
+          (cons (cons "\\.xml$" 'sgml-mode) auto-mode-alist))
+]]></artwork>
+<postamble>and then restarting Emacs.
+If this doesn't work,
+try one of the sources above.</postamble>
+</figure>
+<t>The author uses both sgml-mode in Emacs,
+and a commercial validating editor,
+<eref target="http://www.t2000-usa.com/">Clip! version 1.5</eref>,
+when editing source
+files.</t>
+<section title="Checking">
+<t>If your editor doesn't validate,
+then you should run a program to validate the source file.</t>
+<t>The author uses
+<eref target="http://www.alphaworks.ibm.com/formula/xml/">the
+AlphaWorks XML parser</eref> for this purpose.
+It requires that your system have a Java virtual machine.
+In addition to Java,
+there are validating parsers written in C, Perl, Python, and Tcl.</t>
+</section>
+</section>
+<section anchor="xml2rfc" title="Converting to Text Format">
+<t>The author has written
+<eref target="http://memory.palace.org/authoring/">the xml2rfc tool</eref>,
+which reads the source file and produces both a text and HTML version
+of the document.
+(This memo was produced using the xml2rfc tool.)
+Note that xml2rfc isn't a validating tool,
+so it's a good idea to use either a validating editor or run a stand-alone
+validating parser prior to using the tool.</t>
+</section>
+<section title="Converting to HTML Format">
+<t>The XML Style Language (XSL) is used to describe transformations
+from the source file into some other structured file.
+So,
+ideally you should use an XSL-capable formatter to convert an XML source
+file to HTML.</t>
+<t>However,
+as of this writing XSL is still in considerable flux.
+(Hence,
+no reference was included in this memo,
+as by the time you read this section,
+the reference would be outdated.)
+So,
+in the interim,
+the author uses the xml2rfc tool for this purpose,
+even though this tool doesn't provide much flexibility in its HTML layout.</t>
+</section>
+<section title="Viewing">
+<t>Browsers that support either XSL or Cascading Style Sheets (CSS)
+are able to view the source file directly.</t>
+<t>At present,
+the author doesn't use any of these browsers,
+instead converting source files to either text or HTML.</t>
+</section>
+<section title="Searching">
+<t>As with text editors,
+any text-oriented search tool (e.g., grep) can be used on the source file.
+However,
+there are search tools available that understand structured source.</t>
+<figure>
+<preamble>The author uses 
+<eref target="http://www.cs.helsinki.fi/~jjaakkol/sgrep.html">sgrep
+version 1.9</eref>
+for this purpose,
+e.g.</preamble>
+<artwork>
+    sgrep -g xml 'ELEMENTS("title") not in ELEMENTS("back")' \
+        writing-rfcs.xml
+</artwork>
+<postamble>which extracts the title element from the source file.</postamble>
+</figure>
+</section>
+</section>
+<section title="Security Considerations">
+<figure>
+<preamble>This memo raises no security issues;
+however,
+according to <xref target="refs.RFC2223" />,
+your document should contain a section near the end that discusses the
+security considerations of the protocol or procedures that are the
+main topic of your document, e.g.,</preamble>
+<artwork><![CDATA[
+    <middle>
+        ...
+        <section title="Security Considerations">
+            <t>This memo raises no security issues;
+            however,
+            according to <xref target="refs.RFC2223" />,
+            your document should contain a section near the end
+            that discusses the security considerations of the
+            protocol or procedures that are the main topic of your
+            document.</t>
+        </section>
+    </middle>
+]]></artwork>
+</figure>
+</section>
+</middle>
+<back>
+<references>
+<reference anchor="XML" target="http://www.w3.org/TR/1998/REC-xml-19980210">
+<front>
+<title>Extensible Markup Language (XML) 1.0</title>
+<author>
+<organization abbrev="W3C">World Wide Web Consortium</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science</street>
+<street>545 Technology Square</street>
+<city>Cambridge</city> <region>MA</region> <code>02139</code>
+<country>US</country>
+</postal>
+<phone>+ 1 617 253 2613</phone>
+<facsimile>+ 1 617 258 5999</facsimile>
+<email>timbl@w3.org</email>
+<uri>http://www.w3c.org</uri>
+</address>
+</author>
+<date month="February" year="1998" />
+</front>
+<seriesInfo name="W3C" value="XML" />
+</reference>
+<reference anchor="refs.RFC2223">
+<front>
+<title>Instructions to RFC Authors</title>
+<author initials="J." surname="Postel" fullname="Jon Postel">
+<organization abbrev="ISI">USC/Information Sciences Institute</organization>
+<address>
+<postal>
+<street>4676 Admiralty Way</street>
+<city>Marina del Rey</city> <region>CA</region> <code>90292</code>
+<country>US</country>
+</postal>
+<phone>+1 310 822 1511</phone>
+<facsimile>+1 310 823 6714</facsimile>
+<email>Postel@ISI.EDU</email>
+</address>
+</author>
+<author initials="J." surname="Reynolds" fullname="Joyce K. Reynolds">
+<organization abbrev="ISI">USC/Information Sciences Institute</organization>
+<address>
+<postal>
+<street>4676 Admiralty Way</street>
+<city>Marina del Rey</city> <region>CA</region> <code>90292</code>
+<country>US</country>
+</postal>
+<phone>+1 310 822 1511</phone>
+<facsimile>+1 310 823 6714</facsimile>
+<email>jkrey@isi.edu</email>
+</address>
+</author>
+<date month="October" year="1997" />
+</front>
+<seriesInfo name="RFC" value="2223" />
+</reference>
+<reference anchor="refs.RFC2026">
+<front>
+<title>The Internet Standards Process -- Revision 3</title>
+<author initials="S.O." surname="Bradner" fullname="Scott O. Bradner">
+<organization>Harvard University</organization>
+<address>
+<postal>
+<street>Holyoke Center, Room 813</street>
+<street>1350 Massachusettes Avenue</street>
+<city>Cambridge</city> <region>MA</region> <code>02138</code>
+<country>US</country>
+</postal>
+<phone>+1 617 495 3864</phone>
+<email>sob@harvard.edu</email>
+</address>
+</author>
+<date month="October" year="1996" />
+</front>
+<seriesInfo name="RFC" value="2026" />
+<seriesInfo name="BCP" value="9" />
+</reference>
+<reference anchor="URI">
+<front>
+<title>Uniform Resource Identifiers (URI): Generic Syntax</title>
+<author initials="T." surname="Berners-Lee" fullname="Tim Berners-Lee">
+<organization abbrev="W3C">World Wide Web Consortium</organization>
+<address>
+<postal>
+<street>MIT Laboratory for Computer Science</street>
+<street>545 Technology Square</street>
+<city>Cambridge</city> <region>MA</region> <code>02139</code>
+<country>US</country>
+</postal>
+<phone>+1 617 253 5702</phone>
+<facsimile>+1 617 258 8682</facsimile>
+<email>timbl@w3.org</email>
+</address>
+</author>
+<author initials="R.T." surname="Fielding" fullname="Roy T. Fielding">
+<organization abbrev="UCI">University of California, Irvine</organization>
+<address>
+<postal>
+<street>Department of Information and Computer Science</street>
+<street>University of California, Irvine</street>
+<city>Irvine</city> <region>CA</region> <code>92697-3425</code>
+<country>US</country>
+</postal>
+<phone>+1 949 824 7403</phone>
+<facsimile>+1 949 824 1715</facsimile>
+<email>fielding@ics.uci.edu</email>
+</address>
+</author>
+<author initials="L." surname="Masinter" fullname="Larry Masinter">
+<organization>Xerox PARC</organization>
+<address>
+<postal>
+<street>3333 Coyote Hill Road</street>
+<city>Palo Alto</city> <region>CA</region> <code>94304</code>
+<country>US</country>
+</postal>
+<phone>+1 650 812 4365</phone>
+<facsimile>+1 650 812 4333</facsimile>
+<email>masinter@parc.xerox.com</email>
+</address>
+</author>
+<date month="August" year="1998" />
+</front>
+<seriesInfo name="RFC" value="2396" />
+</reference>
+</references>
+<section anchor="rfc" title="The rfc Element">
+<figure>
+<preamble>The "&lt;rfc&gt;" tag at the beginning of the file,
+with only <xref target="ipr">an "ipr" attribute</xref>,
+produces an Internet-Draft.
+However,
+when other attributes are added to this tag by the RFC editor,
+an RFC is produced, e.g.,</preamble>
+<artwork><![CDATA[
+    <rfc number="2200"
+         obsoletes="2000, 1920, 1880, 1800, ..."
+         category="std"
+         seriesNo="1">
+]]></artwork>
+<postamble>At a minimum,
+the "number" attribute should be present.</postamble>
+</figure>
+<t>The other attributes are:
+<list style="symbols">
+<t>"obsoletes",
+having a comma-separated list of RFC numbers,
+that the document obsoletes;</t>
+<t>"updates",
+having a comma-separated list of RFC numbers,
+that the document updates;</t>
+<t>"category",
+having one of these values:
+    <list style="numbers">
+    <t>"std", for a Standards-Track document;</t>
+    <t>"bcp", "for a Best Current Practices document;</t>
+    <t>"exp", for an Experimental Protocol document;</t>
+    <t>"historic", for a historic document; or,</t>
+    <t>"info", the default, for an Informational document.</t>
+    </list>
+</t>
+<t>"seriesNo",
+having the corresponding number in the STD (std), BCP (bcp), or FYI (info)
+series.</t>
+</list>
+</t>
+<t>Finally,
+a special entity, "&amp;rfc.number;", is available.
+Authors preparing an RFC should use this entity whenever they want to 
+reference the number of the RFC within the document itself.
+In printed versions of the document,
+the appropriate substitution (or "XXXX") will occur.</t>
+</section>
+<section anchor="rfc.dtd" title="The RFC DTD">
+<figure>
+<artwork><![CDATA[
+<!--
+  DTD for the RFC document series, draft of 99-01-30
+  -->
+
+
+<!--
+  Contents
+
+    DTD data types
+
+    The top-level
+
+    Front matter
+
+    The Body
+
+    Back matter
+  -->
+
+
+<!--
+  DTD data types:
+
+        entity        description
+        ======        ===============================================
+        NUMBER        [0-9]+
+        NUMBERS       a comma-separated list of NUMBER
+
+        DAY           the day of the month, e.g., "1"
+        MONTH         the month of the year, e.g., "January"
+        YEAR          a four-digit year, e.g., "1999"
+
+        URI           e.g., "http://invisible.net/"
+
+        ATEXT/CTEXT   printable ASCII text (no line-terminators)
+
+        TEXT          character data
+  -->
+
+
+<!ENTITY % NUMBER     "CDATA">
+<!ENTITY % NUMBERS    "CDATA">
+
+<!ENTITY % DAY        "CDATA">
+<!ENTITY % MONTH      "CDATA">
+<!ENTITY % YEAR       "CDATA">
+
+<!ENTITY % URI        "CDATA">
+
+<!ENTITY % ATEXT      "CDATA">
+<!ENTITY % CTEXT      "#PCDATA">
+
+<!ENTITY % TEXT       "#PCDATA">
+
+<!ENTITY   rfc.number "]]>&rfc.number;<![CDATA[">
+
+
+<!--
+  The top-level
+  -->
+
+
+<!--
+  attributes for the "rfc" element are supplied by the RFC
+  editor. when preparing drafts, authors should leave them blank.
+
+  the "seriesNo" attribute is used if the category is, e.g., BCP.
+  -->
+<!ELEMENT rfc         (front,middle,back?)>
+<!ATTLIST rfc
+          number      %NUMBER;           #IMPLIED
+          obsoletes   %NUMBERS;          ""
+          updates     %NUMBERS;          ""
+          category    (std|bcp|info|exp|historic)
+                                         "info"
+          seriesNo    %NUMBER;           #IMPLIED
+          ipr         (full2026|noDerivativeWorks2026|none)
+                                         #IMPLIED
+          docName     %ATEXT;            #IMPLIED> 
+
+<!--
+  Front matter
+  -->
+
+
+<!ELEMENT front       (title,author+,date,area*,workgroup*,keyword*,
+                       abstract?,note*)>
+
+<!-- the "abbrev" attribute is used for headers, etc. -->
+<!ELEMENT title       (%CTEXT;)>
+<!ATTLIST title
+          abbrev      %ATEXT;            #IMPLIED> 
+
+<!ELEMENT author      (organization,address?)>
+<!ATTLIST author
+          initials    %ATEXT;            #IMPLIED
+          surname     %ATEXT;            #IMPLIED
+          fullname    %ATEXT;            #IMPLIED>
+
+<!ELEMENT organization
+                      (%CTEXT;)>
+<!ATTLIST organization
+          abbrev      %ATEXT;            #IMPLIED> 
+ 
+<!ELEMENT address     (postal?,phone?,facsimile?,email?,uri?)>
+
+<!-- at most one of each the city, region, code, and country
+     elements may be present -->
+<!ELEMENT postal      (street+,(city|region|code|country)*)>
+<!ELEMENT street      (%CTEXT;)>
+<!ELEMENT city        (%CTEXT;)>
+<!ELEMENT region      (%CTEXT;)>
+<!ELEMENT code        (%CTEXT;)>
+<!ELEMENT country     (%CTEXT;)>
+<!ELEMENT phone       (%CTEXT;)>
+<!ELEMENT facsimile   (%CTEXT;)>
+<!ELEMENT email       (%CTEXT;)>
+<!ELEMENT uri         (%CTEXT;)>
+
+<!ELEMENT date        EMPTY>
+<!ATTLIST date
+          day         %DAY;              #IMPLIED
+          month       %MONTH;            #REQUIRED
+          year        %YEAR;             #REQUIRED>
+
+<!-- meta-data... -->
+<!ELEMENT area        (%CTEXT;)>
+<!ELEMENT workgroup   (%CTEXT;)>
+<!ELEMENT keyword     (%CTEXT;)>
+
+<!ELEMENT abstract    (t)+>
+<!ELEMENT note        (t)+>
+<!ATTLIST note
+          title       %ATEXT;            #REQUIRED>
+
+
+<!--
+  The body
+  -->
+
+
+<!ELEMENT middle      (section)+>
+
+<!ELEMENT section     (t|figure|section)*>
+<!ATTLIST section
+          anchor      ID                 #IMPLIED
+          title       %ATEXT;            #REQUIRED>
+
+<!ELEMENT t           (%TEXT;|list|figure|xref|eref|iref|vspace)*>
+<!ATTLIST t
+          hangText    %ATEXT;            #IMPLIED>
+
+<!-- the value of the style attribute is inherited from the closest 
+     parent -->
+<!ELEMENT list        (t+)>
+<!ATTLIST list
+          style       (numbers|symbols|hanging|empty)
+                                         "empty">
+
+<!ELEMENT xref        (%CTEXT;)>
+<!ATTLIST xref
+          target      IDREF              #REQUIRED
+          pageno      (true|false)       "false">
+
+<!ELEMENT eref        (%CTEXT;)>
+<!ATTLIST eref
+          target      %URI;              #REQUIRED>
+
+<!ELEMENT iref        EMPTY>
+<!ATTLIST iref
+          item        %ATEXT;            #REQUIRED
+          subitem     %ATEXT;            "">
+
+<!ELEMENT vspace      EMPTY>
+<!ATTLIST vspace
+          blankLines  %NUMBER;           "0">
+
+<!ELEMENT figure      (preamble?,artwork,postamble?)>
+<!ATTLIST figure
+          anchor      ID                 #IMPLIED
+          title       %ATEXT;            "">
+
+<!ELEMENT preamble    (%TEXT;|xref|eref|iref)*>
+<!ELEMENT artwork     (%TEXT;)*>
+<!ATTLIST artwork
+          xml:space   (default|preserve) "preserve">
+<!ELEMENT postamble   (%TEXT;|xref|eref|iref)*>
+
+
+<!--
+  Back matter
+  -->
+
+
+<!-- sections, if present, are appendices -->
+<!ELEMENT back        (references?,section*)>
+
+<!ELEMENT references  (reference+)>
+<!ELEMENT reference   (front,seriesInfo*)>
+<!ATTLIST reference
+          anchor      ID                 #IMPLIED
+          target      %URI;              #IMPLIED>
+<!ELEMENT seriesInfo  EMPTY>
+<!ATTLIST seriesInfo
+          name        %ATEXT;            #REQUIRED
+          value       %ATEXT;            #REQUIRED>
+]]></artwork>
+</figure>
+</section>
+<section title="Acknowledgements">
+<t>The author gratefully acknowledges the contributions of:
+Alan Barrett,
+Brad Burdick,
+Brian Carpenter,
+Steve Deering,
+Patrik Faltstrom,
+Jim Gettys,
+Carl Malamud,
+Chris Newman,
+Kurt Starsinic,
+and,
+Frank Strauss.</t>
+</section>
+</back>
+</rfc>

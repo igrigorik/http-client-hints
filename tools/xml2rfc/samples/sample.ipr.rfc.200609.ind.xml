@@ -1,0 +1,24 @@
+<?xml version='1.0'?> 
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc compact="yes"?>
+<?rfc symrefs="yes"?>
+<rfc number="4637" category="info" submissionType="independent">
+  <front>
+    <title abbrev="default RFC IPR example">Default RFC IPR/@submissionType="independent" as of September 2006</title>
+    <author fullname="John Doe" initials="J." surname="Doe"/>
+    <date year="2006" month="September"/>
+    <abstract>
+      <t>
+				 This is a test case document, it is not RFC 4637 (which was never
+				 issued by the RFC-Editor).
+      </t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Dummy Section">
+      <t>
+        Dummy Section.
+      </t>
+    </section>
+  </middle>
+</rfc>

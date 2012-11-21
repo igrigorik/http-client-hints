@@ -1,0 +1,1279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>RFC2629 basis sample: Basic Test Cases for RFC2629 Formatting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Basic Test Cases for RFC2629 Formatting">
+<meta name="keywords" content="RFC2629, test case, xml2rfc">
+<style type='text/css'><!--
+        body {
+                font-family: verdana, charcoal, helvetica, arial, sans-serif;
+                font-size: small; color: #000; background-color: #FFF;
+                margin: 2em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-weight: bold; font-style: normal;
+        }
+        h1 { color: #900; background-color: transparent; text-align: right; }
+        h3 { color: #333; background-color: transparent; }
+
+        td.RFCbug {
+                font-size: x-small; text-decoration: none;
+                width: 30px; height: 30px; padding-top: 2px;
+                text-align: justify; vertical-align: middle;
+                background-color: #000;
+        }
+        td.RFCbug span.RFC {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: bold; color: #666;
+        }
+        td.RFCbug span.hotText {
+                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: normal; text-align: center; color: #FFF;
+        }
+
+        table.TOCbug { width: 30px; height: 15px; }
+        td.TOCbug {
+                text-align: center; width: 30px; height: 15px;
+                color: #FFF; background-color: #900;
+        }
+        td.TOCbug a {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+                font-weight: bold; font-size: x-small; text-decoration: none;
+                color: #FFF; background-color: transparent;
+        }
+
+        td.header {
+                font-family: arial, helvetica, sans-serif; font-size: x-small;
+                vertical-align: top; width: 33%;
+                color: #FFF; background-color: #666;
+        }
+        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
+        td.author-text { font-size: x-small; }
+
+        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+        a.info {
+                /* This is the key. */
+                position: relative;
+                z-index: 24;
+                text-decoration: none;
+        }
+        a.info:hover {
+                z-index: 25;
+                color: #FFF; background-color: #900;
+        }
+        a.info span { display: none; }
+        a.info:hover span.info {
+                /* The span will display just on :hover state. */
+                display: block;
+                position: absolute;
+                font-size: smaller;
+                top: 2em; left: -5em; width: 15em;
+                padding: 2px; border: 1px solid #333;
+                color: #900; background-color: #EEE;
+                text-align: left;
+        }
+
+        a { font-weight: bold; }
+        a:link    { color: #900; background-color: transparent; }
+        a:visited { color: #633; background-color: transparent; }
+        a:active  { color: #633; background-color: transparent; }
+
+        p { margin-left: 2em; margin-right: 2em; }
+        p.copyright { font-size: x-small; }
+        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
+        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
+        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+
+        ol.text { margin-left: 2em; margin-right: 2em; }
+        ul.text { margin-left: 2em; margin-right: 2em; }
+        li      { margin-left: 3em; }
+
+        /* RFC-2629 <spanx>s and <artwork>s. */
+        em     { font-style: italic; }
+        strong { font-weight: bold; }
+        dfn    { font-weight: bold; font-style: normal; }
+        cite   { font-weight: normal; font-style: normal; }
+        tt     { color: #036; }
+        tt, pre, pre dfn, pre em, pre cite, pre span {
+                font-family: "Courier New", Courier, monospace; font-size: small;
+        }
+        pre {
+                text-align: left; padding: 4px;
+                color: #000; background-color: #CCC;
+        }
+        pre dfn  { color: #900; }
+        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
+        pre .key { color: #33C; font-weight: bold; }
+        pre .id  { color: #900; }
+        pre .str { color: #000; background-color: #CFF; }
+        pre .val { color: #066; }
+        pre .rep { color: #909; }
+        pre .oth { color: #000; background-color: #FCF; }
+        pre .err { background-color: #FCC; }
+
+        /* RFC-2629 <texttable>s. */
+        table.all, table.full, table.headers, table.none {
+                font-size: small; text-align: center; border-width: 2px;
+                vertical-align: top; border-collapse: collapse;
+        }
+        table.all, table.full { border-style: solid; border-color: black; }
+        table.headers, table.none { border-style: none; }
+        th {
+                font-weight: bold; border-color: black;
+                border-width: 2px 2px 3px 2px;
+        }
+        table.all th, table.full th { border-style: solid; }
+        table.headers th { border-style: none none solid none; }
+        table.none th { border-style: none; }
+        table.all td {
+                border-style: solid; border-color: #333;
+                border-width: 1px 2px;
+        }
+        table.full td, table.headers td, table.none td { border-style: none; }
+
+        hr { height: 1px; }
+        hr.insert {
+                width: 80%; border-style: none; border-width: 0;
+                color: #CCC; background-color: #CCC;
+        }
+--></style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">RFC2629 basis sample</td><td class="header">J. Reschke</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">greenbytes</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">March 31, 2010</td></tr>
+</table></td></tr></table>
+<h1><br />Basic Test Cases for RFC2629 Formatting</h1>
+<a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#lists">1.</a>&nbsp;
+Lists<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor1">1.1.</a>&nbsp;
+hanging list<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor2">1.2.</a>&nbsp;
+numbered list<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ordered.list.letters">1.3.</a>&nbsp;
+ordered list (letters)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor3">1.4.</a>&nbsp;
+no explicit counters<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor4">1.5.</a>&nbsp;
+with explicit counters<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">1.6.</a>&nbsp;
+Nested list<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">1.7.</a>&nbsp;
+list without style<br />
+<a href="#anchor7">2.</a>&nbsp;
+spanx<br />
+<a href="#anchor8">3.</a>&nbsp;
+Tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">3.1.</a>&nbsp;
+no borders<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">3.2.</a>&nbsp;
+borders around headers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">3.3.</a>&nbsp;
+example from xml2rc README<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">3.4.</a>&nbsp;
+no column titles<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">3.5.</a>&nbsp;
+referencing tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">3.6.</a>&nbsp;
+table captions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">3.7.</a>&nbsp;
+single column<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor16">3.8.</a>&nbsp;
+table alignment<br />
+<a href="#anchor17">4.</a>&nbsp;
+Figures<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor18">4.1.</a>&nbsp;
+with preamble, no title...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor19">4.2.</a>&nbsp;
+with postamble and title...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor20">4.3.</a>&nbsp;
+Whitespace handling<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor21">4.4.</a>&nbsp;
+Whitespace around figures<br />
+<a href="#refs">5.</a>&nbsp;
+References<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#xref.with.no.content">5.1.</a>&nbsp;
+xref with no content<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor22">5.2.</a>&nbsp;
+xref to named &lt;t> element<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor23">5.3.</a>&nbsp;
+xref to named &lt;t> element inside list<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor24">5.4.</a>&nbsp;
+xref to named &lt;cref> element<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor25">5.5.</a>&nbsp;
+xref to named &lt;t> element inside list<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor26">5.6.</a>&nbsp;
+xref with no auto-formatting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor27">5.7.</a>&nbsp;
+xref with content and auto-formatting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#formatting.none">5.8.</a>&nbsp;
+xref with content and 'none' formatting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor28">5.9.</a>&nbsp;
+eref with no content<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor29">5.10.</a>&nbsp;
+eref with content<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor30">5.11.</a>&nbsp;
+iref inside paragraph<br />
+<a href="#anchor31">6.</a>&nbsp;
+Paragraph formatting<br />
+<a href="#anchor32">7.</a>&nbsp;
+Sections<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor33">7.1.</a>&nbsp;
+Subsection with TOC entry<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor35">7.2.1.</a>&nbsp;
+Sub-subsection with TOC entry<br />
+<a href="#anchor36">8.</a>&nbsp;
+Comments<br />
+<a href="#anchor39">9.</a>&nbsp;
+Artwork width<br />
+<a href="#anchor40">10.</a>&nbsp;
+Blank Lines<br />
+<a href="#anchor41">11.</a>&nbsp;
+Other<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor42">11.1.</a>&nbsp;
+Comments in Text<br />
+<a href="#rfc.references1">12.</a>&nbsp;
+References<br />
+<a href="#rfc.index">&#167;</a>&nbsp;
+Index<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Author's Address<br />
+</p>
+<br clear="all" />
+
+<a name="lists"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;
+Lists</h3>
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.1"></a><h3>1.1.&nbsp;
+hanging list</h3>
+
+<p></p>
+<blockquote class="text"><dl>
+<dt>Name:</dt>
+<dd>timeout
+</dd>
+<dt>Namespace:</dt>
+<dd>DAV:
+</dd>
+<dt>Purpose:</dt>
+<dd>The timeout associated with a lock
+</dd>
+<dt>Value:</dt>
+<dd>TimeType ;Defined in section 9.8
+</dd>
+</dl></blockquote>
+
+<a name="anchor2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.2"></a><h3>1.2.&nbsp;
+numbered list</h3>
+
+<p>
+A numbered list:
+</p>
+<ol class="text">
+<li>one
+</li>
+<li>two
+</li>
+<li>three
+</li>
+</ol><p>
+
+</p>
+<a name="ordered.list.letters"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.3"></a><h3>1.3.&nbsp;
+ordered list (letters)</h3>
+
+<p>
+An ordered list using letters:
+</p>
+<blockquote class="text"><dl>
+<dt>a.</dt>
+<dd>one
+</dd>
+<dt>b.</dt>
+<dd>two
+</dd>
+<dt>c.</dt>
+<dd>three
+</dd>
+<dt>d.</dt>
+<dd>one
+</dd>
+<dt>e.</dt>
+<dd>two
+</dd>
+<dt>f.</dt>
+<dd>three
+</dd>
+<dt>g.</dt>
+<dd>one
+</dd>
+<dt>h.</dt>
+<dd>two
+</dd>
+<dt>i.</dt>
+<dd>three
+</dd>
+<dt>j.</dt>
+<dd>one
+</dd>
+<dt>k.</dt>
+<dd>two
+</dd>
+<dt>l.</dt>
+<dd>three
+</dd>
+<dt>m.</dt>
+<dd>one
+</dd>
+<dt>n.</dt>
+<dd>two
+</dd>
+<dt>o.</dt>
+<dd>three
+</dd>
+<dt>p.</dt>
+<dd>one
+</dd>
+<dt>q.</dt>
+<dd>two
+</dd>
+<dt>r.</dt>
+<dd>three
+</dd>
+<dt>s.</dt>
+<dd>one
+</dd>
+<dt>t.</dt>
+<dd>two
+</dd>
+<dt>u.</dt>
+<dd>three
+</dd>
+<dt>v.</dt>
+<dd>one
+</dd>
+<dt>w.</dt>
+<dd>two
+</dd>
+<dt>x.</dt>
+<dd>three
+</dd>
+<dt>y.</dt>
+<dd>one
+</dd>
+<dt>z.</dt>
+<dd>two
+</dd>
+<dt>aa.</dt>
+<dd>three
+</dd>
+<dt>ab.</dt>
+<dd>one
+</dd>
+<dt>ac.</dt>
+<dd>two
+</dd>
+<dt>ad.</dt>
+<dd>three
+</dd>
+</dl></blockquote><p>
+
+</p>
+<a name="anchor3"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.4"></a><h3>1.4.&nbsp;
+no explicit counters</h3>
+
+<p>
+  Example for numbered list with user-defined-format:
+  </p>
+<blockquote class="text"><dl>
+<dt>R1:</dt>
+<dd>R1
+</dd>
+<dt>R2:</dt>
+<dd>R2
+</dd>
+</dl></blockquote><p>
+
+</p>
+<p>
+  Another list:
+  </p>
+<blockquote class="text"><dl>
+<dt>S1:</dt>
+<dd>S1
+</dd>
+<dt>S2:</dt>
+<dd>S2
+</dd>
+</dl></blockquote><p>
+
+</p>
+<p>
+  Next list should continue counting R's:
+  </p>
+<blockquote class="text"><dl>
+<dt>R1:</dt>
+<dd>R3
+</dd>
+<dt>R2:</dt>
+<dd>R4
+</dd>
+</dl></blockquote><p>
+
+</p>
+<p>
+  Same with character-based numbering:
+  </p>
+<blockquote class="text"><dl>
+<dt>c-a:</dt>
+<dd>c-a
+</dd>
+<dt>c-b:</dt>
+<dd>c-b
+</dd>
+</dl></blockquote><p>
+
+</p>
+<a name="anchor4"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.5"></a><h3>1.5.&nbsp;
+with explicit counters</h3>
+
+<p>
+  A few requirements:
+  </p>
+<blockquote class="text"><dl>
+<dt>R1:</dt>
+<dd>req R1
+</dd>
+<dt>R2:</dt>
+<dd>req R2
+</dd>
+</dl></blockquote><p>
+
+</p>
+<p>
+  More requirements:
+  </p>
+<blockquote class="text"><dl>
+<dt>R3:</dt>
+<dd>req R3
+</dd>
+<dt>R4:</dt>
+<dd>req R4
+</dd>
+</dl></blockquote><p>
+
+</p>
+<p>
+  A few rules:
+  </p>
+<blockquote class="text"><dl>
+<dt>R1:</dt>
+<dd>rule R1
+</dd>
+<dt>R2:</dt>
+<dd>rule R2
+</dd>
+<dt>R3:</dt>
+<dd>rule R3
+</dd>
+</dl></blockquote><p> 
+
+</p>
+<p>
+  Explicit counter with name matching it's format string:
+  </p>
+<blockquote class="text"><dl>
+<dt>c-a:</dt>
+<dd>c-c
+</dd>
+<dt>c-b:</dt>
+<dd>c-d
+</dd>
+</dl></blockquote><p>
+
+</p>
+<p>
+  Same, without counter:
+  </p>
+<blockquote class="text"><dl>
+<dt>c-a:</dt>
+<dd>c-e
+</dd>
+<dt>c-b:</dt>
+<dd>c-f
+</dd>
+</dl></blockquote><p>
+ 
+</p>
+<a name="anchor5"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.6"></a><h3>1.6.&nbsp;
+Nested list</h3>
+
+<p>
+    </p>
+<ol class="text">
+<li>One
+</li>
+<li>Two
+        
+<blockquote class="text"><dl>
+<dt>A.</dt>
+<dd>17
+</dd>
+<dt>B.</dt>
+<dd>42
+</dd>
+</dl></blockquote>
+      
+</li>
+<li>Three
+</li>
+</ol><p>
+  
+</p>
+<a name="anchor6"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.7"></a><h3>1.7.&nbsp;
+list without style</h3>
+
+<p></p>
+<blockquote class="text">
+<p>One
+</p>
+<p>Two
+</p>
+<p>Three
+</p>
+</blockquote>
+
+<a name="anchor7"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;
+spanx</h3>
+
+<p>
+This is <em>default</em>.
+
+</p>
+<p>
+This is <em>emph(asized)</em>.
+
+</p>
+<p>
+This is <strong>strong</strong>.
+
+</p>
+<p>
+This is <tt>verb(atim)</tt>.
+
+</p>
+<p>
+Here is <tt>a carriage return
+inside</tt> a spanx element.
+
+</p>
+<a name="anchor8"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;
+Tables</h3>
+
+<p style='text-align: center'>The list of valid keywords are:
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="right" width="20%"><col align="center" width="20%"><col align="left"><col align="left">
+<tr><th align="right">keyword</th><th align="center">default</th><th align="left">meaning</th><th align="left">not aligned</th></tr>
+<tr>
+<td align="right">strict</td>
+<td align="center">no</td>
+<td align="left">try to enforce the ID-nits conventions and DTD validity</td>
+<td align="left">a</td>
+</tr>
+<tr>
+<td align="right">iprnotified</td>
+<td align="center">no</td>
+<td align="left">include boilerplate from Section 10.4(d) of <a class='info' href='#RFC2026'>[RFC2026]<span> (</span><span class='info'>Bradner, S., &ldquo;The Internet Standards Process -- Revision 3,&rdquo; October&nbsp;1996.</span><span>)</span></a></td>
+<td align="left">bb bb</td>
+</tr>
+<tr>
+<td align="right">compact</td>
+<td align="center">no</td>
+<td align="left">when producing a txt/nroff file, try to conserve vertical whitespace</td>
+<td align="left">ccc ccc ccc</td>
+</tr>
+<tr>
+<td align="right">subcompact</td>
+<td align="center">compact</td>
+<td align="left">if compact is "yes", then setting this to "no" will make things a little less
+compact</td>
+<td align="left">dddd dddd dddd dddd</td>
+</tr>
+<tr>
+<td align="right">needLines</td>
+<td align="center">n/a</td>
+<td align="left">an integer hint indicating how many contiguous lines are needed at this point
+in the output</td>
+<td align="left">eeeee eeeee eeeee eeeee eeeee </td>
+</tr>
+<tr>
+<td align="right">here come empty cells</td>
+<td align="center">&nbsp;</td>
+<td align="left">&nbsp;</td>
+<td align="left">&nbsp;</td>
+</tr>
+</table>
+<br clear="all" />
+
+<p style='text-align: center'>Remember,
+that as with everything else in XML,
+keywords and values are case-sensitive.
+</p>
+<a name="anchor9"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
+no borders</h3>
+<br /><hr class="insert" />
+<a name="tablenoborder"></a>
+
+<p style='text-align: center'>The table below should appear with no borders.
+</p><table class="none" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">C1</th><th align="left">C2</th></tr>
+<tr>
+<td align="left">11</td>
+<td align="left">12</td>
+</tr>
+<tr>
+<td align="left">21</td>
+<td align="left">22</td>
+</tr>
+</table>
+<br clear="all" />
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Table 1: a table with no borders&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<a name="anchor10"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
+borders around headers</h3>
+
+<p style='text-align: center'>The table below should appear with borders just around the headers.
+</p><table class="headers" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">C1</th><th align="left">C2</th></tr>
+<tr>
+<td align="left">11</td>
+<td align="left">12</td>
+</tr>
+<tr>
+<td align="left">21</td>
+<td align="left">22</td>
+</tr>
+</table>
+<br clear="all" />
+
+<a name="anchor11"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.3"></a><h3>3.3.&nbsp;
+example from xml2rc README</h3>
+<br /><hr class="insert" />
+<a name="table_example"></a>
+
+<p style='text-align: center'>So,
+           putting it all together, we have, e.g.,
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="center"><col align="center">
+<tr><th align="center">ttcol #1</th><th align="center">ttcol #2</th></tr>
+<tr>
+<td align="center">c #1</td>
+<td align="center">c #2</td>
+</tr>
+<tr>
+<td align="center">c #3</td>
+<td align="center">c #4</td>
+</tr>
+<tr>
+<td align="center">c #5</td>
+<td align="center">c #6</td>
+</tr>
+</table>
+<br clear="all" />
+
+<p style='text-align: center'>which is a very simple example.
+</p><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Table 2&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<a name="anchor12"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.4"></a><h3>3.4.&nbsp;
+no column titles</h3>
+<br /><hr class="insert" />
+<a name="tablenotitles"></a>
+
+<p style='text-align: center'>The table below should appear with no titles.
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr>
+<td align="left">11</td>
+<td align="left">12</td>
+</tr>
+<tr>
+<td align="left">21</td>
+<td align="left">22</td>
+</tr>
+</table>
+<br clear="all" />
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Table 3: a table with no column titles&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+<br /><hr class="insert" />
+<a name="tableonetitle"></a>
+
+<p style='text-align: center'>The table below should appear with column titles (one being non-empty).
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">FOO</th><th align="left"></th></tr>
+<tr>
+<td align="left">11</td>
+<td align="left">12</td>
+</tr>
+<tr>
+<td align="left">21</td>
+<td align="left">22</td>
+</tr>
+</table>
+<br clear="all" />
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Table 4: a table with a single column title&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<a name="anchor13"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.5"></a><h3>3.5.&nbsp;
+referencing tables</h3>
+
+<p>
+    <a class='info' href='#tablenoborder'>Table&nbsp;1<span> (</span><span class='info'>a table with no borders</span><span>)</span></a> shows a table with no borders.
+  
+</p>
+<p>
+    <a class='info' href='#tablenoborder'>The table above<span> (</span><span class='info'>a table with no borders</span><span>)</span></a> shows a table with no borders.
+  
+</p>
+<a name="anchor14"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.6"></a><h3>3.6.&nbsp;
+table captions</h3>
+
+<p style='text-align: center'>No anchor, no title
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">Anchor</th><th align="left">Title</th></tr>
+<tr>
+<td align="left">-</td>
+<td align="left">-</td>
+</tr>
+</table>
+<br clear="all" />
+<br /><hr class="insert" />
+<a name="texttable1"></a>
+
+<p style='text-align: center'>Anchor (not being referenced), no title
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">Anchor</th><th align="left">Title</th></tr>
+<tr>
+<td align="left">yes</td>
+<td align="left">-</td>
+</tr>
+</table>
+<br clear="all" />
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Table 5&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+<br /><hr class="insert" />
+
+<p style='text-align: center'>No anchor, with title
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">Anchor</th><th align="left">Title</th></tr>
+<tr>
+<td align="left">-</td>
+<td align="left">"title"</td>
+</tr>
+</table>
+<br clear="all" />
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;title&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+<br /><hr class="insert" />
+<a name="texttable2"></a>
+
+<p style='text-align: center'>Both anchor and title
+</p><table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left"><col align="left">
+<tr><th align="left">Anchor</th><th align="left">Title</th></tr>
+<tr>
+<td align="left">yes</td>
+<td align="left">"title"</td>
+</tr>
+</table>
+<br clear="all" />
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Table 6: title&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<a name="anchor15"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.7"></a><h3>3.7.&nbsp;
+single column</h3>
+<table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left">
+<tr><th align="left">title</th></tr>
+<tr>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">2</td>
+</tr>
+</table>
+<br clear="all" />
+
+<a name="anchor16"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.8"></a><h3>3.8.&nbsp;
+table alignment</h3>
+<table class="full" align="left" border="0" cellpadding="2" cellspacing="2">
+<col align="left">
+<tr><th align="left">left</th></tr>
+<tr>
+<td align="left">1</td>
+</tr>
+</table>
+<br clear="all" />
+<table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left">
+<tr><th align="left">center</th></tr>
+<tr>
+<td align="left">1</td>
+</tr>
+</table>
+<br clear="all" />
+<table class="full" align="right" border="0" cellpadding="2" cellspacing="2">
+<col align="left">
+<tr><th align="left">right</th></tr>
+<tr>
+<td align="left">1</td>
+</tr>
+</table>
+<br clear="all" />
+<table class="full" align="center" border="0" cellpadding="2" cellspacing="2">
+<col align="left">
+<tr><th align="left">default</th></tr>
+<tr>
+<td align="left">1</td>
+</tr>
+</table>
+<br clear="all" />
+
+<a name="anchor17"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;
+Figures</h3>
+
+<a name="anchor18"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1"></a><h3>4.1.&nbsp;
+with preamble, no title...</h3>
+
+<p>with preamble, no title...
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+  +--+
+  |  |
+  +--+
+</pre></div>
+<a name="anchor19"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
+with postamble and title...</h3>
+<br /><hr class="insert" />
+<a name="testfig"></a>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+  +--+
+  |  |
+  +--+
+</pre></div>
+<p>with postamble and title...
+</p><table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;1: another figure&nbsp;</b></font><br /></td></tr></table><hr class="insert" />
+
+<p>
+  The figure above has the title "<a class='info' href='#testfig'>another figure<span> (</span><span class='info'>another figure</span><span>)</span></a>".
+
+</p>
+<a name="anchor20"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.3"></a><h3>4.3.&nbsp;
+Whitespace handling</h3>
+
+<p>
+  Para...
+
+</p>
+<p>Leading whitespace
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+test test (leading ws)</pre></div>
+<p>
+  Para...
+
+</p>
+<p>Trailing whitespace
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>test test (trailing ws)
+</pre></div>
+<p>
+  Para...
+
+</p>
+<p>No whitespace
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>test test (no ws)</pre></div>
+<p>
+  Para...
+
+</p>
+<a name="anchor21"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.4"></a><h3>4.4.&nbsp;
+Whitespace around figures</h3>
+
+<p>spacing paragraph
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>ART</pre></div>
+<p>spacing paragraph
+</p>
+<p>preamble, then
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>ART</pre></div>
+<p>spacing paragraph
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>ART</pre></div>
+<p>then postamble
+</p>
+<p>spacing paragraph
+</p>
+<a name="refs"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;
+References</h3>
+
+<a name="xref.with.no.content"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.1"></a><h3>5.1.&nbsp;
+xref with no content</h3>
+
+<p>
+  <a class='info' href='#refs'>Section&nbsp;5<span> (</span><span class='info'>References</span><span>)</span></a> is the parent section.
+
+</p>
+<a name="anchor22"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.2"></a><h3>5.2.&nbsp;
+xref to named &lt;t> element</h3>
+
+<p>
+  With content: see <a class='info' href='#xref.with.no.content.first.sentence'>first sentence</a>
+  of previous section. 
+
+</p>
+<p>
+  Without content: see <a class='info' href='#xref.with.no.content.first.sentence'>Paragraph&nbsp;1</a>. 
+
+</p>
+<a name="anchor23"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.3"></a><h3>5.3.&nbsp;
+xref to named &lt;t> element inside list</h3>
+
+<p>
+  With content: see <a class='info' href='#listelement.anchor'>first element in list below</a>.
+
+</p>
+<p>
+  </p>
+<blockquote class="text"><dl>
+<dt>test</dt>
+<dd>Test
+</dd>
+</dl></blockquote><p>
+
+</p>
+<a name="anchor24"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.4"></a><h3>5.4.&nbsp;
+xref to named &lt;cref> element</h3>
+
+<p>
+  With content: see <a class='info' href='#comment-test'>test comment<span> (</span><span class='info'>No anchor, source given.</span><span>)</span></a>.
+
+</p>
+<p>
+  Without content: see <a class='info' href='#comment-test'>Comment&nbsp;comment&#8209;test<span> (</span><span class='info'>No anchor, source given.</span><span>)</span></a>. 
+
+</p>
+<a name="anchor25"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.5"></a><h3>5.5.&nbsp;
+xref to named &lt;t> element inside list</h3>
+
+<p>
+  See <a class='info' href='#ordered.list.letters.last'>last entry</a> in
+  <a class='info' href='#ordered.list.letters'>Section&nbsp;1.3<span> (</span><span class='info'>ordered list (letters)</span><span>)</span></a>.
+
+</p>
+<a name="anchor26"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.6"></a><h3>5.6.&nbsp;
+xref with no auto-formatting</h3>
+
+<p>
+So far we have sections <a class='info' href='#lists'>1<span> (</span><span class='info'>Lists</span><span>)</span></a> ("<a class='info' href='#lists'>Lists<span> (</span><span class='info'>Lists</span><span>)</span></a>") through <a class='info' href='#refs'>5<span> (</span><span class='info'>References</span><span>)</span></a>
+("<a class='info' href='#refs'>References<span> (</span><span class='info'>References</span><span>)</span></a>").
+
+</p>
+<a name="anchor27"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.7"></a><h3>5.7.&nbsp;
+xref with content and auto-formatting</h3>
+
+<p>
+This is a subsection of <a class='info' href='#refs'>References<span> (</span><span class='info'>References</span><span>)</span></a>.
+
+</p>
+<a name="formatting.none"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.8"></a><h3>5.8.&nbsp;
+xref with content and 'none' formatting</h3>
+
+<p>
+Here we are referring to <a class='info' href='#RFC2026'>RFC 2026<span> (</span><span class='info'>Bradner, S., &ldquo;The Internet Standards Process -- Revision 3,&rdquo; October&nbsp;1996.</span><span>)</span></a>,
+without emitting extra formatting.
+
+</p>
+<p>
+Here we are referring to <a class='info' href='#formatting.none'>this Section<span> (</span><span class='info'>xref with content and 'none' formatting</span><span>)</span></a>,
+without emitting extra formatting.
+
+</p>
+<a name="anchor28"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.9"></a><h3>5.9.&nbsp;
+eref with no content</h3>
+
+<p>
+See also <a href='http://greenbytes.de/tech/webdav'>http://greenbytes.de/tech/webdav</a>. Here's another
+one that is quite long: <a href='http://greenbytes.de/tech/webdav/draft-reschke-rfc3744bis-issues.html#5.7_inherited-acl-set-protected'>http://greenbytes.de/tech/webdav/draft-reschke-rfc3744bis-issues.html#5.7_inherited-acl-set-protected</a>. Does it break properly?
+
+</p>
+<a name="anchor29"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.10"></a><h3>5.10.&nbsp;
+eref with content</h3>
+
+<p>
+See also <a href='http://greenbytes.de/tech/webdav'>greenbytes WebDAV resources</a>.
+
+</p>
+<a name="anchor30"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5.11"></a><h3>5.11.&nbsp;
+iref inside paragraph</h3>
+
+<p>
+This paragraph contains an <a name='anchor44'></a>inline iref. 
+
+</p>
+<a name="anchor31"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;
+Paragraph formatting</h3>
+
+<p>
+  This is the first sentence of the paragraph.  This is the second sentence of
+  the paragraph (with two leading blanks).
+  Here's another sentence that was started on a separate line in the input
+  file.
+
+</p>
+<p>
+  This is the second paragraph.
+
+</p>
+<a name="anchor32"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp;
+Sections</h3>
+
+<a name="anchor33"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7.1"></a><h3>7.1.&nbsp;
+Subsection with TOC entry</h3>
+
+<a name="anchor34"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7.2"></a><h3>7.2.&nbsp;
+Subsection without TOC entry</h3>
+
+<a name="anchor35"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7.2.1"></a><h3>7.2.1.&nbsp;
+Sub-subsection with TOC entry</h3>
+
+<a name="anchor36"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;
+Comments</h3>
+
+<p>
+  This line contains a few comments.
+  <a class='info' href='#comment.comment-test'>[comment-test]<span> (</span><span class='info'>JRE: No anchor, source given.</span><span>)</span></a><a name='comment-test'></a>
+  This line contains a few comments.
+  <a class='info' href='#comment.comment1'>[comment1]<span> (</span><span class='info'>Anchor given, no source.</span><span>)</span></a><a name='comment1'></a>
+  This line contains a few comments.
+  <a class='info' href='#comment.comment2'>[comment2]<span> (</span><span class='info'>JRE: Both specified.</span><span>)</span></a><a name='comment2'></a>
+  This line contains a few comments.
+  <a class='info' href='#comment.anchor37'>[anchor37]<span> (</span><span class='info'>No anchor, no source.</span><span>)</span></a><a name='anchor37'></a>
+  This line contains a few comments.
+  <a class='info' href='#comment.anchor38'>[anchor38]<span> (</span><span class='info'>No anchor, no source, but embedded markup:.</span><span>)</span></a><a name='anchor38'></a><a href='http://xml.resource.org'>http://xml.resource.org</a>
+  This line contains a few comments.
+
+</p>
+<a name="anchor39"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.9"></a><h3>9.&nbsp;
+Artwork width</h3>
+
+<p>
+This should fit (69 characters plus three spaces of indentation in text output).
+
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+012345678901234567890123456789012345678901234567890123456789012345678
+</pre></div>
+<p>
+This shouldn't.
+
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+0123456789012345678901234567890123456789012345678901234567890123456789
+</pre></div>
+<a name="anchor40"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.10"></a><h3>10.&nbsp;
+Blank Lines</h3>
+
+<p>
+Just a forced <br />
+
+line break.
+
+</p>
+<p>
+One <br />
+<br />
+
+blank line.
+
+</p>
+<p>
+Seven 
+blank lines.
+
+</p>
+<a name="anchor41"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.11"></a><h3>11.&nbsp;
+Other</h3>
+
+<a name="anchor42"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.11.1"></a><h3>11.1.&nbsp;
+Comments in Text</h3>
+
+<p>
+  First sentence (before XML comment, invisible here).
+
+  Second sentence.
+
+</p>
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>12.&nbsp;References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC2026">[RFC2026]</a></td>
+<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2026">The Internet Standards Process -- Revision 3</a>,&rdquo; BCP&nbsp;9, RFC&nbsp;2026, October&nbsp;1996 (<a href="ftp://ftp.isi.edu/in-notes/rfc2026.txt">TXT</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC2396">[RFC2396]</a></td>
+<td class="author-text"><a href="mailto:timbl@w3.org">Berners-Lee, T.</a>, <a href="mailto:fielding@ics.uci.edu">Fielding, R.</a>, and <a href="mailto:masinter@parc.xerox.com">L. Masinter</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2396">Uniform Resource Identifiers (URI): Generic Syntax</a>,&rdquo; RFC&nbsp;2396, August&nbsp;1998.<p>
+This RFC will soon be updated, check
+  <a href='http://cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/rfc2396bis.html'>http://cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/rfc2396bis.html</a> for the latest draft.
+</p>
+<p>
+The issues list is at <a href='http://cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/issues.html'>http://cvs.apache.org/viewcvs.cgi/*checkout*/ietf-uri/rev-2002/issues.html</a>.
+</p>
+</td></tr>
+</table>
+
+<a name="rfc.comments"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Editorial Comments</h3>
+<table border="0">
+<tr><td class="author-text" valign="top">
+<a class="info" href="#anchor37">
+anchor37</a><a name="comment.anchor37"></a>:
+</td><td class="author-text">
+No anchor, no source.</td></tr>
+<tr><td class="author-text" valign="top">
+<a class="info" href="#anchor38">
+anchor38</a><a name="comment.anchor38"></a>:
+</td><td class="author-text">
+No anchor, no source, but embedded markup:.</td></tr>
+<tr><td class="author-text" valign="top">
+<a class="info" href="#comment-test">
+comment-test</a><a name="comment.comment-test"></a>:
+</td><td class="author-text">
+JRE: No anchor, source given.</td></tr>
+<tr><td class="author-text" valign="top">
+<a class="info" href="#comment1">
+comment1</a><a name="comment.comment1"></a>:
+</td><td class="author-text">
+Anchor given, no source.</td></tr>
+<tr><td class="author-text" valign="top">
+<a class="info" href="#comment2">
+comment2</a><a name="comment.comment2"></a>:
+</td><td class="author-text">
+JRE: Both specified.</td></tr>
+</table>
+<a name="rfc.index"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Index</h3>
+<table>
+<tr><td><strong>I</strong></td><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td><td><a href="#anchor44">inline iref</a></td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Julian F. Reschke</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">greenbytes GmbH</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Hafenweg 16</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Muenster, NW  48155</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Germany</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:julian.reschke@greenbytes.de">julian.reschke@greenbytes.de</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://greenbytes.de/tech/webdav/">http://greenbytes.de/tech/webdav/</a></td></tr>
+</table>
+</body></html>

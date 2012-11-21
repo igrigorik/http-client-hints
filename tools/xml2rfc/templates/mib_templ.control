@@ -1,0 +1,26 @@
+Version: 2.00
+Section: text
+Ietf: 
+Priority: optional
+Maintainer: David B. Harrington <dbharrington@comcast.net>
+Package: mib-xml-templates
+Architecture: any
+Depends: 
+Category: author
+Url: http://tools.ietf.org/tools/templates
+Description: Templates for MIB Documents
+	The MIB Doctors have produced three templates specifically aimed at
+	drafts containing MIB modules:
+	<br>
+	&bull; The first is an 
+	<a href="/tools/templates/mib-doc-template.xml"
+	>XML template for editors that use XML2RFC</a>.
+	Some advice echoing guidelines from RFC4181 is embedded in comments. 
+	<br>
+	&bull; A second template is a
+	<a href="/tools/templates/mib-doc-template-advice.txt"
+	>text template for MIB documents with advice embedded</a> in the document.
+	<br>
+	&bull; A third template is a 
+	<a href="/tools/templates/mib-doc-template-plain.txt"
+	>plain text template with no advice included</a>.

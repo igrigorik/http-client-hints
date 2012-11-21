@@ -1,0 +1,1076 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- revised DTD for the RFC document series, draft of 2009-10-06 -->
+<!--
+  Typical invocation:
+      <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
+                           "http://xml.resource.org/authoring/rfc2629.dtd" [
+        ... dtd subset ...
+      ]>
+    or
+      <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+        ... dtd subset ...
+      ]>
+-->
+<!--
+  Contents
+  
+    Character entities
+  
+    DTD data types
+  
+    The top-level
+  
+    Front matter
+  
+    The Body
+  
+    Back matter
+-->
+<!-- Character entities -->
+<!--
+  DTD data types:
+  
+        entity        description
+        ======        ===============================================
+        NUMBER        [0-9]+
+        NUMBERS       a comma-separated list of NUMBER
+  
+        DAY           the day of the month, e.g., "1"
+        MONTH         the month of the year, e.g., "January"
+        YEAR          a four-digit year, e.g., "1999"
+  
+        URI           e.g., "http://invisible.net/"
+  
+        ATEXT/CTEXT   printable ASCII text (no line-terminators)
+  
+        TEXT          character data
+-->
+<grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="NUMBER">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="NUMBERS">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="DAY">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="MONTH">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="YEAR">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="URI">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="ATEXT">
+    <data type="string" datatypeLibrary=""/>
+  </define>
+  <define name="CTEXT">
+    <text/>
+  </define>
+  <define name="TEXT">
+    <text/>
+  </define>
+  <!-- The top-level -->
+  <!--
+    attributes for the "rfc" element are supplied by the RFC
+    editor. when preparing drafts, authors should leave them blank.
+    
+    the "seriesNo" attribute is used if the category is, e.g., BCP.
+  -->
+  <define name="rfc">
+    <element name="rfc">
+      <ref name="attlist.rfc"/>
+      <ref name="front"/>
+      <ref name="middle"/>
+      <optional>
+        <ref name="back"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.rfc" combine="interleave">
+    <optional>
+      <attribute name="number">
+        <ref name="NUMBER"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="obsoletes" a:defaultValue="">
+        <ref name="NUMBERS"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="updates" a:defaultValue="">
+        <ref name="NUMBERS"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="category">
+        <choice>
+          <value>std</value>
+          <value>bcp</value>
+          <value>info</value>
+          <value>exp</value>
+          <value>historic</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="consensus">
+        <choice>
+          <value>no</value>
+          <value>yes</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="seriesNo">
+        <ref name="NUMBER"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="ipr">
+        <choice>
+          <value>full2026</value>
+          <value>noDerivativeWorks2026</value>
+          <value>none</value>
+          <value>full3667</value>
+          <value>noModification3667</value>
+          <value>noDerivatives3667</value>
+          <value>full3978</value>
+          <value>noModification3978</value>
+          <value>noDerivatives3978</value>
+          <value>trust200811</value>
+          <value>noModificationTrust200811</value>
+          <value>noDerivativesTrust200811</value>
+          <value>trust200902</value>
+          <value>noModificationTrust200902</value>
+          <value>noDerivativesTrust200902</value>
+          <value>pre5378Trust200902</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="iprExtract">
+        <data type="IDREF"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="submissionType" a:defaultValue="IETF">
+        <choice>
+          <value>IETF</value>
+          <value>IAB</value>
+          <value>IRTF</value>
+          <value>independent</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="docName">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="xml:lang" a:defaultValue="en">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <!-- Front matter -->
+  <define name="front">
+    <element name="front">
+      <ref name="attlist.front"/>
+      <ref name="title"/>
+      <oneOrMore>
+        <ref name="author"/>
+      </oneOrMore>
+      <ref name="date"/>
+      <zeroOrMore>
+        <ref name="area"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="workgroup"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="keyword"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="abstract"/>
+      </optional>
+      <zeroOrMore>
+        <ref name="note"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.front" combine="interleave">
+    <empty/>
+  </define>
+  <!-- the "abbrev" attribute is used for headers, etc. -->
+  <define name="title">
+    <element name="title">
+      <ref name="attlist.title"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.title" combine="interleave">
+    <optional>
+      <attribute name="abbrev">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="author">
+    <element name="author">
+      <ref name="attlist.author"/>
+      <optional>
+        <ref name="organization"/>
+      </optional>
+      <optional>
+        <ref name="address"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.author" combine="interleave">
+    <optional>
+      <attribute name="initials">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="surname">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="fullname">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="role">
+        <choice>
+          <value>editor</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="organization">
+    <element name="organization">
+      <ref name="attlist.organization"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.organization" combine="interleave">
+    <optional>
+      <attribute name="abbrev">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="address">
+    <element name="address">
+      <ref name="attlist.address"/>
+      <optional>
+        <ref name="postal"/>
+      </optional>
+      <optional>
+        <ref name="phone"/>
+      </optional>
+      <optional>
+        <ref name="facsimile"/>
+      </optional>
+      <optional>
+        <ref name="email"/>
+      </optional>
+      <optional>
+        <ref name="uri"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.address" combine="interleave">
+    <empty/>
+  </define>
+  <!--
+    this content model should be more strict:
+    at most one of each the city, region, code, and country
+    elements may be present
+  -->
+  <define name="postal">
+    <element name="postal">
+      <ref name="attlist.postal"/>
+      <oneOrMore>
+        <ref name="street"/>
+      </oneOrMore>
+      <zeroOrMore>
+        <choice>
+          <ref name="city"/>
+          <ref name="region"/>
+          <ref name="code"/>
+          <ref name="country"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.postal" combine="interleave">
+    <empty/>
+  </define>
+  <define name="street">
+    <element name="street">
+      <ref name="attlist.street"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.street" combine="interleave">
+    <empty/>
+  </define>
+  <define name="city">
+    <element name="city">
+      <ref name="attlist.city"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.city" combine="interleave">
+    <empty/>
+  </define>
+  <define name="region">
+    <element name="region">
+      <ref name="attlist.region"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.region" combine="interleave">
+    <empty/>
+  </define>
+  <define name="code">
+    <element name="code">
+      <ref name="attlist.code"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.code" combine="interleave">
+    <empty/>
+  </define>
+  <define name="country">
+    <element name="country">
+      <ref name="attlist.country"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.country" combine="interleave">
+    <empty/>
+  </define>
+  <define name="phone">
+    <element name="phone">
+      <ref name="attlist.phone"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.phone" combine="interleave">
+    <empty/>
+  </define>
+  <define name="facsimile">
+    <element name="facsimile">
+      <ref name="attlist.facsimile"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.facsimile" combine="interleave">
+    <empty/>
+  </define>
+  <define name="email">
+    <element name="email">
+      <ref name="attlist.email"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.email" combine="interleave">
+    <empty/>
+  </define>
+  <define name="uri">
+    <element name="uri">
+      <ref name="attlist.uri"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.uri" combine="interleave">
+    <empty/>
+  </define>
+  <define name="date">
+    <element name="date">
+      <ref name="attlist.date"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.date" combine="interleave">
+    <optional>
+      <attribute name="day">
+        <ref name="DAY"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="month">
+        <ref name="MONTH"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="year">
+        <ref name="YEAR"/>
+      </attribute>
+    </optional>
+  </define>
+  <!-- meta-data... -->
+  <define name="area">
+    <element name="area">
+      <ref name="attlist.area"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.area" combine="interleave">
+    <empty/>
+  </define>
+  <define name="workgroup">
+    <element name="workgroup">
+      <ref name="attlist.workgroup"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.workgroup" combine="interleave">
+    <empty/>
+  </define>
+  <define name="keyword">
+    <element name="keyword">
+      <ref name="attlist.keyword"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.keyword" combine="interleave">
+    <empty/>
+  </define>
+  <define name="abstract">
+    <element name="abstract">
+      <ref name="attlist.abstract"/>
+      <oneOrMore>
+        <ref name="t"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="attlist.abstract" combine="interleave">
+    <empty/>
+  </define>
+  <define name="note">
+    <element name="note">
+      <ref name="attlist.note"/>
+      <oneOrMore>
+        <ref name="t"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="attlist.note" combine="interleave">
+    <attribute name="title">
+      <ref name="ATEXT"/>
+    </attribute>
+  </define>
+  <!-- The body -->
+  <define name="middle">
+    <element name="middle">
+      <ref name="attlist.middle"/>
+      <oneOrMore>
+        <ref name="section"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="attlist.middle" combine="interleave">
+    <empty/>
+  </define>
+  <define name="section">
+    <element name="section">
+      <ref name="attlist.section"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="t"/>
+          <ref name="figure"/>
+          <ref name="texttable"/>
+          <ref name="iref"/>
+        </choice>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="section"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.section" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <attribute name="title">
+      <ref name="ATEXT"/>
+    </attribute>
+    <optional>
+      <attribute name="toc" a:defaultValue="default">
+        <choice>
+          <value>include</value>
+          <value>exclude</value>
+          <value>default</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <!--
+    use of <appendix/> is deprecated...
+    <!ELEMENT appendix    ((t|figure|texttable|iref)*,appendix*)>
+    <!ATTLIST appendix
+              anchor      ID                 #IMPLIED
+              title       %ATEXT;            #REQUIRED
+              toc         (include|exclude|default)
+                                             "default">
+  -->
+  <!-- use of <figure/> is deprecated... -->
+  <define name="t">
+    <element name="t">
+      <ref name="attlist.t"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="TEXT"/>
+          <ref name="list"/>
+          <ref name="figure"/>
+          <ref name="xref"/>
+          <ref name="eref"/>
+          <ref name="iref"/>
+          <ref name="cref"/>
+          <ref name="spanx"/>
+          <ref name="vspace"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.t" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hangText">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <!--
+    the value of the style attribute is inherited from the closest 
+    parent
+  -->
+  <define name="list">
+    <element name="list">
+      <ref name="attlist.list"/>
+      <oneOrMore>
+        <ref name="t"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="attlist.list" combine="interleave">
+    <optional>
+      <attribute name="style">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="hangIndent">
+        <ref name="NUMBER"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="counter">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="xref">
+    <element name="xref">
+      <ref name="attlist.xref"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.xref" combine="interleave">
+    <attribute name="target">
+      <data type="IDREF"/>
+    </attribute>
+    <optional>
+      <attribute name="pageno" a:defaultValue="false">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="format" a:defaultValue="default">
+        <choice>
+          <value>counter</value>
+          <value>title</value>
+          <value>none</value>
+          <value>default</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="eref">
+    <element name="eref">
+      <ref name="attlist.eref"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.eref" combine="interleave">
+    <attribute name="target">
+      <ref name="URI"/>
+    </attribute>
+  </define>
+  <define name="iref">
+    <element name="iref">
+      <ref name="attlist.iref"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.iref" combine="interleave">
+    <attribute name="item">
+      <ref name="ATEXT"/>
+    </attribute>
+    <optional>
+      <attribute name="subitem" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="primary" a:defaultValue="false">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="cref">
+    <element name="cref">
+      <ref name="attlist.cref"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.cref" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="source">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="spanx">
+    <element name="spanx">
+      <ref name="attlist.spanx"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.spanx" combine="interleave">
+    <optional>
+      <attribute name="xml:space" a:defaultValue="preserve">
+        <choice>
+          <value>default</value>
+          <value>preserve</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="style" a:defaultValue="emph">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="vspace">
+    <element name="vspace">
+      <ref name="attlist.vspace"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.vspace" combine="interleave">
+    <optional>
+      <attribute name="blankLines" a:defaultValue="0">
+        <ref name="NUMBER"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="figure">
+    <element name="figure">
+      <ref name="attlist.figure"/>
+      <zeroOrMore>
+        <ref name="iref"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="preamble"/>
+      </optional>
+      <ref name="artwork"/>
+      <optional>
+        <ref name="postamble"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.figure" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="title" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="suppress-title" a:defaultValue="false">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="src">
+        <ref name="URI"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="align" a:defaultValue="left">
+        <choice>
+          <value>left</value>
+          <value>center</value>
+          <value>right</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="alt" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="height" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="preamble">
+    <element name="preamble">
+      <ref name="attlist.preamble"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="TEXT"/>
+          <ref name="xref"/>
+          <ref name="eref"/>
+          <ref name="iref"/>
+          <ref name="cref"/>
+          <ref name="spanx"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.preamble" combine="interleave">
+    <empty/>
+  </define>
+  <define name="artwork">
+    <element name="artwork">
+      <ref name="attlist.artwork"/>
+      <zeroOrMore>
+        <ref name="TEXT"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.artwork" combine="interleave">
+    <optional>
+      <attribute name="xml:space" a:defaultValue="preserve">
+        <choice>
+          <value>default</value>
+          <value>preserve</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="name" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="type" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="src">
+        <ref name="URI"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="align" a:defaultValue="left">
+        <choice>
+          <value>left</value>
+          <value>center</value>
+          <value>right</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="alt" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="width" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="height" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="postamble">
+    <element name="postamble">
+      <ref name="attlist.postamble"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="TEXT"/>
+          <ref name="xref"/>
+          <ref name="eref"/>
+          <ref name="iref"/>
+          <ref name="cref"/>
+          <ref name="spanx"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.postamble" combine="interleave">
+    <empty/>
+  </define>
+  <define name="texttable">
+    <element name="texttable">
+      <ref name="attlist.texttable"/>
+      <optional>
+        <ref name="preamble"/>
+      </optional>
+      <oneOrMore>
+        <ref name="ttcol"/>
+      </oneOrMore>
+      <zeroOrMore>
+        <ref name="c"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="postamble"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.texttable" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="title" a:defaultValue="">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="suppress-title" a:defaultValue="false">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="align" a:defaultValue="center">
+        <choice>
+          <value>left</value>
+          <value>center</value>
+          <value>right</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="style" a:defaultValue="full">
+        <choice>
+          <value>all</value>
+          <value>none</value>
+          <value>headers</value>
+          <value>full</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="ttcol">
+    <element name="ttcol">
+      <ref name="attlist.ttcol"/>
+      <ref name="CTEXT"/>
+    </element>
+  </define>
+  <define name="attlist.ttcol" combine="interleave">
+    <optional>
+      <attribute name="width">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="align" a:defaultValue="left">
+        <choice>
+          <value>left</value>
+          <value>center</value>
+          <value>right</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="c">
+    <element name="c">
+      <ref name="attlist.c"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="TEXT"/>
+          <ref name="xref"/>
+          <ref name="eref"/>
+          <ref name="iref"/>
+          <ref name="cref"/>
+          <ref name="spanx"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.c" combine="interleave">
+    <empty/>
+  </define>
+  <!-- Back matter -->
+  <!-- sections, if present, are appendices -->
+  <define name="back">
+    <element name="back">
+      <ref name="attlist.back"/>
+      <zeroOrMore>
+        <ref name="references"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="section"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.back" combine="interleave">
+    <empty/>
+  </define>
+  <define name="references">
+    <element name="references">
+      <ref name="attlist.references"/>
+      <oneOrMore>
+        <ref name="reference"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="attlist.references" combine="interleave">
+    <optional>
+      <attribute name="title" a:defaultValue="References">
+        <ref name="ATEXT"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="reference">
+    <element name="reference">
+      <ref name="attlist.reference"/>
+      <ref name="front"/>
+      <zeroOrMore>
+        <ref name="seriesInfo"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="format"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="annotation"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.reference" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <data type="ID"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="target">
+        <ref name="URI"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="seriesInfo">
+    <element name="seriesInfo">
+      <ref name="attlist.seriesInfo"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.seriesInfo" combine="interleave">
+    <attribute name="name">
+      <ref name="ATEXT"/>
+    </attribute>
+    <attribute name="value">
+      <ref name="ATEXT"/>
+    </attribute>
+  </define>
+  <define name="format">
+    <element name="format">
+      <ref name="attlist.format"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.format" combine="interleave">
+    <optional>
+      <attribute name="target">
+        <ref name="URI"/>
+      </attribute>
+    </optional>
+    <attribute name="type">
+      <ref name="ATEXT"/>
+    </attribute>
+    <optional>
+      <attribute name="octets">
+        <ref name="NUMBER"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="annotation">
+    <element name="annotation">
+      <ref name="attlist.annotation"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="TEXT"/>
+          <ref name="xref"/>
+          <ref name="eref"/>
+          <ref name="iref"/>
+          <ref name="cref"/>
+          <ref name="spanx"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.annotation" combine="interleave">
+    <empty/>
+  </define>
+  <start>
+    <choice>
+      <ref name="rfc"/>
+    </choice>
+  </start>
+</grammar>

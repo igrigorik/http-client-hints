@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc symrefs="yes"?>
+<?rfc text-list-symbols="12345"?>
+<rfc ipr="trust200902" docName="draft-foo-bar-00" category="info" xml:lang="en">
+	<front>
+		<title>Foo Bar</title>
+
+		<author initials="J." surname="Doe" fullname="John Doe"/>
+
+		<date month="January" year="2010"/>
+
+	</front>
+
+	<middle>
+<section title="foo">
+<t>
+<list style="symbols">
+<t>
+  This is level 1.
+   <list style="symbols">
+   <t>
+     This is level 2.
+      <list style="symbols">
+      <t>
+	This is level 3.
+	 <list style="symbols">
+	 <t>
+	   This is level 4.
+	    <list style="symbols">
+	    <t>
+	      This is level 5.
+	    </t>
+	    </list>
+	 </t>
+	 </list>
+      </t>
+      </list>
+   </t>
+   </list>
+</t>
+</list>
+</t>
+</section>
+	</middle>
+	<back>
+	</back>
+
+</rfc>
