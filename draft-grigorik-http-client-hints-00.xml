@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="tools/rfc2629xslt/rfc2629.xslt" ?>
+<!DOCTYPE rfc SYSTEM "tools/rfc2629xslt/rfc2629.dtd">
+<rfc ipr="trust200902" category="info">
+  <?rfc toc="yes"?>
+  <?rfc tocindent="yes"?>
+  <?rfc sortrefs="yes"?>
+  <?rfc symrefs="yes"?>
+  <?rfc strict="yes"?>
+  <?rfc compact="yes"?>
+  <?rfc comments="yes"?>
+  <?rfc inline="yes"?>
+  <front>
+    <title>HTTP Client Hints</title>
+    <author initials="I." surname="Grigorik" fullname="Ilya Grigorik">
+      <organization/>
+      <address>
+        <email>ilya@igvita.com</email>
+        <uri>http://www.igvita.com/</uri>
+      </address>
+    </author>
+    <date year="2012"/>
+    <area>General</area>
+    <keyword>Internet-Draft</keyword>
+    <abstract>
+      <t>An increasing diversity of connected device form factors and software capabilities has created a need to deliver varying, or optimized content for each device.</t>
+      <t>The ‘Client-Hints’ header field for HTTP requests allows the client to describe its preferences and capabilities to an origin server to enable cache-friendly, server-side content adaptation, without imposing additional latency and deferred evaluation on the client.</t>
+      <t>Client-Hints also has the advantage of being able to transmit dynamic client preferences, such as available bandwidth, or current viewport size, which cannot be inferred through static client signature databases.</t>
+    </abstract>
+  </front>
+  <middle>
+    <section anchor="introduction" title="Introduction">
+      <t>There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as information about the state of the network to which the device is connected to.</t>
+      <t>One way to infer some of these capabilities is through User-Agent detection against an established database of client signatures. However, this technique requires acquiring such a database, keeping it up to date, and in many cases is simply not sufficient to distinguish the various devices with the same  fingerprint. User-Agent detection is:</t>
+      <t>
+        <list style="symbols">
+          <t>Offers unreliable device detection</t>
+          <t>Depends on acquiruing and maitenance of external databases</t>
+          <t>Not cache friendly, as it is not practical to Vary on User-Agent, and provides no fine-grained control to Vary content based on device capabilities or prefernces</t>
+          <t>Unable to infer dynamic client preferences, such as current network conditions, or user-specified preferences (ex, decisions made while roaming)</t>
+        </list>
+      </t>
+      <t>This document defines a new request header field, “Client-Hints”, that allows the client to make available hints for servers about its preference or capabilities, to allow server-side content adaption without impossing additional latency on the client, or requiring the use of additional device databases.</t>
+      <section anchor="notational-conventions" title="Notational Conventions">
+        <t>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
+“SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this
+document are to be interpreted as described in <xref target="RFC2119"/>.</t>
+        <t>This document uses the Augmented Backus-Naur Form (ABNF) notation of
+<xref target="RFC5234"/> with the list rule extension defined in
+<xref target="I-D.ietf-httpbis-p1-messaging"/>, Appendix B. It includes by reference the
+OWS, field-name and quoted-string rules from that document, and the
+parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
+      </section>
+    </section>
+    <section anchor="the-client-hints-request-header-field" title="The “Client-Hints” Request Header Field">
+      <t>The “Client-Hints” request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request.</t>
+      <t>The Client-Hints field-value is a comma-delimited list of well-defined header fields, delimited by semicolons. Both the field-name and modifier names themselves are case insensitive.</t>
+      <section anchor="pre-defined-client-hints" title="Pre-defined Client Hints">
+        <t>All communicated client hints are available within the browser, such that content adaption could be done both on the client, and on the server. As such, Client-Hints do not define any new client information that is not already available within the browser.</t>
+        <t>This document defines the following hints:</t>
+        <section anchor="bw" title="bw">
+          <t>
+            <list style="symbols">
+              <t>Description: Bandwidth (bw) of the current client connection, in kbps.</t>
+              <t>Value Type: number</t>
+            </list>
+          </t>
+        </section>
+        <section anchor="vv" title="vv">
+          <t>
+            <list style="symbols">
+              <t>Description: Visual Viewport (vv) size of the client, in CSS pixels (ex, 720x1024).</t>
+              <t>Value Type: string</t>
+            </list>
+          </t>
+        </section>
+        <section anchor="dpr" title="dpr">
+          <t>
+            <list style="symbols">
+              <t>Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.</t>
+              <t>Value Type: number</t>
+            </list>
+          </t>
+        </section>
+        <section anchor="dc" title="dc">
+          <t>
+            <list style="symbols">
+              <t>Description: Device Capabilities (dc), is a bit-packed signature of enabled client features to assist with content adaptation based on common device class attributes. There are hundreds of</t>
+            </list>
+          </t>
+          <t>The dc value is the integer value of the bitfield, with the following indexes:</t>
+          <t>
+            <list style="numbers">
+              <t>CSS Level 1 or does not support cascading (minimal CSS support)</t>
+              <t>CSS Level 2.1 with 50%+ on ACID2 test     (limited CSS support)</t>
+              <t>CSS Level 2.1 with 75%+ on ACID2 test     (good CSS support)</t>
+              <t>CSS Level 3 with 75%+ on ACID3 test       (excellent CSS support)</t>
+              <t>JavaScript support</t>
+              <t>XMLHttpRequest support</t>
+              <t>Touch screen device and support for touch</t>
+              <t>WebP support (maybe?)</t>
+            </list>
+          </t>
+          <t>… (TBD: more?)</t>
+          <t>Each bit should be marked as 1 if the client meets the criteria. For example, for a device which supports all of the above criteria, the bitmap is “11111111”, which is equivalent to dc=255. For a device, which supports JavaScript and has good CSS support, but does not support XMLHttpRequest, touch, or WebP the bitmap is “00010111”, which is equivalen tto dc=23.</t>
+          <t>// (Ilya) the downside to this approach is that we’re hardcoding these values into the spec, and they <spanx style="emph">will</spanx> get out of sync. It would better if we could define a layer of indirection here, which would allow us to be more feature proof. For example: simply define class A,B,C,D,E (5 out to be enough ;-)), and pull out the definition of each into a separate (external) mechanism, such that as devices evolve, we can reclaim or upgrade what each class defines.</t>
+          <t>(WIP) References for common attributes and device clases:
+- http://jquerymobile.com/gbs/
+- http://oreilly.com/iphone/excerpts/iphone-mobile-design-development/mobile-web-development.html
+- https://docs.google.com/presentation/d/1y_A6VOZy9bD2i0VLHv9ZWr0W3hZJvlTNCDA0itjI0yM/edit#slide=id.g331d4cda<spanx style="emph">0</spanx>92</t>
+        </section>
+      </section>
+      <section anchor="interaction-with-http-proxies" title="Interaction with HTTP proxies">
+        <t>Client Hints are designed to optimize interaction with existing cache and proxy servers.</t>
+        <t>When a resource is optimized based on the specified Client Hint information, a Vary response header can be specified for upstream cache and proxy servers. For fine-grained control, the Key response header could be used to define a custom cache key based on an individual or a combination of client hint values.</t>
+        <t>Unlike the User-Agent string, which is a sinle opaque string, Client Hints provides a stable, customizable, cache friendly mechanism for content adaptation.</t>
+      </section>
+      <section anchor="interaction-with-browser-hints" title="Interaction with Browser Hints">
+        <t>Browser Hints specifies a mechanism whereby origin servers can make available hints for browsers (clients) about their preferences and capabilities, without imposing overhead on their interactions or requiring support for them.</t>
+        <t>Through the use of Browser Hints, the server can advertise the support for specific Client Hint variables or capabilities, allowing the client to avoid sending variables which will have no effect on the server.</t>
+      </section>
+      <section anchor="interaction-with-user-agent" title="Interaction with User Agent">
+        <t>Client Hints does not superseed or replace User Agent in any way. Existing device detection mechanisms can continue to use both mechanisms if necessary.</t>
+        <t>By advertising its capabilities within a request header, Client Hints allows for cache friendly, and explicit content adaptation.</t>
+      </section>
+    </section>
+    <section anchor="iana-considerations" title="IANA Considerations">
+      <t>TBD</t>
+    </section>
+    <section anchor="security-considerations" title="Security Considerations">
+      <t>Client Hints does not provide any additional data about the browser, or the user, that is currently not available within the browser itself. In cases such as incognito or anonymous profile browsing, the header can be omitted entirely if necessary.</t>
+      <t>Similarly, the user may be given the choice to enable, disable, or override specific hints. For example, to allow the request for low-resolution images and other content while roaming on a foreign network.</t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References">
+      <reference anchor="RFC2119">
+        <front>
+          <title abbrev="RFC Key Words">Key words for use in RFCs to Indicate Requirement Levels</title>
+          <author initials="S." surname="Bradner" fullname="Scott Bradner">
+            <organization>Harvard University</organization>
+            <address>
+              <postal>
+                <street>1350 Mass. Ave.</street>
+                <street>Cambridge</street>
+                <street>MA 02138</street>
+              </postal>
+              <phone>- +1 617 495 3864</phone>
+              <email>sob@harvard.edu</email>
+            </address>
+          </author>
+          <date year="1997" month="March"/>
+          <area>General</area>
+          <keyword>keyword</keyword>
+          <abstract>
+            <t>
+   In many standards track documents several words are used to signify
+   the requirements in the specification.  These words are often
+   capitalized.  This document defines these words as they should be
+   interpreted in IETF documents.  Authors who follow these guidelines
+   should incorporate this phrase near the beginning of their document:
+
+<list><t>
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      RFC 2119.
+</t></list></t>
+            <t>
+   Note that the force of these words is modified by the requirement
+   level of the document in which they are used.
+</t>
+          </abstract>
+        </front>
+        <seriesInfo name="BCP" value="14"/>
+        <seriesInfo name="RFC" value="2119"/>
+        <format type="TXT" octets="4723" target="http://www.rfc-editor.org/rfc/rfc2119.txt"/>
+        <format type="HTML" octets="17970" target="http://xml.resource.org/public/rfc/html/rfc2119.html"/>
+        <format type="XML" octets="5777" target="http://xml.resource.org/public/rfc/xml/rfc2119.xml"/>
+      </reference>
+      <reference anchor="RFC5234">
+        <front>
+          <title>Augmented BNF for Syntax Specifications: ABNF</title>
+          <author initials="D." surname="Crocker" fullname="D. Crocker">
+            <organization/>
+          </author>
+          <author initials="P." surname="Overell" fullname="P. Overell">
+            <organization/>
+          </author>
+          <date year="2008" month="January"/>
+          <abstract>
+            <t>Internet technical specifications often need to define a formal syntax.  Over the years, a modified version of Backus-Naur Form (BNF), called Augmented BNF (ABNF), has been popular among many Internet specifications.  The current specification documents ABNF.  It balances compactness and simplicity with reasonable representational power.  The differences between standard BNF and ABNF involve naming rules, repetition, alternatives, order-independence, and value ranges.  This specification also supplies additional rule definitions and encoding for a core lexical analyzer of the type common to several Internet specifications. [STANDARDS-TRACK]</t>
+          </abstract>
+        </front>
+        <seriesInfo name="STD" value="68"/>
+        <seriesInfo name="RFC" value="5234"/>
+        <format type="TXT" octets="26359" target="http://www.rfc-editor.org/rfc/rfc5234.txt"/>
+      </reference>
+      <reference anchor="I-D.ietf-httpbis-p1-messaging">
+        <front>
+          <title>Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing</title>
+          <author initials="R" surname="Fielding" fullname="Roy Fielding">
+            <organization/>
+          </author>
+          <author initials="J" surname="Reschke" fullname="Julian Reschke">
+            <organization/>
+          </author>
+          <date month="October" day="4" year="2012"/>
+          <abstract>
+            <t>The Hypertext Transfer Protocol (HTTP) is an application-level protocol for distributed, collaborative, hypertext information systems.  HTTP has been in use by the World Wide Web global information initiative since 1990.  This document provides an overview of HTTP architecture and its associated terminology, defines the "http" and "https" Uniform Resource Identifier (URI) schemes, defines the HTTP/1.1 message syntax and parsing requirements, and describes general security concerns for implementations.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p1-messaging-21"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p1-messaging-21.txt"/>
+      </reference>
+      <reference anchor="I-D.ietf-httpbis-p2-semantics">
+        <front>
+          <title>Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</title>
+          <author initials="R" surname="Fielding" fullname="Roy Fielding">
+            <organization/>
+          </author>
+          <author initials="J" surname="Reschke" fullname="Julian Reschke">
+            <organization/>
+          </author>
+          <date month="October" day="4" year="2012"/>
+          <abstract>
+            <t>The Hypertext Transfer Protocol (HTTP) is an application-level protocol for distributed, collaborative, hypertext information systems.  This document defines the semantics of HTTP/1.1 messages, as expressed by request methods, request header fields, response status codes, and response header fields, along with the payload of messages (metadata and body content) and mechanisms for content negotiation.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p2-semantics-21"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p2-semantics-21.txt"/>
+      </reference>
+    </references>
+  </back>
+</rfc>
