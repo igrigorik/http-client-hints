@@ -99,13 +99,6 @@ This document defines the following well-known hint names:
 - Value Type: number
 
 
-Interaction with HTTP proxies
----------------
-
-Client Hints are designed to optimize interaction with existing cache and proxy servers.
-
-When a resource is optimized based on the specified client hint information, a Vary response header can be specified for upstream cache and proxy servers. For fine-grained control, the Key response header could be used to define a custom cache key based on an individual or a combination of client hint values.
-
 Interaction with Browser Hints
 ---------------
 
@@ -113,6 +106,14 @@ Browser Hints specifies a mechanism whereby origin servers can make available hi
 
 Through the use of Browser Hints, the server can advertise the support for specific Client Hint variables or capabilities, allowing the client to avoid sending variables which will have no effect on the server.
 
+Interaction with HTTP proxies
+---------------
+
+Client Hints are designed to optimize interaction with existing cache and proxy servers.
+
+When a resource is optimized based on the specified client hint information, a Vary response header can be specified for upstream cache and proxy servers. For fine-grained control, the Key response header could be used to define a custom cache key based on an individual or a combination of client hint values.
+
+An optimizing proxy may also use an additional mechanism, such as Browser Hints, to negotiate which client hints can be communicated to enable better content adaptation.
 
 Interaction with User Agent
 ---------------

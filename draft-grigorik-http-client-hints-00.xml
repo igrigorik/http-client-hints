@@ -84,13 +84,14 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
           </t>
         </section>
       </section>
-      <section anchor="interaction-with-http-proxies" title="Interaction with HTTP proxies">
-        <t>Client Hints are designed to optimize interaction with existing cache and proxy servers.</t>
-        <t>When a resource is optimized based on the specified client hint information, a Vary response header can be specified for upstream cache and proxy servers. For fine-grained control, the Key response header could be used to define a custom cache key based on an individual or a combination of client hint values.</t>
-      </section>
       <section anchor="interaction-with-browser-hints" title="Interaction with Browser Hints">
         <t>Browser Hints specifies a mechanism whereby origin servers can make available hints for browsers (clients) about their preferences and capabilities, without imposing overhead on their interactions or requiring support for them.</t>
         <t>Through the use of Browser Hints, the server can advertise the support for specific Client Hint variables or capabilities, allowing the client to avoid sending variables which will have no effect on the server.</t>
+      </section>
+      <section anchor="interaction-with-http-proxies" title="Interaction with HTTP proxies">
+        <t>Client Hints are designed to optimize interaction with existing cache and proxy servers.</t>
+        <t>When a resource is optimized based on the specified client hint information, a Vary response header can be specified for upstream cache and proxy servers. For fine-grained control, the Key response header could be used to define a custom cache key based on an individual or a combination of client hint values.</t>
+        <t>An optimizing proxy may also use an additional mechanism, such as Browser Hints, to negotiate which client hints can be communicated to enable better content adaptation.</t>
       </section>
       <section anchor="interaction-with-user-agent" title="Interaction with User Agent">
         <t>Client Hints does not supersede or replace User-Agent. Existing device detection mechanisms can continue to use both mechanisms if necessary.</t>
