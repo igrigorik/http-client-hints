@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                          December 6, 2012
+Internet-Draft                                         December 11, 2012
 Intended status: Informational
-Expires: June 9, 2013
+Expires: June 14, 2013
 
 
                            HTTP Client Hints
@@ -41,7 +41,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 9, 2013.
+   This Internet-Draft will expire on June 14, 2013.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Grigorik                  Expires June 9, 2013                  [Page 1]
+Grigorik                  Expires June 14, 2013                 [Page 1]
 
 Internet-Draft              HTTP Client Hints              December 2012
 
@@ -72,18 +72,17 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
      1.1.  Notational Conventions  . . . . . . . . . . . . . . . . . . 3
    2.  The "Client-Hints" Request Header Field . . . . . . . . . . . . 3
-     2.1.  Pre-defined Client Hints  . . . . . . . . . . . . . . . . . 4
+     2.1.  Client-Hints Header Fields  . . . . . . . . . . . . . . . . 4
        2.1.1.  bw  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
        2.1.2.  vv  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
        2.1.3.  dpr . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-       2.1.4.  dc  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-     2.2.  Interaction with HTTP proxies . . . . . . . . . . . . . . . 5
+     2.2.  Interaction with HTTP proxies . . . . . . . . . . . . . . . 4
      2.3.  Interaction with Browser Hints  . . . . . . . . . . . . . . 5
-     2.4.  Interaction with User Agent . . . . . . . . . . . . . . . . 6
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 7
+     2.4.  Interaction with User Agent . . . . . . . . . . . . . . . . 5
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 5
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 5
+   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 5
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 6
 
 
 
@@ -108,7 +107,8 @@ Table of Contents
 
 
 
-Grigorik                  Expires June 9, 2013                  [Page 2]
+
+Grigorik                  Expires June 14, 2013                 [Page 2]
 
 Internet-Draft              HTTP Client Hints              December 2012
 
@@ -122,26 +122,26 @@ Internet-Draft              HTTP Client Hints              December 2012
    device is connected to.
 
    One way to infer some of these capabilities is through User-Agent
-   detection against an established database of client signatures.
+   (UA) detection against an established database of client signatures.
    However, this technique requires acquiring such a database, keeping
-   it up to date, and in many cases is simply not sufficient to
-   distinguish the various devices with the same fingerprint.  User-
-   Agent detection is:
+   it up to date, and in many cases is simply not sufficient to do the
+   device identification due to lack of enough unique information within
+   the UA header.
 
-   o  Offers unreliable device detection
-   o  Depends on acquiruing and maitenance of external databases
-   o  Not cache friendly, as it is not practical to Vary on User-Agent,
-      and provides no fine-grained control to Vary content based on
-      device capabilities or prefernces
-   o  Unable to infer dynamic client preferences, such as current
-      network conditions, or user-specified preferences (ex, decisions
-      made while roaming)
+   o  UA detection is not reliable
+   o  UA detection is not cache friendly
+   o  UA detection depends on acquiring and maintenance of external
+      databases
+   o  UA detection is unable to infer dynamic client preferences, such
+      as current network conditions, or user-specified preferences (ex,
+      decisions made while roaming)
 
    This document defines a new request header field, "Client-Hints",
-   that allows the client to make available hints for servers about its
-   preference or capabilities, to allow server-side content adaption
-   without impossing additional latency on the client, or requiring the
-   use of additional device databases.
+   that allows the client to make available hints, both static and
+   dynamic, for servers about its preference and capabilities.  "Client-
+   Hints" allows server-side content adaption without imposing
+   additional latency on the client, or requiring the use of additional
+   device databases.
 
 1.1.  Notational Conventions
 
@@ -164,25 +164,30 @@ Internet-Draft              HTTP Client Hints              December 2012
 
 
 
-Grigorik                  Expires June 9, 2013                  [Page 3]
+Grigorik                  Expires June 14, 2013                 [Page 3]
 
 Internet-Draft              HTTP Client Hints              December 2012
 
 
    resource to satisfy a given request.
 
-   The Client-Hints field-value is a comma-delimited list of well-
-   defined header fields, delimited by semicolons.  Both the field-name
-   and modifier names themselves are case insensitive.
+   The Client-Hints field-value is a comma-delimited list of header
+   fields.  The field-name values are case insensitive.
 
-2.1.  Pre-defined Client Hints
+2.1.  Client-Hints Header Fields
 
-   All communicated client hints are available within the browser, such
-   that content adaption could be done both on the client, and on the
-   server.  As such, Client-Hints do not define any new client
-   information that is not already available within the browser.
+   The client controls which header fields are communicated within the
+   Client-Hints header, based on its default settings, or based on user
+   configuration and preferences.  The user may be given the choice to
+   enable, disable, or override specific hints.  For example, to allow
+   the request for low-resolution images or other content type's while
+   roaming on a foreign network, even while on a high-bandwidth link.
 
-   This document defines the following hints:
+   The client and server, or an intermediate proxy, may use an
+   additional mechanism to negotiate which fields should be reported to
+   allow for efficient content adaption.
+
+   This document defines the following well-known hint names:
 
 2.1.1.  bw
 
@@ -202,85 +207,28 @@ Internet-Draft              HTTP Client Hints              December 2012
       physical pixels and device-independent pixels on the device.
    o  Value Type: number
 
-2.1.4.  dc
-
-   o  Description: Device Capabilities (dc), is a bit-packed signature
-      of enabled client features to assist with content adaptation based
-      on common device class attributes.  There are hundreds of
-
-   The dc value is the integer value of the bitfield, with the following
-   indexes:
-
-   1.  CSS Level 1 or does not support cascading (minimal CSS support)
-   2.  CSS Level 2.1 with 50%+ on ACID2 test (limited CSS support)
-   3.  CSS Level 2.1 with 75%+ on ACID2 test (good CSS support)
-   4.  CSS Level 3 with 75%+ on ACID3 test (excellent CSS support)
-
-
-
-
-
-Grigorik                  Expires June 9, 2013                  [Page 4]
-
-Internet-Draft              HTTP Client Hints              December 2012
-
-
-   5.  JavaScript support
-   6.  XMLHttpRequest support
-   7.  Touch screen device and support for touch
-   8.  WebP support (maybe?)
-
-   ...  (TBD: more?)
-
-   Each bit should be marked as 1 if the client meets the criteria.  For
-   example, for a device which supports all of the above criteria, the
-   bitmap is "11111111", which is equivalent to dc=255.  For a device,
-   which supports JavaScript and has good CSS support, but does not
-   support XMLHttpRequest, touch, or WebP the bitmap is "00010111",
-   which is equivalen tto dc=23.
-
-   // (Ilya) the downside to this approach is that we're hardcoding
-   these values into the spec, and they _will_ get out of sync.  It
-   would better if we could define a layer of indirection here, which
-   would allow us to be more feature proof.  For example: simply define
-   class A,B,C,D,E (5 out to be enough ;-)), and pull out the definition
-   of each into a separate (external) mechanism, such that as devices
-   evolve, we can reclaim or upgrade what each class defines.
-
-   (WIP) References for common attributes and device clases: -
-   http://jquerymobile.com/gbs/ - http://oreilly.com/iphone/excerpts/
-   iphone-mobile-design-development/mobile-web-development.html - https:
-   //docs.google.com/presentation/d/
-   1y_A6VOZy9bD2i0VLHv9ZWr0W3hZJvlTNCDA0itjI0yM/
-   edit#slide=id.g331d4cda_0_92
-
 2.2.  Interaction with HTTP proxies
 
    Client Hints are designed to optimize interaction with existing cache
    and proxy servers.
 
-   When a resource is optimized based on the specified Client Hint
+   When a resource is optimized based on the specified client hint
    information, a Vary response header can be specified for upstream
    cache and proxy servers.  For fine-grained control, the Key response
    header could be used to define a custom cache key based on an
    individual or a combination of client hint values.
 
-   Unlike the User-Agent string, which is a sinle opaque string, Client
-   Hints provides a stable, customizable, cache friendly mechanism for
-   content adaptation.
+
+
+Grigorik                  Expires June 14, 2013                 [Page 4]
+
+Internet-Draft              HTTP Client Hints              December 2012
+
 
 2.3.  Interaction with Browser Hints
 
    Browser Hints specifies a mechanism whereby origin servers can make
    available hints for browsers (clients) about their preferences and
-
-
-
-Grigorik                  Expires June 9, 2013                  [Page 5]
-
-Internet-Draft              HTTP Client Hints              December 2012
-
-
    capabilities, without imposing overhead on their interactions or
    requiring support for them.
 
@@ -291,9 +239,9 @@ Internet-Draft              HTTP Client Hints              December 2012
 
 2.4.  Interaction with User Agent
 
-   Client Hints does not superseed or replace User Agent in any way.
-   Existing device detection mechanisms can continue to use both
-   mechanisms if necessary.
+   Client Hints does not supersede or replace User-Agent.  Existing
+   device detection mechanisms can continue to use both mechanisms if
+   necessary.
 
    By advertising its capabilities within a request header, Client Hints
    allows for cache friendly, and explicit content adaptation.
@@ -306,15 +254,9 @@ Internet-Draft              HTTP Client Hints              December 2012
 
 4.  Security Considerations
 
-   Client Hints does not provide any additional data about the browser,
-   or the user, that is currently not available within the browser
-   itself.  In cases such as incognito or anonymous profile browsing,
-   the header can be omitted entirely if necessary.
-
-   Similarly, the user may be given the choice to enable, disable, or
-   override specific hints.  For example, to allow the request for low-
-   resolution images and other content while roaming on a foreign
-   network.
+   The client controls which header fields are communicated and when.
+   In cases such as incognito or anonymous profile browsing, the header
+   can be omitted entirely if necessary.
 
 
 5.  Normative References
@@ -329,15 +271,15 @@ Internet-Draft              HTTP Client Hints              December 2012
               Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Semantics and Content",
               draft-ietf-httpbis-p2-semantics-21 (work in progress),
+              October 2012.
 
 
 
-Grigorik                  Expires June 9, 2013                  [Page 6]
+
+Grigorik                  Expires June 14, 2013                 [Page 5]
 
 Internet-Draft              HTTP Client Hints              December 2012
 
-
-              October 2012.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -388,5 +330,7 @@ Author's Address
 
 
 
-Grigorik                  Expires June 9, 2013                  [Page 7]
+
+
+Grigorik                  Expires June 14, 2013                 [Page 6]
 
