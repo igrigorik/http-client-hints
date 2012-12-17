@@ -71,7 +71,7 @@ The "Client-Hints" Request Header Field
 
 The "Client-Hints" request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request.
 
-The Client-Hints field-value is a comma-delimited list of header fields. The  field-name values are case insensitive.
+The Client-Hints field-value is a semicolon-delimited list of header fields. The field-name values are case insensitive.
 
 
 Client-Hints Header Fields
