@@ -53,25 +53,24 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
       </section>
     </section>
     <section anchor="the-client-hints-request-header-field" title="The “Client-Hints” Request Header Field">
-      <t>The “Client-Hints” request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request.</t>
-      <t>The Client-Hints field-value is a comma-delimited list of header fields. The  field-name values are case insensitive.</t>
+      <t>The “Client-Hints” request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The Client-Hints field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.</t>
       <section anchor="client-hints-header-fields" title="Client-Hints Header Fields">
         <t>The client controls which header fields are communicated within the Client-Hints header, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints. For example, to allow the request for low-resolution images or other content type’s while roaming on a foreign network, even while on a high-bandwidth link.</t>
         <t>The client and server, or an intermediate proxy, may use an additional mechanism to negotiate which fields should be reported to allow for efficient content adaption.</t>
         <t>This document defines the following well-known hint names:</t>
-        <section anchor="bw" title="bw">
+        <section anchor="vh" title="vh">
           <t>
             <list style="symbols">
-              <t>Description: Bandwidth (bw) of the current client connection, in kbps.</t>
+              <t>Description: Visual viewport height (vh) of the client, in CSS pixels.</t>
               <t>Value Type: number</t>
             </list>
           </t>
         </section>
-        <section anchor="vv" title="vv">
+        <section anchor="vw" title="vw">
           <t>
             <list style="symbols">
-              <t>Description: Visual Viewport (vv) size of the client, in CSS pixels (ex, 720x1024).</t>
-              <t>Value Type: string</t>
+              <t>Description: Visual viewport width (vw) of the client, in CSS pixels.</t>
+              <t>Value Type: number</t>
             </list>
           </t>
         </section>
@@ -83,6 +82,23 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
             </list>
           </t>
         </section>
+        <section anchor="bw" title="bw">
+          <t>
+            <list style="symbols">
+              <t>Description: Bandwidth (bw) of the current client connection, in kbps.</t>
+              <t>Value Type: number</t>
+            </list>
+          </t>
+        </section>
+      </section>
+      <section anchor="examples" title="Examples">
+        <t>For example, given the following request header:</t>
+        <figure>
+          <artwork><![CDATA[
+  Client-Hints: vh=1200, vw=720, dpr=2.0, bw=560
+]]></artwork>
+        </figure>
+        <t>The server knows that the client’s visual viewport is 1200x720px, the device pixel ratio is 2.0 (a HiDPI device), and current link bandwidth estimate is 560kbps.</t>
       </section>
       <section anchor="interaction-with-browser-hints" title="Interaction with Browser Hints">
         <t>Browser Hints specifies a mechanism whereby origin servers can make available hints for browsers (clients) about their preferences and capabilities, without imposing overhead on their interactions or requiring support for them.</t>

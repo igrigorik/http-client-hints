@@ -69,10 +69,7 @@ parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 The "Client-Hints" Request Header Field
 ===============================
 
-The "Client-Hints" request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request.
-
-The Client-Hints field-value is a comma-delimited list of header fields. The  field-name values are case insensitive.
-
+The "Client-Hints" request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The Client-Hints field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.
 
 Client-Hints Header Fields
 ---------------
@@ -83,20 +80,36 @@ The client and server, or an intermediate proxy, may use an additional mechanism
 
 This document defines the following well-known hint names:
 
-### bw
+### vh
 
-- Description: Bandwidth (bw) of the current client connection, in kbps.
+- Description: Visual viewport height (vh) of the client, in CSS pixels.
 - Value Type: number
 
-### vv
+### vw
 
-- Description: Visual Viewport (vv) size of the client, in CSS pixels (ex, 720x1024).
-- Value Type: string
+- Description: Visual viewport width (vw) of the client, in CSS pixels.
+- Value Type: number
 
 ### dpr
 
 - Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.
 - Value Type: number
+
+### bw
+
+- Description: Bandwidth (bw) of the current client connection, in kbps.
+- Value Type: number
+
+Examples
+---------------
+
+For example, given the following request header:
+
+~~~
+  Client-Hints: vh=1200, vw=720, dpr=2.0, bw=560
+~~~
+
+The server knows that the client's visual viewport is 1200x720px, the device pixel ratio is 2.0 (a HiDPI device), and current link bandwidth estimate is 560kbps.
 
 
 Interaction with Browser Hints
