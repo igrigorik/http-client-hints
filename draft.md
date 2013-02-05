@@ -80,14 +80,14 @@ The client and server, or an intermediate proxy, may use an additional mechanism
 
 This document defines the following well-known hint names:
 
-### vh
+### dh
 
-- Description: Visual viewport height (vh) of the client, in CSS pixels.
+- Description: Device height (dh) of the client, in physical pixels.
 - Value Type: number
 
-### vw
+### dw
 
-- Description: Visual viewport width (vw) of the client, in CSS pixels.
+- Description: Device width (dw) of the client, in physical pixels.
 - Value Type: number
 
 ### dpr
@@ -95,10 +95,6 @@ This document defines the following well-known hint names:
 - Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.
 - Value Type: number
 
-### bw
-
-- Description: Bandwidth (bw) of the current client connection, in kbps.
-- Value Type: number
 
 Examples
 ---------------
@@ -106,10 +102,10 @@ Examples
 For example, given the following request header:
 
 ~~~
-  Client-Hints: vh=1200, vw=720, dpr=2.0, bw=560
+  Client-Hints: dh=1280, dw=768, dpr=2.0
 ~~~
 
-The server knows that the client's visual viewport is 1200x720px, the device pixel ratio is 2.0 (a HiDPI device), and current link bandwidth estimate is 560kbps.
+The server knows that the clients physical screen size is 1280x768px, and that the device is HiDPI capable, with a device pixel ratio of 2.0.
 
 
 Interaction with Browser Hints
@@ -145,7 +141,7 @@ TBD
 Security Considerations
 =======================
 
-The client controls which header fields are communicated and when. In cases such as incognito or anonymous profile browsing, the header can be omitted entirely if necessary.
+The client controls which header fields are communicated and when. In cases such as incognito or anonymous profile browsing, the header can be omitted if necessary.
 
 
 --- back
