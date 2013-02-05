@@ -1,7 +1,7 @@
 ---
 title: HTTP Client Hints
 abbrev:
-date: 2012
+date: 2013
 category: info
 
 ipr: trust200902
