@@ -35,21 +35,21 @@ An increasing diversity of connected device form factors and software capabiliti
 
 The 'Client-Hints' header field for HTTP requests allows the client to describe its preferences and capabilities to an origin server to enable cache-friendly, server-side content adaptation, without imposing additional latency and deferred evaluation on the client.
 
-Client-Hints also has the advantage of being able to transmit dynamic client preferences, such as available bandwidth, or current viewport size, which cannot be inferred through static client signature databases.
+Client-Hints also has the advantage of being able to transmit dynamic client variables and preferences, which cannot be inferred through static client signature databases.
 
 --- middle
 
 Introduction
 ============
 
-There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as information about the state of the network to which the device is connected to.
+There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as information about the state of the client and the network to which the device is connected to.
 
-One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, keeping it up to date, and in many cases is simply not sufficient to do the device identification due to lack of enough unique information within the UA header.
+One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, keeping it up to date, and in many cases is nonetheless simply either not sufficient to identify the required variables, nor able to infer dynamic client preferences.
 
   - UA detection is not reliable
   - UA detection is not cache friendly
   - UA detection depends on acquiring and maintenance of external databases
-  - UA detection is unable to infer dynamic client preferences, such as current network conditions, or user-specified preferences (ex, decisions made while roaming)
+  - UA detection is unable to infer dynamic client preferences
 
 This document defines a new request header field, "Client-Hints", that allows the client to make available hints, both static and dynamic, for servers about its preference and capabilities. "Client-Hints" allows server-side content adaption without imposing additional latency on the client, or requiring the use of additional device databases.
 
@@ -69,7 +69,7 @@ parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 The "Client-Hints" Request Header Field
 ===============================
 
-The "Client-Hints" request header field describes the current client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The Client-Hints field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.
+The "Client-Hints" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The Client-Hints field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.
 
 Client-Hints Header Fields
 ---------------
@@ -95,6 +95,8 @@ This document defines the following well-known hint names:
 - Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.
 - Value Type: number
 
+Other client hints may be communicated by the client. The decision as to which specific hints will be communicated is always made by the client.
+
 
 Examples
 ---------------
@@ -106,6 +108,20 @@ For example, given the following request header:
 ~~~
 
 The server knows that the clients physical screen size is 1280x768px, and that the device is HiDPI capable, with a device pixel ratio of 2.0.
+
+
+Server opt-in and advertising
+---------------
+
+Client-Hints is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, out of band updates, or other forms of server opt-in flags.
+
+For example, the server may advertise its support for Client-Hints via the following response header:
+
+~~~
+  Client-Hints-Support: dv, dh, dpr
+~~~
+
+When a client receives a Client-Hints-Support header, it should remember the hint and append the Client-Hints request header to future HTTP requests to the same origin server. Optionally, the client can also opt-in to only send the advertised variables.
 
 
 Interaction with Browser Hints
