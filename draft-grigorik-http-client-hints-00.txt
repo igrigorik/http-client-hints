@@ -81,7 +81,7 @@ Table of Contents
      3.1.  The CH Request Header Field . . . . . . . . . . . . . . . . 6
      3.2.  The HTTP Hints  . . . . . . . . . . . . . . . . . . . . . . 6
    4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 7
+   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 6
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 7
 
 
@@ -306,10 +306,8 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 3.2.  The HTTP Hints
 
-   This document registers HTTP Hints specified in section 2.1.  (TBD:
-   same registry?)
-
-   This document register the following, optional Origin and Hop Hint:
+   This document registers the following HTTP Hint
+   ([I-D.nottingham-http-browser-hints]):
 
    o  Hint Name: ch
    o  Hint Type: origin, hop (TBD: both?)
@@ -327,8 +325,10 @@ Internet-Draft              HTTP Client Hints              February 2013
    can be omitted if necessary.
 
 
+5.  Normative References
 
-
+   [I-D.ietf-httpbis-p1-messaging]
+              Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
 
 
 
@@ -337,10 +337,6 @@ Grigorik                 Expires August 22, 2013                [Page 6]
 Internet-Draft              HTTP Client Hints              February 2013
 
 
-5.  Normative References
-
-   [I-D.ietf-httpbis-p1-messaging]
-              Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Message Syntax and Routing",
               draft-ietf-httpbis-p1-messaging-21 (work in progress),
               October 2012.
@@ -350,6 +346,11 @@ Internet-Draft              HTTP Client Hints              February 2013
               (HTTP/1.1): Semantics and Content",
               draft-ietf-httpbis-p2-semantics-21 (work in progress),
               October 2012.
+
+   [I-D.nottingham-http-browser-hints]
+              Nottingham, M., "HTTP Origin and Hop Hints",
+              draft-nottingham-http-browser-hints-05 (work in progress),
+              February 2013.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -364,7 +365,6 @@ Author's Address
 
    Email: ilya@igvita.com
    URI:   http://www.igvita.com/
-
 
 
 

@@ -141,8 +141,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         </t>
       </section>
       <section anchor="the-http-hints" title="The HTTP Hints">
-        <t>This document registers HTTP Hints specified in section 2.1. (TBD: same registry?)</t>
-        <t>This document register the following, optional Origin and Hop Hint:</t>
+        <t>This document registers the following HTTP Hint (<xref target="I-D.nottingham-http-browser-hints"/>):</t>
         <t>
           <list style="symbols">
             <t>Hint Name: ch</t>
@@ -256,6 +255,20 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p2-semantics-21"/>
         <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p2-semantics-21.txt"/>
+      </reference>
+      <reference anchor="I-D.nottingham-http-browser-hints">
+        <front>
+          <title>HTTP Origin and Hop Hints</title>
+          <author initials="M" surname="Nottingham" fullname="Mark Nottingham">
+            <organization/>
+          </author>
+          <date month="February" day="11" year="2013"/>
+          <abstract>
+            <t>Over time, HTTP clients -- especially Web browsers -- have adapted how they use the protocol based upon common server configurations and behaviours.  While this is necessary in the common case, it can be detrimental for performance and interoperability.  This document establishes a mechanism whereby both origin servers and intermediaries can make hints available to clients about their preferences and capabilities, without imposing undue overhead on their interactions or requiring support for them.  This is intended to allow clients to safely optimise connections to servers.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-nottingham-http-browser-hints-05"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-nottingham-http-browser-hints-05.txt"/>
       </reference>
     </references>
   </back>

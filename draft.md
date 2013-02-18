@@ -25,9 +25,9 @@ normative:
   RFC5234:
   I-D.ietf-httpbis-p1-messaging:
   I-D.ietf-httpbis-p2-semantics:
+  I-D.nottingham-http-browser-hints:
 
 informative:
-
 
 --- abstract
 
@@ -173,9 +173,7 @@ This document defines the "OH" HTTP request field, and registers it in the Perma
 The HTTP Hints
 ---------------
 
-This document registers HTTP Hints specified in section 2.1. (TBD: same registry?)
-
-This document register the following, optional Origin and Hop Hint:
+This document registers the following HTTP Hint ({{I-D.nottingham-http-browser-hints}}):
 
 - Hint Name: ch
 - Hint Type: origin, hop (TBD: both?)
