@@ -173,7 +173,7 @@ This document defines the "OH" HTTP request field, and registers it in the Perma
 The HTTP Hints
 ---------------
 
-This document registers the following HTTP Hint ({{I-D.nottingham-http-browser-hints}}):
+This document registers HTTP Hints ({{I-D.nottingham-http-browser-hints}}) in section 2.1, and the following:
 
 - Hint Name: ch
 - Hint Type: origin, hop (TBD: both?)
