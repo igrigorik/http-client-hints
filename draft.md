@@ -157,7 +157,32 @@ Client Hints does not supersede or replace User-Agent. Existing device detection
 IANA Considerations
 ===================
 
-TBD
+The CH Request Header Field
+---------------
+
+This document defines the "OH" HTTP request field, and registers it in the Permanent Message Headers registry.
+
+- Header field name: CH
+- Applicable protocol: HTTP
+- Status: Informational
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
+
+
+The HTTP Hints
+---------------
+
+This document registers HTTP Hints specified in section 2.1. (TBD: same registry?)
+
+This document register the following, optional Origin and Hop Hint:
+
+- Hint Name: ch
+- Hint Type: origin, hop (TBD: both?)
+- Description: When present, this hint indicates support for Client-Hints adaptation.
+- Value Type: boolean (TBD: ch=1?)
+- Contact: ilya@igvita.com
+- Specification: this document
 
 
 Security Considerations

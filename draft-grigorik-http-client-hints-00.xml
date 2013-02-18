@@ -127,7 +127,33 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
       </section>
     </section>
     <section anchor="iana-considerations" title="IANA Considerations">
-      <t>TBD</t>
+      <section anchor="the-ch-request-header-field" title="The CH Request Header Field">
+        <t>This document defines the “OH” HTTP request field, and registers it in the Permanent Message Headers registry.</t>
+        <t>
+          <list style="symbols">
+            <t>Header field name: CH</t>
+            <t>Applicable protocol: HTTP</t>
+            <t>Status: Informational</t>
+            <t>Author/Change controller: Ilya Grigorik, ilya@igvita.com</t>
+            <t>Specification document(s): [this document]</t>
+            <t>Related information: for Client Hints</t>
+          </list>
+        </t>
+      </section>
+      <section anchor="the-http-hints" title="The HTTP Hints">
+        <t>This document registers HTTP Hints specified in section 2.1. (TBD: same registry?)</t>
+        <t>This document register the following, optional Origin and Hop Hint:</t>
+        <t>
+          <list style="symbols">
+            <t>Hint Name: ch</t>
+            <t>Hint Type: origin, hop (TBD: both?)</t>
+            <t>Description: When present, this hint indicates support for Client-Hints adaptation.</t>
+            <t>Value Type: boolean (TBD: ch=1?)</t>
+            <t>Contact: ilya@igvita.com</t>
+            <t>Specification: this document</t>
+          </list>
+        </t>
+      </section>
     </section>
     <section anchor="security-considerations" title="Security Considerations">
       <t>The client controls which header fields are communicated and when. In cases such as incognito or anonymous profile browsing, the header can be omitted if necessary.</t>

@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                         February 15, 2013
+Internet-Draft                                         February 18, 2013
 Intended status: Informational
-Expires: August 19, 2013
+Expires: August 22, 2013
 
 
                            HTTP Client Hints
@@ -37,7 +37,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 19, 2013.
+   This Internet-Draft will expire on August 22, 2013.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Grigorik                 Expires August 19, 2013                [Page 1]
+Grigorik                 Expires August 22, 2013                [Page 1]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -78,9 +78,11 @@ Table of Contents
      2.5.  Interaction with HTTP proxies . . . . . . . . . . . . . . . 5
      2.6.  Interaction with User Agent . . . . . . . . . . . . . . . . 6
    3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
+     3.1.  The CH Request Header Field . . . . . . . . . . . . . . . . 6
+     3.2.  The HTTP Hints  . . . . . . . . . . . . . . . . . . . . . . 6
    4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 6
-   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 6
+   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 7
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 7
 
 
 
@@ -106,9 +108,7 @@ Table of Contents
 
 
 
-
-
-Grigorik                 Expires August 19, 2013                [Page 2]
+Grigorik                 Expires August 22, 2013                [Page 2]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -164,7 +164,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 
 
-Grigorik                 Expires August 19, 2013                [Page 3]
+Grigorik                 Expires August 22, 2013                [Page 3]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -220,7 +220,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 
 
-Grigorik                 Expires August 19, 2013                [Page 4]
+Grigorik                 Expires August 22, 2013                [Page 4]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -276,7 +276,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 
 
-Grigorik                 Expires August 19, 2013                [Page 5]
+Grigorik                 Expires August 22, 2013                [Page 5]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -292,7 +292,32 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 3.  IANA Considerations
 
-   TBD
+3.1.  The CH Request Header Field
+
+   This document defines the "OH" HTTP request field, and registers it
+   in the Permanent Message Headers registry.
+
+   o  Header field name: CH
+   o  Applicable protocol: HTTP
+   o  Status: Informational
+   o  Author/Change controller: Ilya Grigorik, ilya@igvita.com
+   o  Specification document(s): [this document]
+   o  Related information: for Client Hints
+
+3.2.  The HTTP Hints
+
+   This document registers HTTP Hints specified in section 2.1.  (TBD:
+   same registry?)
+
+   This document register the following, optional Origin and Hop Hint:
+
+   o  Hint Name: ch
+   o  Hint Type: origin, hop (TBD: both?)
+   o  Description: When present, this hint indicates support for Client-
+      Hints adaptation.
+   o  Value Type: boolean (TBD: ch=1?)
+   o  Contact: ilya@igvita.com
+   o  Specification: this document
 
 
 4.  Security Considerations
@@ -300,6 +325,16 @@ Internet-Draft              HTTP Client Hints              February 2013
    The client controls which header fields are communicated and when.
    In cases such as incognito or anonymous profile browsing, the header
    can be omitted if necessary.
+
+
+
+
+
+
+
+Grigorik                 Expires August 22, 2013                [Page 6]
+
+Internet-Draft              HTTP Client Hints              February 2013
 
 
 5.  Normative References
@@ -321,20 +356,6 @@ Internet-Draft              HTTP Client Hints              February 2013
 
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
-
-
-
-
-
-
-
-
-
-
-
-Grigorik                 Expires August 19, 2013                [Page 6]
-
-Internet-Draft              HTTP Client Hints              February 2013
 
 
 Author's Address
@@ -367,26 +388,5 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Grigorik                 Expires August 19, 2013                [Page 7]
+Grigorik                 Expires August 22, 2013                [Page 7]
 
