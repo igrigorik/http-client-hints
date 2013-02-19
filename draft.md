@@ -34,7 +34,7 @@ informative:
 
 An increasing diversity of connected device form factors and software capabilities has created a need to deliver varying, or optimized content for each device.
 
-The 'CH' header field for HTTP requests allows the client to describe its preferences and capabilities to an origin or an intermediary server to enable cache-friendly, server-side content adaptation, without imposing additional latency and deferred evaluation on the client.
+Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
 --- middle
 
@@ -45,14 +45,14 @@ There are thousands of different devices accessing the web, each with different 
 
 One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, integrating it into the serving path, and keeping it up to date. However, even once this infrastructure is deployed, UA sniffing has the following limitations:
 
-  - UA detection depends on acquiring and maintenance of external databases
+  - UA detection requires an external device database
   - UA detection cannot reliably identify all static variables
   - UA detection cannot infer any dynamic client preferences
   - UA detection is not cache friendly
 
 A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a new request Client Hint header field, "CH", that allows the client to make available hints, both static and dynamic, to origin and intermediate servers about its preference and capabilities. "CH" allows server-side content adaption without imposing additional latency on the client, requiring the use of additional device databases, while allowing cache-friendly deployments.
+This document defines a new request Client Hint header field, "CH", that allows the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate prefered response formats.
 
 
 Notational Conventions
@@ -68,19 +68,43 @@ This document uses the Augmented Backus-Naur Form (ABNF) notation of
 OWS, field-name and quoted-string rules from that document, and the
 parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 
-The "Client-Hints" Request Header Field
+The "CH" Request Header Field
 ===============================
 
 The "CH" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The CH field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.
 
-CH Header Fields
+~~~
+  CH = 1#client_hint
+~~~
+
+
+Hint Syntax
+---------------
+
+Hints are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), so that the hints don't consume too much space in client requests.
+
+~~~
+  client_hint = hint_name [ "=" hint_value ]
+  hint_name = ALPHA *( DIGIT / "_" / "-" )
+  hint_value = 1*DIGIT
+~~~
+
+Hints can be defined as one of two types:
+
+- Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
+- Numeric - value indicated by the digits after "=", up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
+
+Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the CH header on the message in question before being considered complete.
+
+
+Pre-defined Hints
 ---------------
 
 The client controls which header fields are communicated within the CH header, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints. For example, to allow the request for low-resolution images or other content type's while roaming on a foreign network, even while on a high-bandwidth link.
 
 The client and server, or an intermediate proxy, may use an additional mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
-This document defines the following well-known hint names:
+This document defines the following hint names:
 
 ### dh
 
@@ -97,7 +121,7 @@ This document defines the following well-known hint names:
 - Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.
 - Value Type: number
 
-Other client hints may be communicated by the client. The decision as to which specific hints will be communicated is always made by the client.
+Other client hints may be communicated by the client. The decision as to which specific hints will be sent is made by the client.
 
 
 Examples
@@ -117,7 +141,7 @@ Server opt-in with Hop and Origin Hints
 
 CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, user specified list of origins, or any other forms of opt-in.
 
-For example, the server may advertise its support for Client Hints via Hop or Origin Hint ({{I-D.nottingham-http-browser-hints}}):
+For example, the server may advertise its support for Client Hints via Hop and/or Origin Hint ({{I-D.nottingham-http-browser-hints}}):
 
 ~~~
   HH: ch
@@ -126,7 +150,8 @@ For example, the server may advertise its support for Client Hints via Hop or Or
 
 When a client receives the Hop or Origin Hint header indicating support for Client Hint adaptation, it should append the CH header to subsequent requests to the same origin server. Further, the client may remember this hint and automatically append the CH header for all future requests to the same origin.
 
-Interaction with Key
+
+Interaction with Caches
 ---------------
 
 Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
@@ -135,24 +160,25 @@ Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine
   Key: CH;pr=dw[320:640]
 ~~~
 
-Above example indicates that the cache key should be based on the CH header, and the asset should be cached and made available for any client whose device width falls between 320 and 640 px.
+Above example indicates that the cache key should be based on the CH header, and the asset should be cached and made available for any client whose device width (dw) falls between 320 and 640 px.
 
 ~~~
   Key: CH;pr=dpr[1.5:]
 ~~~
 
-Above examples indicates that the cache key should be based on the CH header, and the asset should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
-
-
-Interaction with HTTP proxies
----------------
+Above examples indicates that the cache key should be based on the CH header, and the asset should be cached and made available for any client whose device pixel ratio (dpr) is 1.5, or higher.
 
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
-Interaction with User Agent
+~~~
+  Vary: CH
+~~~
+
+
+Relationship to the User-Agent Request Header
 ---------------
 
-Client Hints does not supersede or replace User-Agent. Existing device detection mechanisms can continue to use both mechanisms if necessary. By advertising its capabilities within a request header, Client Hints allows for cache friendly and explicit content adaptation.
+Client Hints does not supersede or replace User-Agent. Existing device detection mechanisms can continue to use both mechanisms if necessary. By advertising its capabilities within a request header, Client Hints allows for cache friendly and proactive content negotiation.
 
 
 IANA Considerations
@@ -182,6 +208,8 @@ This document registers HTTP Hints ({{I-D.nottingham-http-browser-hints}}) in se
 - Value Type: numeric
 - Contact: ilya@igvita.com
 - Specification: this document
+
+TBD: need to explicitly define the registry, and the policy for defining new hints.
 
 
 Security Considerations
