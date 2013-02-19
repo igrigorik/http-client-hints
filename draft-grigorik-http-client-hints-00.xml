@@ -95,7 +95,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
       </section>
       <section anchor="server-opt-in-with-hop-and-origin-hints" title="Server opt-in with Hop and Origin Hints">
         <t>CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, user specified list of origins, or any other forms of opt-in.</t>
-        <t>For example, the server may advertise its support for Client Hints via Hop or Origin Hint:</t>
+        <t>For example, the server may advertise its support for Client Hints via Hop or Origin Hint (<xref target="I-D.nottingham-http-browser-hints"/>):</t>
         <figure>
           <artwork><![CDATA[
   HH: ch
@@ -105,7 +105,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <t>When a client receives the Hop or Origin Hint header indicating support for Client Hint adaptation, it should append the CH header to subsequent requests to the same origin server. Further, the client may remember this hint and automatically append the CH header for all future requests to the same origin.</t>
       </section>
       <section anchor="interaction-with-key" title="Interaction with Key">
-        <t>Client Hints may be combined with Key to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:</t>
+        <t>Client Hints may be combined with Key (<xref target="I-D.fielding-http-key"/>) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:</t>
         <figure>
           <artwork><![CDATA[
   Key: CH;pr=dw[320:640]
@@ -269,6 +269,23 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         </front>
         <seriesInfo name="Internet-Draft" value="draft-nottingham-http-browser-hints-05"/>
         <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-nottingham-http-browser-hints-05.txt"/>
+      </reference>
+      <reference anchor="I-D.fielding-http-key">
+        <front>
+          <title>The Key HTTP Response Header Field</title>
+          <author initials="R" surname="Fielding" fullname="Roy Fielding">
+            <organization/>
+          </author>
+          <author initials="M" surname="Nottingham" fullname="Mark Nottingham">
+            <organization/>
+          </author>
+          <date month="October" day="14" year="2012"/>
+          <abstract>
+            <t>The 'Key' header field for HTTP responses allows an origin server to describe the cache key for a negotiated response: a short algorithm that can be used upon later requests to determine if the same response is reusable.  Key has the advantage of avoiding an additional round trip for validation whenever a new request differs slightly, but not significantly, from prior requests.  Key also informs user agents of the request characteristics that might result in different content, which can be useful if the user agent is not sending Accept* fields in order to reduce the risk of fingerprinting.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="Internet-Draft" value="draft-fielding-http-key-01"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-fielding-http-key-01.txt"/>
       </reference>
     </references>
   </back>

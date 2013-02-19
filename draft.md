@@ -26,6 +26,7 @@ normative:
   I-D.ietf-httpbis-p1-messaging:
   I-D.ietf-httpbis-p2-semantics:
   I-D.nottingham-http-browser-hints:
+  I-D.fielding-http-key:
 
 informative:
 
@@ -116,7 +117,7 @@ Server opt-in with Hop and Origin Hints
 
 CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, user specified list of origins, or any other forms of opt-in.
 
-For example, the server may advertise its support for Client Hints via Hop or Origin Hint:
+For example, the server may advertise its support for Client Hints via Hop or Origin Hint ({{I-D.nottingham-http-browser-hints}}):
 
 ~~~
   HH: ch
@@ -128,7 +129,7 @@ When a client receives the Hop or Origin Hint header indicating support for Clie
 Interaction with Key
 ---------------
 
-Client Hints may be combined with Key to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
+Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
 
 ~~~
   Key: CH;pr=dw[320:640]

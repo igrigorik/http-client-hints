@@ -237,7 +237,7 @@ Internet-Draft              HTTP Client Hints              February 2013
    of opt-in.
 
    For example, the server may advertise its support for Client Hints
-   via Hop or Origin Hint:
+   via Hop or Origin Hint ([I-D.nottingham-http-browser-hints]):
 
      HH: ch
      OH: ch
@@ -250,9 +250,10 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 2.4.  Interaction with Key
 
-   Client Hints may be combined with Key to enable fine-grained control
-   of the cache key for improved cache efficiency.  For example, the
-   server may return the following set of instructions:
+   Client Hints may be combined with Key ([I-D.fielding-http-key]) to
+   enable fine-grained control of the cache key for improved cache
+   efficiency.  For example, the server may return the following set of
+   instructions:
 
      Key: CH;pr=dw[320:640]
 
@@ -272,7 +273,6 @@ Internet-Draft              HTTP Client Hints              February 2013
    the Key header field, Vary response header can be used to indicate
    that served resource has been adapted based on specified Client Hint
    preferences.
-
 
 
 
@@ -328,7 +328,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 5.  Normative References
 
-   [I-D.ietf-httpbis-p1-messaging]
+   [I-D.fielding-http-key]
 
 
 
@@ -337,6 +337,11 @@ Grigorik                 Expires August 22, 2013                [Page 6]
 Internet-Draft              HTTP Client Hints              February 2013
 
 
+              Fielding, R. and M. Nottingham, "The Key HTTP Response
+              Header Field", draft-fielding-http-key-01 (work in
+              progress), October 2012.
+
+   [I-D.ietf-httpbis-p1-messaging]
               Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Message Syntax and Routing",
               draft-ietf-httpbis-p1-messaging-21 (work in progress),
@@ -366,11 +371,6 @@ Author's Address
 
    Email: ilya@igvita.com
    URI:   http://www.igvita.com/
-
-
-
-
-
 
 
 
