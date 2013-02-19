@@ -128,7 +128,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
     </section>
     <section anchor="iana-considerations" title="IANA Considerations">
       <section anchor="the-ch-request-header-field" title="The CH Request Header Field">
-        <t>This document defines the “OH” HTTP request field, and registers it in the Permanent Message Headers registry.</t>
+        <t>This document defines the “CH” HTTP request field, and registers it in the Permanent Message Headers registry.</t>
         <t>
           <list style="symbols">
             <t>Header field name: CH</t>
@@ -141,13 +141,13 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         </t>
       </section>
       <section anchor="the-http-hints" title="The HTTP Hints">
-        <t>This document registers the following HTTP Hint (<xref target="I-D.nottingham-http-browser-hints"/>):</t>
+        <t>This document registers HTTP Hints (<xref target="I-D.nottingham-http-browser-hints"/>) in section 2.1, and the following:</t>
         <t>
           <list style="symbols">
             <t>Hint Name: ch</t>
-            <t>Hint Type: origin, hop (TBD: both?)</t>
+            <t>Hint Type: origin, hop</t>
             <t>Description: When present, this hint indicates support for Client-Hints adaptation.</t>
-            <t>Value Type: boolean (TBD: ch=1?)</t>
+            <t>Value Type: numeric</t>
             <t>Contact: ilya@igvita.com</t>
             <t>Specification: this document</t>
           </list>

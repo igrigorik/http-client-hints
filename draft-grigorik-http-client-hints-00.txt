@@ -294,7 +294,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 3.1.  The CH Request Header Field
 
-   This document defines the "OH" HTTP request field, and registers it
+   This document defines the "CH" HTTP request field, and registers it
    in the Permanent Message Headers registry.
 
    o  Header field name: CH
@@ -306,14 +306,15 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 3.2.  The HTTP Hints
 
-   This document registers the following HTTP Hint
-   ([I-D.nottingham-http-browser-hints]):
+   This document registers HTTP Hints
+   ([I-D.nottingham-http-browser-hints]) in section 2.1, and the
+   following:
 
    o  Hint Name: ch
-   o  Hint Type: origin, hop (TBD: both?)
+   o  Hint Type: origin, hop
    o  Description: When present, this hint indicates support for Client-
       Hints adaptation.
-   o  Value Type: boolean (TBD: ch=1?)
+   o  Value Type: numeric
    o  Contact: ilya@igvita.com
    o  Specification: this document
 
@@ -328,7 +329,6 @@ Internet-Draft              HTTP Client Hints              February 2013
 5.  Normative References
 
    [I-D.ietf-httpbis-p1-messaging]
-              Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
 
 
 
@@ -337,6 +337,7 @@ Grigorik                 Expires August 22, 2013                [Page 6]
 Internet-Draft              HTTP Client Hints              February 2013
 
 
+              Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Message Syntax and Routing",
               draft-ietf-httpbis-p1-messaging-21 (work in progress),
               October 2012.
@@ -365,7 +366,6 @@ Author's Address
 
    Email: ilya@igvita.com
    URI:   http://www.igvita.com/
-
 
 
 

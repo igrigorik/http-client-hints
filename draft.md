@@ -160,7 +160,7 @@ IANA Considerations
 The CH Request Header Field
 ---------------
 
-This document defines the "OH" HTTP request field, and registers it in the Permanent Message Headers registry.
+This document defines the "CH" HTTP request field, and registers it in the Permanent Message Headers registry.
 
 - Header field name: CH
 - Applicable protocol: HTTP
@@ -176,9 +176,9 @@ The HTTP Hints
 This document registers HTTP Hints ({{I-D.nottingham-http-browser-hints}}) in section 2.1, and the following:
 
 - Hint Name: ch
-- Hint Type: origin, hop (TBD: both?)
+- Hint Type: origin, hop
 - Description: When present, this hint indicates support for Client-Hints adaptation.
-- Value Type: boolean (TBD: ch=1?)
+- Value Type: numeric
 - Contact: ilya@igvita.com
 - Specification: this document
 
