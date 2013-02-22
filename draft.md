@@ -23,6 +23,7 @@ author:
 normative:
   RFC2119:
   RFC5234:
+  RFC5226:
   I-D.ietf-httpbis-p1-messaging:
   I-D.ietf-httpbis-p2-semantics:
   I-D.nottingham-http-browser-hints:
@@ -74,7 +75,8 @@ The "CH" Request Header Field
 The "CH" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The CH field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.
 
 ~~~
-  CH = 1#client_hint
+  CH = #client-hint
+  client-hint = parameter
 ~~~
 
 
@@ -82,12 +84,6 @@ Hint Syntax
 ---------------
 
 Hints are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), so that the hints don't consume too much space in client requests.
-
-~~~
-  client_hint = hint_name [ "=" hint_value ]
-  hint_name = ALPHA *( DIGIT / "_" / "-" )
-  hint_value = 1*DIGIT
-~~~
 
 Hints can be defined as one of two types:
 
@@ -200,7 +196,7 @@ This document defines the "CH" HTTP request field, and registers it in the Perma
 The HTTP Hints
 ---------------
 
-This document registers HTTP Hints ({{I-D.nottingham-http-browser-hints}}) in section 2.1, and the following:
+This document registers the "ch" HTTP Hint ({{I-D.nottingham-http-browser-hints}}), as defined in section 2.1:
 
 - Hint Name: ch
 - Hint Type: origin, hop
@@ -209,7 +205,31 @@ This document registers HTTP Hints ({{I-D.nottingham-http-browser-hints}}) in se
 - Contact: ilya@igvita.com
 - Specification: this document
 
-TBD: need to explicitly define the registry, and the policy for defining new hints.
+
+The HTTP Client Hints Registry
+---------------
+
+This document establishes the HTTP Client Hints Registry.
+
+New hints are registered using Expert Review (see {{RFC5226}}), by sending e-mail to iana@iana.org (or using other mechanisms, as established by IANA).
+
+New hints are expected to be implemented in at least one client in common use. The Expert MAY use their judgement in determining what "common" is, and when something is considered to be implemented.
+
+New hints MUST be optional; they cannot place requirements upon
+implementations. Specifically, new hints MUST NOT make communication non-conformant with HTTP itself; i.e., this is not a mechanism for changing the HTTP protocol in incompatible ways.
+
+See section 2.1 for constraints on the syntax of hint names and hint values.
+
+Registration requests MUST use the following template:
+
+* Hint Name: [name of hint]
+* Hint Value: ["boolean" or "numeric"]
+* Description: [description of hint]
+* Contact: [e-mail address(es)]
+* Specification: [optional; reference or URI to more info]
+* Notes: [optional]
+
+The initial contents of the registry are defined in section 2.2.
 
 
 Security Considerations

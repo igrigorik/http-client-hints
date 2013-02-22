@@ -56,18 +56,12 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
       <t>The “CH” request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The CH field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.</t>
       <figure>
         <artwork><![CDATA[
-  CH = 1#client_hint
+  CH = #client-hint
+  client-hint = parameter
 ]]></artwork>
       </figure>
       <section anchor="hint-syntax" title="Hint Syntax">
         <t>Hints are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), so that the hints don’t consume too much space in client requests.</t>
-        <figure>
-          <artwork><![CDATA[
-  client_hint = hint_name [ "=" hint_value ]
-  hint_name = ALPHA *( DIGIT / "_" / "-" )
-  hint_value = 1*DIGIT
-]]></artwork>
-        </figure>
         <t>Hints can be defined as one of two types:</t>
         <t>
           <list style="symbols">
@@ -167,7 +161,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         </t>
       </section>
       <section anchor="the-http-hints" title="The HTTP Hints">
-        <t>This document registers HTTP Hints (<xref target="I-D.nottingham-http-browser-hints"/>) in section 2.1, and the following:</t>
+        <t>This document registers the “ch” HTTP Hint (<xref target="I-D.nottingham-http-browser-hints"/>), as defined in section 2.1:</t>
         <t>
           <list style="symbols">
             <t>Hint Name: ch</t>
@@ -178,7 +172,26 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
             <t>Specification: this document</t>
           </list>
         </t>
-        <t>TBD: need to explicitly define the registry, and the policy for defining new hints.</t>
+      </section>
+      <section anchor="the-http-client-hints-registry" title="The HTTP Client Hints Registry">
+        <t>This document establishes the HTTP Client Hints Registry.</t>
+        <t>New hints are registered using Expert Review (see <xref target="RFC5226"/>), by sending e-mail to iana@iana.org (or using other mechanisms, as established by IANA).</t>
+        <t>New hints are expected to be implemented in at least one client in common use. The Expert MAY use their judgement in determining what “common” is, and when something is considered to be implemented.</t>
+        <t>New hints MUST be optional; they cannot place requirements upon
+implementations. Specifically, new hints MUST NOT make communication non-conformant with HTTP itself; i.e., this is not a mechanism for changing the HTTP protocol in incompatible ways.</t>
+        <t>See section 2.1 for constraints on the syntax of hint names and hint values.</t>
+        <t>Registration requests MUST use the following template:</t>
+        <t>
+          <list style="symbols">
+            <t>Hint Name: [name of hint]</t>
+            <t>Hint Value: [“boolean” or “numeric”]</t>
+            <t>Description: [description of hint]</t>
+            <t>Contact: [e-mail address(es)]</t>
+            <t>Specification: [optional; reference or URI to more info]</t>
+            <t>Notes: [optional]</t>
+          </list>
+        </t>
+        <t>The initial contents of the registry are defined in section 2.2.</t>
       </section>
     </section>
     <section anchor="security-considerations" title="Security Considerations">
@@ -248,6 +261,24 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <seriesInfo name="STD" value="68"/>
         <seriesInfo name="RFC" value="5234"/>
         <format type="TXT" octets="26359" target="http://www.rfc-editor.org/rfc/rfc5234.txt"/>
+      </reference>
+      <reference anchor="RFC5226">
+        <front>
+          <title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
+          <author initials="T." surname="Narten" fullname="T. Narten">
+            <organization/>
+          </author>
+          <author initials="H." surname="Alvestrand" fullname="H. Alvestrand">
+            <organization/>
+          </author>
+          <date year="2008" month="May"/>
+          <abstract>
+            <t>Many protocols make use of identifiers consisting of constants and other well-known values. Even after a protocol has been defined and deployment has begun, new values may need to be assigned (e.g., for a new option type in DHCP, or a new encryption or authentication transform for IPsec). To ensure that such quantities have consistent values and interpretations across all implementations, their assignment must be administered by a central authority. For IETF protocols, that role is provided by the Internet Assigned Numbers Authority (IANA).&lt;/t&gt;&lt;t&gt; In order for IANA to manage a given namespace prudently, it needs guidelines describing the conditions under which new values can be assigned or when modifications to existing values can be made. If IANA is expected to play a role in the management of a namespace, IANA must be given clear and concise instructions describing that role. This document discusses issues that should be considered in formulating a policy for assigning values to a namespace and provides guidelines for authors on the specific text that must be included in documents that place demands on IANA.&lt;/t&gt;&lt;t&gt; This document obsoletes RFC 2434. This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="BCP" value="26"/>
+        <seriesInfo name="RFC" value="5226"/>
+        <format type="TXT" octets="66160" target="http://www.rfc-editor.org/rfc/rfc5226.txt"/>
       </reference>
       <reference anchor="I-D.ietf-httpbis-p1-messaging">
         <front>

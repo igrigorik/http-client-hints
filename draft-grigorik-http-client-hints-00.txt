@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                         February 19, 2013
+Internet-Draft                                         February 21, 2013
 Intended status: Informational
-Expires: August 23, 2013
+Expires: August 25, 2013
 
 
                            HTTP Client Hints
@@ -36,7 +36,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 23, 2013.
+   This Internet-Draft will expire on August 25, 2013.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Grigorik                 Expires August 23, 2013                [Page 1]
+Grigorik                 Expires August 25, 2013                [Page 1]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -69,7 +69,7 @@ Table of Contents
    2.  The "CH" Request Header Field . . . . . . . . . . . . . . . . . 3
      2.1.  Hint Syntax . . . . . . . . . . . . . . . . . . . . . . . . 4
      2.2.  Pre-defined Hints . . . . . . . . . . . . . . . . . . . . . 4
-       2.2.1.  dh  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+       2.2.1.  dh  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
        2.2.2.  dw  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
        2.2.3.  dpr . . . . . . . . . . . . . . . . . . . . . . . . . . 5
      2.3.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . 5
@@ -79,8 +79,9 @@ Table of Contents
    3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
      3.1.  The CH Request Header Field . . . . . . . . . . . . . . . . 6
      3.2.  The HTTP Hints  . . . . . . . . . . . . . . . . . . . . . . 7
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 7
-   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 7
+     3.3.  The HTTP Client Hints Registry  . . . . . . . . . . . . . . 7
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 8
+   5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 8
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 8
 
 
@@ -107,8 +108,7 @@ Table of Contents
 
 
 
-
-Grigorik                 Expires August 23, 2013                [Page 2]
+Grigorik                 Expires August 25, 2013                [Page 2]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -164,7 +164,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 
 
-Grigorik                 Expires August 23, 2013                [Page 3]
+Grigorik                 Expires August 25, 2013                [Page 3]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -174,17 +174,14 @@ Internet-Draft              HTTP Client Hints              February 2013
    delimited list of header fields, and the field-name values are case
    insensitive.
 
-     CH = 1#client_hint
+     CH = #client-hint
+     client-hint = parameter
 
 2.1.  Hint Syntax
 
    Hints are allowed to have a numeric value.  However, where possible,
    they can can be defined as flags (i.e., as a hint name only), so that
    the hints don't consume too much space in client requests.
-
-     client_hint = hint_name [ "=" hint_value ]
-     hint_name = ALPHA *( DIGIT / "_" / "-" )
-     hint_value = 1*DIGIT
 
    Hints can be defined as one of two types:
 
@@ -215,19 +212,19 @@ Internet-Draft              HTTP Client Hints              February 2013
 
    This document defines the following hint names:
 
+2.2.1.  dh
+
+   o  Description: Device height (dh) of the client, in physical pixels.
 
 
 
 
 
-Grigorik                 Expires August 23, 2013                [Page 4]
+Grigorik                 Expires August 25, 2013                [Page 4]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
 
-2.2.1.  dh
-
-   o  Description: Device height (dh) of the client, in physical pixels.
    o  Value Type: number
 
 2.2.2.  dw
@@ -276,7 +273,10 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 
 
-Grigorik                 Expires August 23, 2013                [Page 5]
+
+
+
+Grigorik                 Expires August 25, 2013                [Page 5]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -332,7 +332,7 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 
 
-Grigorik                 Expires August 23, 2013                [Page 6]
+Grigorik                 Expires August 25, 2013                [Page 6]
 
 Internet-Draft              HTTP Client Hints              February 2013
 
@@ -342,9 +342,8 @@ Internet-Draft              HTTP Client Hints              February 2013
 
 3.2.  The HTTP Hints
 
-   This document registers HTTP Hints
-   ([I-D.nottingham-http-browser-hints]) in section 2.1, and the
-   following:
+   This document registers the "ch" HTTP Hint
+   ([I-D.nottingham-http-browser-hints]), as defined in section 2.1:
 
    o  Hint Name: ch
    o  Hint Type: origin, hop
@@ -354,8 +353,44 @@ Internet-Draft              HTTP Client Hints              February 2013
    o  Contact: ilya@igvita.com
    o  Specification: this document
 
-   TBD: need to explicitly define the registry, and the policy for
-   defining new hints.
+3.3.  The HTTP Client Hints Registry
+
+   This document establishes the HTTP Client Hints Registry.
+
+   New hints are registered using Expert Review (see [RFC5226]), by
+   sending e-mail to iana@iana.org (or using other mechanisms, as
+   established by IANA).
+
+   New hints are expected to be implemented in at least one client in
+   common use.  The Expert MAY use their judgement in determining what
+   "common" is, and when something is considered to be implemented.
+
+   New hints MUST be optional; they cannot place requirements upon
+   implementations.  Specifically, new hints MUST NOT make communication
+   non-conformant with HTTP itself; i.e., this is not a mechanism for
+   changing the HTTP protocol in incompatible ways.
+
+   See section 2.1 for constraints on the syntax of hint names and hint
+   values.
+
+   Registration requests MUST use the following template:
+
+   o  Hint Name: [name of hint]
+   o  Hint Value: ["boolean" or "numeric"]
+   o  Description: [description of hint]
+   o  Contact: [e-mail address(es)]
+   o  Specification: [optional; reference or URI to more info]
+   o  Notes: [optional]
+
+   The initial contents of the registry are defined in section 2.2.
+
+
+
+
+
+Grigorik                 Expires August 25, 2013                [Page 7]
+
+Internet-Draft              HTTP Client Hints              February 2013
 
 
 4.  Security Considerations
@@ -385,14 +420,6 @@ Internet-Draft              HTTP Client Hints              February 2013
               October 2012.
 
    [I-D.nottingham-http-browser-hints]
-
-
-
-Grigorik                 Expires August 23, 2013                [Page 7]
-
-Internet-Draft              HTTP Client Hints              February 2013
-
-
               Nottingham, M., "HTTP Origin and Hop Hints",
               draft-nottingham-http-browser-hints-05 (work in progress),
               February 2013.
@@ -400,8 +427,26 @@ Internet-Draft              HTTP Client Hints              February 2013
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
+   [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
+              IANA Considerations Section in RFCs", BCP 26, RFC 5226,
+              May 2008.
+
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
+
+
+
+
+
+
+
+
+
+
+
+Grigorik                 Expires August 25, 2013                [Page 8]
+
+Internet-Draft              HTTP Client Hints              February 2013
 
 
 Author's Address
@@ -444,5 +489,16 @@ Author's Address
 
 
 
-Grigorik                 Expires August 23, 2013                [Page 8]
+
+
+
+
+
+
+
+
+
+
+
+Grigorik                 Expires August 25, 2013                [Page 9]
 
