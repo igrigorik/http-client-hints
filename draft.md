@@ -140,7 +140,6 @@ CH is an optional header which may be sent by the client when making a request t
 For example, the server may advertise its support for Client Hints via Hop and/or Origin Hint ({{I-D.nottingham-http-browser-hints}}):
 
 ~~~
-  HH: ch
   OH: ch
 ~~~
 

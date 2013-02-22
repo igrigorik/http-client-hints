@@ -115,7 +115,6 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <t>For example, the server may advertise its support for Client Hints via Hop and/or Origin Hint (<xref target="I-D.nottingham-http-browser-hints"/>):</t>
         <figure>
           <artwork><![CDATA[
-  HH: ch
   OH: ch
 ]]></artwork>
         </figure>
