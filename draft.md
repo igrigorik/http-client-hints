@@ -104,17 +104,17 @@ This document defines the following hint names:
 
 ### dh
 
-- Description: Device height (dh) of the client, in physical pixels.
+- Description: device-width in non-primary orientation, in density independent pixels.
 - Value Type: number
 
 ### dw
 
-- Description: Device width (dw) of the client, in physical pixels.
+- Description: device-width in primary orientation, in density independent pixels.
 - Value Type: number
 
 ### dpr
 
-- Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.
+- Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and density independent pixels on the device.
 - Value Type: number
 
 Other client hints may be communicated by the client. The decision as to which specific hints will be sent is made by the client.
@@ -126,10 +126,10 @@ Examples
 For example, given the following request header:
 
 ~~~
-  CH: dh=1280, dw=768, dpr=2.0
+  CH: dh=598, dw=384, dpr=2.0
 ~~~
 
-The server knows that the clients physical screen size is 1280x768px, and that the device pixel ratio is 2.0.
+The server knows that the client's screen height is 598px, width is 384px, as measured by density independent pixels on the device, and that the device pixel ratio is 2.0.
 
 
 Server opt-in with Hop and Origin Hints
