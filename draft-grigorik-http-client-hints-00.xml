@@ -78,7 +78,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <section anchor="dh" title="dh">
           <t>
             <list style="symbols">
-              <t>Description: Device height (dh) of the client, in physical pixels.</t>
+              <t>Description: device-width in secondary orientation, in density independent pixels.</t>
               <t>Value Type: number</t>
             </list>
           </t>
@@ -86,7 +86,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <section anchor="dw" title="dw">
           <t>
             <list style="symbols">
-              <t>Description: Device width (dw) of the client, in physical pixels.</t>
+              <t>Description: device-width in primary orientation, in density independent pixels.</t>
               <t>Value Type: number</t>
             </list>
           </t>
@@ -94,7 +94,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <section anchor="dpr" title="dpr">
           <t>
             <list style="symbols">
-              <t>Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and device-independent pixels on the device.</t>
+              <t>Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and density independent pixels on the device.</t>
               <t>Value Type: number</t>
             </list>
           </t>
@@ -105,10 +105,10 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <t>For example, given the following request header:</t>
         <figure>
           <artwork><![CDATA[
-  CH: dh=1280, dw=768, dpr=2.0
+  CH: dh=598, dw=384, dpr=2.0
 ]]></artwork>
         </figure>
-        <t>The server knows that the clients physical screen size is 1280x768px, and that the device pixel ratio is 2.0.</t>
+        <t>The server knows that the client’s screen height is 598px, width is 384px, as measured by density independent pixels on the device, and that the device pixel ratio is 2.0.</t>
       </section>
       <section anchor="server-opt-in-with-hop-and-origin-hints" title="Server opt-in with Hop and Origin Hints">
         <t>CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, user specified list of origins, or any other forms of opt-in.</t>
@@ -288,13 +288,13 @@ implementations. Specifically, new hints MUST NOT make communication non-conform
           <author initials="J" surname="Reschke" fullname="Julian Reschke">
             <organization/>
           </author>
-          <date month="October" day="4" year="2012"/>
+          <date month="February" day="23" year="2013"/>
           <abstract>
             <t>The Hypertext Transfer Protocol (HTTP) is an application-level protocol for distributed, collaborative, hypertext information systems.  HTTP has been in use by the World Wide Web global information initiative since 1990.  This document provides an overview of HTTP architecture and its associated terminology, defines the "http" and "https" Uniform Resource Identifier (URI) schemes, defines the HTTP/1.1 message syntax and parsing requirements, and describes general security concerns for implementations.</t>
           </abstract>
         </front>
-        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p1-messaging-21"/>
-        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p1-messaging-21.txt"/>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p1-messaging-22"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p1-messaging-22.txt"/>
       </reference>
       <reference anchor="I-D.ietf-httpbis-p2-semantics">
         <front>
@@ -305,13 +305,13 @@ implementations. Specifically, new hints MUST NOT make communication non-conform
           <author initials="J" surname="Reschke" fullname="Julian Reschke">
             <organization/>
           </author>
-          <date month="October" day="4" year="2012"/>
+          <date month="February" day="23" year="2013"/>
           <abstract>
             <t>The Hypertext Transfer Protocol (HTTP) is an application-level protocol for distributed, collaborative, hypertext information systems.  This document defines the semantics of HTTP/1.1 messages, as expressed by request methods, request header fields, response status codes, and response header fields, along with the payload of messages (metadata and body content) and mechanisms for content negotiation.</t>
           </abstract>
         </front>
-        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p2-semantics-21"/>
-        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p2-semantics-21.txt"/>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p2-semantics-22"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p2-semantics-22.txt"/>
       </reference>
       <reference anchor="I-D.nottingham-http-browser-hints">
         <front>
