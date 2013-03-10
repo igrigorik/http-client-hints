@@ -78,7 +78,7 @@ Vary: User-Agent does not work, because the amount of variation in the User-Agen
 
 #### Which variables will be sent in CH header?
 
-CH is a generic transport and is not tied to any specific variable. Having said that, the provided examples are device width (dw), device height (dh), and device pixel ration (dpr).
+CH is a generic transport and is not tied to any specific variable. Having said that, the provided examples are device width (dw), device height (dh), and device pixel ratio (dpr).
 
 #### Why device width and height, not viewport?
 
