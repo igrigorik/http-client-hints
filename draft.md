@@ -104,7 +104,7 @@ This document defines the following hint names:
 
 ### dh
 
-- Description: device-width in secondary orientation, in density independent pixels.
+- Description: device-height in primary orientation, in density independent pixels (device-width in secondary orientation).
 - Value Type: number
 
 ### dw
