@@ -9,8 +9,9 @@ rfc2629dir = "tools\\/rfc2629xslt\\/"
 
 NAME = grigorik
 TITLE = ${NAME}-$(shell basename ${CURDIR})
-LATEST = $(shell (ls draft-${TITLE}-*.xml || echo "draft-${TITLE}-00.xml") | sort | tail -1)
-VERSION = $(shell basename ${LATEST} .xml | awk -F- '{print $$NF}')
+#LATEST = $(shell (ls draft-${TITLE}-*.xml || echo "draft-${TITLE}-01.xml") | sort | tail -1)
+#VERSION = $(shell basename ${LATEST} .xml | awk -F- '{print $$NF}')
+VERSION = 01
 
 TARGET_XML = draft-$(TITLE)-$(VERSION).xml
 PREV_TXT = draft-$(TITLE)-$(shell printf "%.2d" `echo ${VERSION}-1 | bc`).txt

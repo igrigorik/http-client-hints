@@ -90,7 +90,7 @@ Hints can be defined as one of two types:
 - Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
 - Numeric - value indicated by the digits after "=", up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
-Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the CH header on the message in question before being considered complete.
+Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the CH header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurences, and the final ordering of unique hints is not significant.
 
 
 Pre-defined Hints
