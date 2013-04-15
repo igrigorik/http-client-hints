@@ -117,7 +117,13 @@ This document defines the following hint names:
 - Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and density independent pixels on the device.
 - Value Type: number
 
+### t
+
+- Description: device supports a touchscreen.
+- Value Type: boolean
+
 Other client hints may be communicated by the client. The decision as to which specific hints will be sent is made by the client.
+
 
 
 Examples
@@ -126,10 +132,10 @@ Examples
 For example, given the following request header:
 
 ~~~
-  CH: dh=598, dw=384, dpr=2.0
+  CH: dh=598, dw=384, dpr=2.0, t
 ~~~
 
-The server knows that the client's screen height is 598px, width is 384px, as measured by density independent pixels on the device, and that the device pixel ratio is 2.0.
+The server knows that the client's screen height is 598px, width is 384px, as measured by density independent pixels on the device, the device pixel ratio is 2.0, and that the device supports a touchscreen.
 
 
 Server opt-in with Hop and Origin Hints
