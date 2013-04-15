@@ -98,6 +98,14 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
               <t>Value Type: number</t>
             </list>
           </t>
+        </section>
+        <section anchor="t" title="t">
+          <t>
+            <list style="symbols">
+              <t>Description: device supports a touchscreen.</t>
+              <t>Value Type: boolean</t>
+            </list>
+          </t>
           <t>Other client hints may be communicated by the client. The decision as to which specific hints will be sent is made by the client.</t>
         </section>
       </section>
@@ -105,10 +113,10 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <t>For example, given the following request header:</t>
         <figure>
           <artwork><![CDATA[
-  CH: dh=598, dw=384, dpr=2.0
+  CH: dh=598, dw=384, dpr=2.0, t
 ]]></artwork>
         </figure>
-        <t>The server knows that the client’s screen height is 598px, width is 384px, as measured by density independent pixels on the device, and that the device pixel ratio is 2.0.</t>
+        <t>The server knows that the client’s screen height is 598px, width is 384px, as measured by density independent pixels on the device, the device pixel ratio is 2.0, and that the device supports a touchscreen.</t>
       </section>
       <section anchor="server-opt-in-with-hop-and-origin-hints" title="Server opt-in with Hop and Origin Hints">
         <t>CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, user specified list of origins, or any other forms of opt-in.</t>

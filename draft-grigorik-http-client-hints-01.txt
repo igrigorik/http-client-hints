@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                             April 1, 2013
+Internet-Draft                                            April 15, 2013
 Intended status: Informational
-Expires: October 3, 2013
+Expires: October 17, 2013
 
 
                            HTTP Client Hints
@@ -36,7 +36,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on October 3, 2013.
+   This Internet-Draft will expire on October 17, 2013.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Grigorik                 Expires October 3, 2013                [Page 1]
+Grigorik                Expires October 17, 2013                [Page 1]
 
 Internet-Draft              HTTP Client Hints                 April 2013
 
@@ -72,17 +72,18 @@ Table of Contents
        2.2.1.  dh  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
        2.2.2.  dw  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
        2.2.3.  dpr . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+       2.2.4.  t . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
      2.3.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . 5
      2.4.  Server opt-in with Hop and Origin Hints . . . . . . . . . . 5
      2.5.  Interaction with Caches . . . . . . . . . . . . . . . . . . 6
      2.6.  Relationship to the User-Agent Request Header . . . . . . . 6
    3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
-     3.1.  The CH Request Header Field . . . . . . . . . . . . . . . . 6
+     3.1.  The CH Request Header Field . . . . . . . . . . . . . . . . 7
      3.2.  The HTTP Hints  . . . . . . . . . . . . . . . . . . . . . . 7
      3.3.  The HTTP Client Hints Registry  . . . . . . . . . . . . . . 7
    4.  Security Considerations . . . . . . . . . . . . . . . . . . . . 8
    5.  Normative References  . . . . . . . . . . . . . . . . . . . . . 8
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 8
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . . . 9
 
 
 
@@ -107,8 +108,7 @@ Table of Contents
 
 
 
-
-Grigorik                 Expires October 3, 2013                [Page 2]
+Grigorik                Expires October 17, 2013                [Page 2]
 
 Internet-Draft              HTTP Client Hints                 April 2013
 
@@ -164,7 +164,7 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
 
 
-Grigorik                 Expires October 3, 2013                [Page 3]
+Grigorik                Expires October 17, 2013                [Page 3]
 
 Internet-Draft              HTTP Client Hints                 April 2013
 
@@ -220,7 +220,7 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
 
 
-Grigorik                 Expires October 3, 2013                [Page 4]
+Grigorik                Expires October 17, 2013                [Page 4]
 
 Internet-Draft              HTTP Client Hints                 April 2013
 
@@ -243,6 +243,11 @@ Internet-Draft              HTTP Client Hints                 April 2013
       physical pixels and density independent pixels on the device.
    o  Value Type: number
 
+2.2.4.  t
+
+   o  Description: device supports a touchscreen.
+   o  Value Type: boolean
+
    Other client hints may be communicated by the client.  The decision
    as to which specific hints will be sent is made by the client.
 
@@ -250,11 +255,12 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
    For example, given the following request header:
 
-     CH: dh=598, dw=384, dpr=2.0
+     CH: dh=598, dw=384, dpr=2.0, t
 
    The server knows that the client's screen height is 598px, width is
-   384px, as measured by density independent pixels on the device, and
-   that the device pixel ratio is 2.0.
+   384px, as measured by density independent pixels on the device, the
+   device pixel ratio is 2.0, and that the device supports a
+   touchscreen.
 
 2.4.  Server opt-in with Hop and Origin Hints
 
@@ -267,20 +273,20 @@ Internet-Draft              HTTP Client Hints                 April 2013
    For example, the server may advertise its support for Client Hints
    via Hop and/or Origin Hint ([I-D.nottingham-http-browser-hints]):
 
+
+
+
+Grigorik                Expires October 17, 2013                [Page 5]
+
+Internet-Draft              HTTP Client Hints                 April 2013
+
+
      OH: ch
 
    When a client receives the Hop or Origin Hint header indicating
    support for Client Hint adaptation, it should append the CH header to
    subsequent requests to the same origin server.  Further, the client
    may remember this hint and automatically append the CH header for all
-
-
-
-Grigorik                 Expires October 3, 2013                [Page 5]
-
-Internet-Draft              HTTP Client Hints                 April 2013
-
-
    future requests to the same origin.
 
 2.5.  Interaction with Caches
@@ -320,6 +326,17 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
 3.  IANA Considerations
 
+
+
+
+
+
+
+Grigorik                Expires October 17, 2013                [Page 6]
+
+Internet-Draft              HTTP Client Hints                 April 2013
+
+
 3.1.  The CH Request Header Field
 
    This document defines the "CH" HTTP request field, and registers it
@@ -327,16 +344,6 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
    o  Header field name: CH
    o  Applicable protocol: HTTP
-
-
-
-
-
-Grigorik                 Expires October 3, 2013                [Page 6]
-
-Internet-Draft              HTTP Client Hints                 April 2013
-
-
    o  Status: Informational
    o  Author/Change controller: Ilya Grigorik, ilya@igvita.com
    o  Specification document(s): [this document]
@@ -377,6 +384,15 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
    Registration requests MUST use the following template:
 
+
+
+
+
+Grigorik                Expires October 17, 2013                [Page 7]
+
+Internet-Draft              HTTP Client Hints                 April 2013
+
+
    o  Hint Name: [name of hint]
    o  Hint Value: ["boolean" or "numeric"]
    o  Description: [description of hint]
@@ -385,12 +401,6 @@ Internet-Draft              HTTP Client Hints                 April 2013
    o  Notes: [optional]
 
    The initial contents of the registry are defined in section 2.2.
-
-
-
-Grigorik                 Expires October 3, 2013                [Page 7]
-
-Internet-Draft              HTTP Client Hints                 April 2013
 
 
 4.  Security Considerations
@@ -431,22 +441,16 @@ Internet-Draft              HTTP Client Hints                 April 2013
               IANA Considerations Section in RFCs", BCP 26, RFC 5226,
               May 2008.
 
-   [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
-              Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
 
 
-
-
-
-
-
-
-
-
-Grigorik                 Expires October 3, 2013                [Page 8]
+Grigorik                Expires October 17, 2013                [Page 8]
 
 Internet-Draft              HTTP Client Hints                 April 2013
+
+
+   [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
+              Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
 
 Author's Address
@@ -496,9 +500,5 @@ Author's Address
 
 
 
-
-
-
-
-Grigorik                 Expires October 3, 2013                [Page 9]
+Grigorik                Expires October 17, 2013                [Page 9]
 
