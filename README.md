@@ -1,8 +1,22 @@
 ## Client-Hints (Internet Draft)
 
+* [Automating DPR switching with Client-Hints](http://www.igvita.com/2013/08/29/automating-dpr-switching-with-client-hints/)
+** Hands-on demo:
+*** Install [this Chrome extension](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef)
+*** Visit [this page](http://www.igvita.com/downloads/ch/) and try changing your CH hints -- magic!
+
+### Implementation status:
+
+* [Latest Client-Hints draft on IETF tracker](tools.ietf.org/html/draft-grigorik-http-client-hints)
+* [Blink intent to implement thread](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ)
+** [Patch under review](https://codereview.chromium.org/23654014)
+
+
+### Background
+
 There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as dynamic user and client preferences.
 
-One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, integrating it into the serving path, and keeping it up to date. However, even once this infrastructure is deployed, UA sniffing has the following limitations:
+One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, integrating it into the serving path, and keeping it up to date. And even once this infrastructure is deployed, UA sniffing has the following limitations:
 
   - UA detection depends on acquiring and maintenance of external databases
   - UA detection cannot reliably identify all static variables
@@ -78,11 +92,7 @@ Vary: User-Agent does not work, because the amount of variation in the User-Agen
 
 #### Which variables will be sent in CH header?
 
-CH is a generic transport and is not tied to any specific variable. Having said that, the provided examples are device width (dw), device height (dh), and device pixel ratio (dpr).
-
-#### Why device width and height, not viewport?
-
-The browser may not yet know the viewport size when the request is being dispatched, which creates a race condition.
+CH is a generic transport and is not tied to any specific variable. The current draft specifies three example variables (dw, dh, dpr), but CH is not restricted to these variables. Further, the UA can decide which variables should be sent and when.
 
 #### When should the CH header be sent?
 
@@ -91,12 +101,6 @@ CH is an optional header. The client can decide when to append it to the request
 #### CH adds extra bytes!
 
 True. The CH header will add 10-20 bytes to the outbound request. However, the 10-20 upstream bytes can easily translate to hundreds of saved Kilobytes in downstream direction when applied to images (60% of the bytes for an average page).
-
-#### I want to add a new CH variable, how?
-
-Open a bug, motivate the use case.
-
-
 
 ### Feedback
 
