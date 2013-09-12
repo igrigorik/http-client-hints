@@ -2,10 +2,11 @@
 
 * [Automating DPR switching with Client-Hints](http://www.igvita.com/2013/08/29/automating-dpr-switching-with-client-hints/)
 * Hands-on demo: install [this Chrome extension](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef) and visit [this page](http://www.igvita.com/downloads/ch/) and try changing your CH hints -- magic!
+* [Cookie-based polyfill](https://github.com/jonathantneal/http-client-hints) - limited to second request, same origin, but works as a proof of concept!
 
 ### Implementation status:
 
-* [Latest Client-Hints draft on IETF tracker](tools.ietf.org/html/draft-grigorik-http-client-hints)
+* [Latest Client-Hints draft on IETF tracker](http://tools.ietf.org/html/draft-grigorik-http-client-hints)
 * [Blink intent to implement thread](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ) ([patch under review](https://codereview.chromium.org/23654014))
 
 
