@@ -53,7 +53,7 @@ One way to infer some of these capabilities is through User-Agent (UA) detection
 
 A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a new request Client Hint header field, "CH", that allows the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate prefered response formats.
+This document defines a set of new request Client Hint header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate prefered response formats.
 
 
 Notational Conventions
@@ -69,13 +69,13 @@ This document uses the Augmented Backus-Naur Form (ABNF) notation of
 OWS, field-name and quoted-string rules from that document, and the
 parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 
-The "CH" Request Header Field
+The "CH-{Name}" Request Header Field
 ===============================
 
-The "CH" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The CH field-value is a comma-delimited list of header fields, and the field-name values are case insensitive.
+The "CH-{Name}" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The {Name} corresponds to the type of hint sent, and the field-value is a comma-delimited list of header fields. The field-name values are case insensitive.
 
 ~~~
-  CH = #client-hint
+  CH-{Name} = #client-hint
   client-hint = parameter
 ~~~
 
@@ -83,47 +83,41 @@ The "CH" request header field describes an example list of client preferences th
 Hint Syntax
 ---------------
 
-Hints are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), so that the hints don't consume too much space in client requests.
+Hint header fields are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), so that the hints don't consume too much space in client requests.
 
 Hints can be defined as one of two types:
 
 - Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
 - Numeric - value indicated by the digits after "=", up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
-Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the CH header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurences, and the final ordering of unique hints is not significant.
+Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurences, and the final ordering of unique hints is not significant.
 
 
 Pre-defined Hints
 ---------------
 
-The client controls which header fields are communicated within the CH header, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints. For example, to allow the request for low-resolution images or other content type's while roaming on a foreign network, even while on a high-bandwidth link.
+The client controls which client-hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
 
-The client and server, or an intermediate proxy, may use an additional mechanism to negotiate which fields should be reported to allow for efficient content adaption.
+The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
-This document defines the following hint names:
+This document defines the following hints:
 
-### dh
-
-- Description: device-width in secondary orientation, in density independent pixels.
-- Value Type: number
-
-### dw
-
-- Description: device-width in primary orientation, in density independent pixels.
-- Value Type: number
-
-### dpr
+### CH-DPR
 
 - Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and density independent pixels on the device.
 - Value Type: number
 
-### t
+### CH-DW
+
+- Description: device-width in primary orientation, in density independent pixels.
+- Value Type: number
+
+### CH-T (TODO)
 
 - Description: device supports a touchscreen.
 - Value Type: boolean
 
 Other client hints may be communicated by the client. The decision as to which specific hints will be sent is made by the client.
-
 
 
 Examples
@@ -132,24 +126,45 @@ Examples
 For example, given the following request header:
 
 ~~~
-  CH: dh=598, dw=384, dpr=2.0, t
+  CH-DPR: 2.0
+  CH-DW: 384
 ~~~
 
-The server knows that the client's screen height is 598px, width is 384px, as measured by density independent pixels on the device, the device pixel ratio is 2.0, and that the device supports a touchscreen.
+The server knows that the client's screen width is 384px, as measured by density independent pixels on the device and the device pixel ratio is 2.0.
 
 
-Server opt-in with Hop and Origin Hints
+Server hint confirmation
 ---------------
 
-CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an optional opt-in mechanism, such as a predefined list of origins, user specified list of origins, or any other forms of opt-in.
-
-For example, the server may advertise its support for Client Hints via Hop and/or Origin Hint ({{I-D.nottingham-http-browser-hints}}):
+The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, because the alternate resource does not necessarily have to match the value of provided hint, it should indicate the value of selected resource via a corresponding response header. For example, given the following request header:
 
 ~~~
-  OH: ch
+  CH-DPR: 2.0
 ~~~
 
-When a client receives the Hop or Origin Hint header indicating support for Client Hint adaptation, it should append the CH header to subsequent requests to the same origin server. Further, the client may remember this hint and automatically append the CH header for all future requests to the same origin.
+If the server uses the hint to perform resource selection, it should confirm its selection via a response header matching the hint name:
+
+~~~
+  DPR: 1.5
+~~~
+
+The DPR response header indicates to the client that the server has selected an asset with DPR resolution of 1.5. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of an image asset.
+
+
+
+
+Opt-in mechanism
+---------------
+
+CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined list of origins, user specified list of orings, or any other forms of opt-in.
+
+For example, the server may advertise its support via Accept-CH header:
+
+~~~
+  Accept-CH: DPR, DW
+~~~
+
+When a client receives the Accept-CH header indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DRP and CH-DW headers to subsequent requests.
 
 
 Interaction with Caches
@@ -158,21 +173,21 @@ Interaction with Caches
 Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
 
 ~~~
-  Key: CH;pr=dw[320:640]
+  Key: CH-DW;pr=[320:640]
 ~~~
 
-Above example indicates that the cache key should be based on the CH header, and the asset should be cached and made available for any client whose device width (dw) falls between 320 and 640 px.
+Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any client whose device width (dw) falls between 320 and 640 px.
 
 ~~~
-  Key: CH;pr=dpr[1.5:]
+  Key: CH-DW;pr=[1.5:]
 ~~~
 
-Above examples indicates that the cache key should be based on the CH header, and the asset should be cached and made available for any client whose device pixel ratio (dpr) is 1.5, or higher.
+Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio (dpr) is 1.5, or higher.
 
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
 ~~~
-  Vary: CH
+  Vary: CH-DPR
 ~~~
 
 
@@ -188,7 +203,7 @@ IANA Considerations
 The CH Request Header Field
 ---------------
 
-This document defines the "CH" HTTP request field, and registers it in the Permanent Message Headers registry.
+This document defines the "CH-DPR", "CH-DW" HTTP request fields, and registers it in the Permanent Message Headers registry.
 
 - Header field name: CH
 - Applicable protocol: HTTP
