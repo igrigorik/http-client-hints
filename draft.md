@@ -53,7 +53,7 @@ One way to infer some of these capabilities is through User-Agent (UA) detection
 
 A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a set of new request Client Hint header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate prefered response formats.
+This document defines a set of new request Client Hint header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
 
 
 Notational Conventions
@@ -90,13 +90,13 @@ Hints can be defined as one of two types:
 - Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
 - Numeric - value indicated by the digits after "=", up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
-Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurences, and the final ordering of unique hints is not significant.
+Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
 
-Pre-defined Hints
+Predefined Hints
 ---------------
 
-The client controls which client-hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
+The client controls which Client Hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
@@ -133,7 +133,7 @@ For example, given the following request header:
 The server knows that the client's screen width is 384px, as measured by density independent pixels on the device and the device pixel ratio is 2.0.
 
 
-Server hint confirmation
+Server selection confirmation
 ---------------
 
 The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, because the alternate resource does not necessarily have to match the value of provided hint, it should indicate the value of selected resource via a corresponding response header. For example, given the following request header:
@@ -151,12 +151,10 @@ If the server uses the hint to perform resource selection, it should confirm its
 The DPR response header indicates to the client that the server has selected an asset with DPR resolution of 1.5. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of an image asset.
 
 
-
-
 Opt-in mechanism
 ---------------
 
-CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined list of origins, user specified list of orings, or any other forms of opt-in.
+CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined or user specified list of origins, remembered site preference based on past navigation history, or any other forms of opt-in.
 
 For example, the server may advertise its support via Accept-CH header:
 
@@ -173,16 +171,16 @@ Interaction with Caches
 Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
 
 ~~~
-  Key: CH-DW;pr=[320:640]
+  Key: CH-DW;r=[320:640]
 ~~~
 
 Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any client whose device width (dw) falls between 320 and 640 px.
 
 ~~~
-  Key: CH-DW;pr=[1.5:]
+  Key: CH-DPR;r=[1.5:]
 ~~~
 
-Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio (dpr) is 1.5, or higher.
+Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio (DPR) is 1.5, or higher.
 
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
@@ -233,7 +231,7 @@ This document establishes the HTTP Client Hints Registry.
 
 New hints are registered using Expert Review (see {{RFC5226}}), by sending e-mail to iana@iana.org (or using other mechanisms, as established by IANA).
 
-New hints are expected to be implemented in at least one client in common use. The Expert MAY use their judgement in determining what "common" is, and when something is considered to be implemented.
+New hints are expected to be implemented in at least one client in common use. The Expert MAY use their judgment in determining what "common" is, and when something is considered to be implemented.
 
 New hints MUST be optional; they cannot place requirements upon
 implementations. Specifically, new hints MUST NOT make communication non-conformant with HTTP itself; i.e., this is not a mechanism for changing the HTTP protocol in incompatible ways.
