@@ -69,13 +69,13 @@ This document uses the Augmented Backus-Naur Form (ABNF) notation of
 OWS, field-name and quoted-string rules from that document, and the
 parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 
-The "CH-{Name}" Request Header Field
+The "CH" Request Header Fields
 ===============================
 
-The "CH-{Name}" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The {Name} corresponds to the type of hint sent, and the field-value is a comma-delimited list of header fields. The field-name values are case insensitive.
+Each "CH" request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The full name of the hint consists of a "CH-" prefix and hint type, and the field-value is a comma-delimited list of header fields. The field-name values are case insensitive.
 
 ~~~
-  CH-{Name} = #client-hint
+  CH-{type} = #client-hint
   client-hint = parameter
 ~~~
 
@@ -83,12 +83,16 @@ The "CH-{Name}" request header field describes an example list of client prefere
 Hint Syntax
 ---------------
 
-Hint header fields are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), so that the hints don't consume too much space in client requests.
+Hints header fields are allowed to be defined as a single boolean or numeric value, or as a list of header fields with the same types. Where possible, single boolean (i.e. as a flag) or numeric value should be used, so that the hint's don't consume too much space in client requests.
 
-Hints can be defined as one of two types:
+When a single numeric or boolean value is used, the hint value is the full field value. When a list of hints is used, the hint values are the comma-separated values within the field value.
+
+Hint header fields are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), or as a single numeric value, so that the hints don't consume too much space in client requests.
+
+Hint values can be defined as one of two types:
 
 - Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
-- Numeric - value indicated by the digits after "=", up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
+- Numeric - value indicated by the full field-value contents (single value), or by the digits after "=" of the hint name, up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
 Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
@@ -196,13 +200,19 @@ The CH Request Header Field
 
 This document defines the "CH-DPR", "CH-DW" HTTP request fields, and registers it in the Permanent Message Headers registry.
 
-- Header field name: CH
+- Header field name: CH-DPR
 - Applicable protocol: HTTP
 - Status: Informational
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
+- Header field name: CH-DW
+- Applicable protocol: HTTP
+- Status: Informational
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
 
 The HTTP Hints
 ---------------
