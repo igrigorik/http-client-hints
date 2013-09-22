@@ -112,13 +112,6 @@ This document defines the following hints:
 - Description: device-width in primary orientation, in density independent pixels.
 - Value Type: number
 
-### CH-T (TODO)
-
-- Description: device supports a touchscreen.
-- Value Type: boolean
-
-Other client hints may be communicated by the client. The decision as to which specific hints will be sent is made by the client.
-
 
 Examples
 ---------------
