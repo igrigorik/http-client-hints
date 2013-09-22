@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                            April 15, 2013
+Internet-Draft                                        September 22, 2013
 Intended status: Informational
-Expires: October 17, 2013
+Expires: March 26, 2014
 
 
                            HTTP Client Hints
@@ -36,7 +36,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on October 17, 2013.
+   This Internet-Draft will expire on March 26, 2014.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Grigorik                Expires October 17, 2013                [Page 1]
+Grigorik                 Expires March 26, 2014                 [Page 1]
 
-Internet-Draft              HTTP Client Hints                 April 2013
+Internet-Draft              HTTP Client Hints             September 2013
 
 
    include Simplified BSD License text as described in Section 4.e of
@@ -66,18 +66,17 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . . . 3
      1.1.  Notational Conventions  . . . . . . . . . . . . . . . . . . 3
-   2.  The "CH" Request Header Field . . . . . . . . . . . . . . . . . 3
+   2.  The "CH" Request Header Fields  . . . . . . . . . . . . . . . . 3
      2.1.  Hint Syntax . . . . . . . . . . . . . . . . . . . . . . . . 4
-     2.2.  Pre-defined Hints . . . . . . . . . . . . . . . . . . . . . 4
-       2.2.1.  dh  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
-       2.2.2.  dw  . . . . . . . . . . . . . . . . . . . . . . . . . . 5
-       2.2.3.  dpr . . . . . . . . . . . . . . . . . . . . . . . . . . 5
-       2.2.4.  t . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+     2.2.  Predefined Hints  . . . . . . . . . . . . . . . . . . . . . 4
+       2.2.1.  CH-DPR  . . . . . . . . . . . . . . . . . . . . . . . . 5
+       2.2.2.  CH-DW . . . . . . . . . . . . . . . . . . . . . . . . . 5
      2.3.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . 5
-     2.4.  Server opt-in with Hop and Origin Hints . . . . . . . . . . 5
-     2.5.  Interaction with Caches . . . . . . . . . . . . . . . . . . 6
-     2.6.  Relationship to the User-Agent Request Header . . . . . . . 6
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
+     2.4.  Server selection confirmation . . . . . . . . . . . . . . . 5
+     2.5.  Opt-in mechanism  . . . . . . . . . . . . . . . . . . . . . 6
+     2.6.  Interaction with Caches . . . . . . . . . . . . . . . . . . 6
+     2.7.  Relationship to the User-Agent Request Header . . . . . . . 7
+   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
      3.1.  The CH Request Header Field . . . . . . . . . . . . . . . . 7
      3.2.  The HTTP Hints  . . . . . . . . . . . . . . . . . . . . . . 7
      3.3.  The HTTP Client Hints Registry  . . . . . . . . . . . . . . 7
@@ -108,9 +107,10 @@ Table of Contents
 
 
 
-Grigorik                Expires October 17, 2013                [Page 2]
+
+Grigorik                 Expires March 26, 2014                 [Page 2]
 
-Internet-Draft              HTTP Client Hints                 April 2013
+Internet-Draft              HTTP Client Hints             September 2013
 
 
 1.  Introduction
@@ -138,11 +138,11 @@ Internet-Draft              HTTP Client Hints                 April 2013
    additional client-side latency by requiring JavaScript execution to
    create and manage HTTP cookies.
 
-   This document defines a new request Client Hint header field, "CH",
-   that allows the client to perform proactive content negotiation
+   This document defines a set of new request Client Hint header fields
+   that allow the client to perform proactive content negotiation
    [I-D.ietf-httpbis-p2-semantics] by indicating a list of device and
    agent specific preferences, through a mechanism similar to the Accept
-   header which is used to indicate prefered response formats.
+   header which is used to indicate preferred response formats.
 
 1.1.  Notational Conventions
 
@@ -158,164 +158,188 @@ Internet-Draft              HTTP Client Hints                 April 2013
    [I-D.ietf-httpbis-p2-semantics].
 
 
-2.  The "CH" Request Header Field
+2.  The "CH" Request Header Fields
 
-   The "CH" request header field describes an example list of client
+   Each "CH" request header field describes an example list of client
 
 
 
-Grigorik                Expires October 17, 2013                [Page 3]
+Grigorik                 Expires March 26, 2014                 [Page 3]
 
-Internet-Draft              HTTP Client Hints                 April 2013
+Internet-Draft              HTTP Client Hints             September 2013
 
 
    preferences that the server can use to adapt and optimize the
-   resource to satisfy a given request.  The CH field-value is a comma-
-   delimited list of header fields, and the field-name values are case
-   insensitive.
+   resource to satisfy a given request.  The full name of the hint
+   consists of a "CH-" prefix and hint type, and the field-value is a
+   comma-delimited list of header fields.  The field-name values are
+   case insensitive.
 
-     CH = #client-hint
+     CH-{type} = #client-hint
      client-hint = parameter
 
 2.1.  Hint Syntax
 
-   Hints are allowed to have a numeric value.  However, where possible,
-   they can can be defined as flags (i.e., as a hint name only), so that
-   the hints don't consume too much space in client requests.
+   Hints header fields are allowed to be defined as a single boolean or
+   numeric value, or as a list of header fields with the same types.
+   Where possible, single boolean (i.e. as a flag) or numeric value
+   should be used, so that the hint's don't consume too much space in
+   client requests.
 
-   Hints can be defined as one of two types:
+   When a single numeric or boolean value is used, the hint value is the
+   full field value.  When a list of hints is used, the hint values are
+   the comma-separated values within the field value.
+
+   Hint header fields are allowed to have a numeric value.  However,
+   where possible, they can can be defined as flags (i.e., as a hint
+   name only), or as a single numeric value, so that the hints don't
+   consume too much space in client requests.
+
+   Hint values can be defined as one of two types:
 
    o  Boolean - indicated by the presence of the hint name.  If the hint
       name is absent in the last message containing the client hint
       header field, it is considered false.
-   o  Numeric - value indicated by the digits after "=", up to the first
-      non-digit character.  If the hint does not have an argument, its
-      value is assumed to be 0.
+   o  Numeric - value indicated by the full field-value contents (single
+      value), or by the digits after "=" of the hint name, up to the
+      first non-digit character.  If the hint does not have an argument,
+      its value is assumed to be 0.
 
    Note that HTTP/1.1 allows headers with comma-separated values to be
    conveyed using multiple instances of the same header; as a result,
-   the hints are collected from all instances of the CH header on the
+   the hints are collected from all instances of the same header on the
    message in question before being considered complete.  If the same
    hint is used more than once, then the last hint overrides all
-   previous occurences, and the final ordering of unique hints is not
+   previous occurrences, and the final ordering of unique hints is not
    significant.
 
-2.2.  Pre-defined Hints
+2.2.  Predefined Hints
 
-   The client controls which header fields are communicated within the
-   CH header, based on its default settings, or based on user
-   configuration and preferences.  The user may be given the choice to
-   enable, disable, or override specific hints.  For example, to allow
-   the request for low-resolution images or other content type's while
-   roaming on a foreign network, even while on a high-bandwidth link.
-
-   The client and server, or an intermediate proxy, may use an
-   additional mechanism to negotiate which fields should be reported to
-   allow for efficient content adaption.
-
-   This document defines the following hint names:
+   The client controls which Client Hint headers and their respective
+   header fields are communicated, based on its default settings, or
 
 
 
-
-
-
-Grigorik                Expires October 17, 2013                [Page 4]
+Grigorik                 Expires March 26, 2014                 [Page 4]
 
-Internet-Draft              HTTP Client Hints                 April 2013
+Internet-Draft              HTTP Client Hints             September 2013
 
 
-2.2.1.  dh
+   based on user configuration and preferences.  The user may be given
+   the choice to enable, disable, or override specific hints.
 
-   o  Description: device-width in secondary orientation, in density
-      independent pixels.
-   o  Value Type: number
+   The client and server, or an intermediate proxy, may use an opt-in
+   mechanism to negotiate which fields should be reported to allow for
+   efficient content adaption.
 
-2.2.2.  dw
+   This document defines the following hints:
 
-   o  Description: device-width in primary orientation, in density
-      independent pixels.
-   o  Value Type: number
-
-2.2.3.  dpr
+2.2.1.  CH-DPR
 
    o  Description: Device Pixel Ratio (dpr), is the ratio between
       physical pixels and density independent pixels on the device.
    o  Value Type: number
 
-2.2.4.  t
+2.2.2.  CH-DW
 
-   o  Description: device supports a touchscreen.
-   o  Value Type: boolean
-
-   Other client hints may be communicated by the client.  The decision
-   as to which specific hints will be sent is made by the client.
+   o  Description: device-width in primary orientation, in density
+      independent pixels.
+   o  Value Type: number
 
 2.3.  Examples
 
    For example, given the following request header:
 
-     CH: dh=598, dw=384, dpr=2.0, t
+     CH-DPR: 2.0
+     CH-DW: 384
 
-   The server knows that the client's screen height is 598px, width is
-   384px, as measured by density independent pixels on the device, the
-   device pixel ratio is 2.0, and that the device supports a
-   touchscreen.
+   The server knows that the client's screen width is 384px, as measured
+   by density independent pixels on the device and the device pixel
+   ratio is 2.0.
 
-2.4.  Server opt-in with Hop and Origin Hints
+2.4.  Server selection confirmation
+
+   The server may decide to use provided client hint information to
+   select an alternate resource.  When the server performs such
+   selection, because the alternate resource does not necessarily have
+   to match the value of provided hint, it should indicate the value of
+   selected resource via a corresponding response header.  For example,
+   given the following request header:
+
+     CH-DPR: 2.0
+
+   If the server uses the hint to perform resource selection, it should
+   confirm its selection via a response header matching the hint name:
+
+     DPR: 1.5
+
+
+
+
+Grigorik                 Expires March 26, 2014                 [Page 5]
+
+Internet-Draft              HTTP Client Hints             September 2013
+
+
+   The DPR response header indicates to the client that the server has
+   selected an asset with DPR resolution of 1.5.  The client may use
+   this information to perform additional processing on the resource -
+   for example, calculate the appropriate intrinsic size of an image
+   asset.
+
+2.5.  Opt-in mechanism
 
    CH is an optional header which may be sent by the client when making
    a request to the server.  The client may decide to always send the
-   header, or use an optional opt-in mechanism, such as a predefined
-   list of origins, user specified list of origins, or any other forms
-   of opt-in.
+   header, or use an opt-in mechanism, such as a predefined or user
+   specified list of origins, remembered site preference based on past
+   navigation history, or any other forms of opt-in.
 
-   For example, the server may advertise its support for Client Hints
-   via Hop and/or Origin Hint ([I-D.nottingham-http-browser-hints]):
+   For example, the server may advertise its support via Accept-CH
+   header:
 
+     Accept-CH: DPR, DW
 
+   When a client receives the Accept-CH header indicating support for
+   Client Hint adaptation, it should append the CH headers that match
+   the advertised field-values.  For example, based on Accept-CH example
+   above, the client may append CH-DRP and CH-DW headers to subsequent
+   requests.
 
-
-Grigorik                Expires October 17, 2013                [Page 5]
-
-Internet-Draft              HTTP Client Hints                 April 2013
-
-
-     OH: ch
-
-   When a client receives the Hop or Origin Hint header indicating
-   support for Client Hint adaptation, it should append the CH header to
-   subsequent requests to the same origin server.  Further, the client
-   may remember this hint and automatically append the CH header for all
-   future requests to the same origin.
-
-2.5.  Interaction with Caches
+2.6.  Interaction with Caches
 
    Client Hints may be combined with Key ([I-D.fielding-http-key]) to
    enable fine-grained control of the cache key for improved cache
    efficiency.  For example, the server may return the following set of
    instructions:
 
-     Key: CH;pr=dw[320:640]
+     Key: CH-DW;r=[320:640]
 
-   Above example indicates that the cache key should be based on the CH
-   header, and the asset should be cached and made available for any
-   client whose device width (dw) falls between 320 and 640 px.
+   Above example indicates that the cache key should be based on the
+   CH-DW header, and the asset should be cached and made available for
+   any client whose device width (dw) falls between 320 and 640 px.
 
-     Key: CH;pr=dpr[1.5:]
+     Key: CH-DPR;r=[1.5:]
 
-   Above examples indicates that the cache key should be based on the CH
-   header, and the asset should be cached and made available for any
-   client whose device pixel ratio (dpr) is 1.5, or higher.
+   Above examples indicates that the cache key should be based on the
+   CH-DPR header, and the asset should be cached and made available for
+   any client whose device pixel ratio (DPR) is 1.5, or higher.
 
    In absence of support for fine-grained control of the cache key via
    the Key header field, Vary response header can be used to indicate
    that served resource has been adapted based on specified Client Hint
    preferences.
 
-     Vary: CH
 
-2.6.  Relationship to the User-Agent Request Header
+
+Grigorik                 Expires March 26, 2014                 [Page 6]
+
+Internet-Draft              HTTP Client Hints             September 2013
+
+
+     Vary: CH-DPR
+
+2.7.  Relationship to the User-Agent Request Header
 
    Client Hints does not supersede or replace User-Agent.  Existing
    device detection mechanisms can continue to use both mechanisms if
@@ -326,23 +350,18 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
 3.  IANA Considerations
 
-
-
-
-
-
-
-Grigorik                Expires October 17, 2013                [Page 6]
-
-Internet-Draft              HTTP Client Hints                 April 2013
-
-
 3.1.  The CH Request Header Field
 
-   This document defines the "CH" HTTP request field, and registers it
-   in the Permanent Message Headers registry.
+   This document defines the "CH-DPR", "CH-DW" HTTP request fields, and
+   registers it in the Permanent Message Headers registry.
 
-   o  Header field name: CH
+   o  Header field name: CH-DPR
+   o  Applicable protocol: HTTP
+   o  Status: Informational
+   o  Author/Change controller: Ilya Grigorik, ilya@igvita.com
+   o  Specification document(s): [this document]
+   o  Related information: for Client Hints
+   o  Header field name: CH-DW
    o  Applicable protocol: HTTP
    o  Status: Informational
    o  Author/Change controller: Ilya Grigorik, ilya@igvita.com
@@ -366,12 +385,20 @@ Internet-Draft              HTTP Client Hints                 April 2013
 
    This document establishes the HTTP Client Hints Registry.
 
+
+
+
+Grigorik                 Expires March 26, 2014                 [Page 7]
+
+Internet-Draft              HTTP Client Hints             September 2013
+
+
    New hints are registered using Expert Review (see [RFC5226]), by
    sending e-mail to iana@iana.org (or using other mechanisms, as
    established by IANA).
 
    New hints are expected to be implemented in at least one client in
-   common use.  The Expert MAY use their judgement in determining what
+   common use.  The Expert MAY use their judgment in determining what
    "common" is, and when something is considered to be implemented.
 
    New hints MUST be optional; they cannot place requirements upon
@@ -383,15 +410,6 @@ Internet-Draft              HTTP Client Hints                 April 2013
    values.
 
    Registration requests MUST use the following template:
-
-
-
-
-
-Grigorik                Expires October 17, 2013                [Page 7]
-
-Internet-Draft              HTTP Client Hints                 April 2013
-
 
    o  Hint Name: [name of hint]
    o  Hint Value: ["boolean" or "numeric"]
@@ -420,14 +438,22 @@ Internet-Draft              HTTP Client Hints                 April 2013
    [I-D.ietf-httpbis-p1-messaging]
               Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Message Syntax and Routing",
-              draft-ietf-httpbis-p1-messaging-22 (work in progress),
-              February 2013.
+              draft-ietf-httpbis-p1-messaging-23 (work in progress),
+              July 2013.
+
+
+
+
+Grigorik                 Expires March 26, 2014                 [Page 8]
+
+Internet-Draft              HTTP Client Hints             September 2013
+
 
    [I-D.ietf-httpbis-p2-semantics]
               Fielding, R. and J. Reschke, "Hypertext Transfer Protocol
               (HTTP/1.1): Semantics and Content",
-              draft-ietf-httpbis-p2-semantics-22 (work in progress),
-              February 2013.
+              draft-ietf-httpbis-p2-semantics-23 (work in progress),
+              July 2013.
 
    [I-D.nottingham-http-browser-hints]
               Nottingham, M., "HTTP Origin and Hop Hints",
@@ -440,14 +466,6 @@ Internet-Draft              HTTP Client Hints                 April 2013
    [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
               IANA Considerations Section in RFCs", BCP 26, RFC 5226,
               May 2008.
-
-
-
-
-Grigorik                Expires October 17, 2013                [Page 8]
-
-Internet-Draft              HTTP Client Hints                 April 2013
-
 
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
@@ -482,23 +500,5 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Grigorik                Expires October 17, 2013                [Page 9]
+Grigorik                 Expires March 26, 2014                 [Page 9]
 
