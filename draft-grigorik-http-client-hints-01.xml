@@ -127,7 +127,7 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
   Accept-CH: DPR, DW
 ]]></artwork>
         </figure>
-        <t>When a client receives the Accept-CH header indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DRP and CH-DW headers to subsequent requests.</t>
+        <t>When a client receives the Accept-CH header indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.</t>
       </section>
       <section anchor="interaction-with-caches" title="Interaction with Caches">
         <t>Client Hints may be combined with Key (<xref target="I-D.fielding-http-key"/>) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:</t>

@@ -159,7 +159,7 @@ For example, the server may advertise its support via Accept-CH header:
   Accept-CH: DPR, DW
 ~~~
 
-When a client receives the Accept-CH header indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DRP and CH-DW headers to subsequent requests.
+When a client receives the Accept-CH header indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.
 
 
 Interaction with Caches

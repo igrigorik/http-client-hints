@@ -303,7 +303,7 @@ Internet-Draft              HTTP Client Hints             September 2013
    When a client receives the Accept-CH header indicating support for
    Client Hint adaptation, it should append the CH headers that match
    the advertised field-values.  For example, based on Accept-CH example
-   above, the client may append CH-DRP and CH-DW headers to subsequent
+   above, the client may append CH-DPR and CH-DW headers to subsequent
    requests.
 
 2.6.  Interaction with Caches
