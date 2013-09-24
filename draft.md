@@ -153,13 +153,13 @@ Opt-in mechanism
 
 CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined or user specified list of origins, remembered site preference based on past navigation history, or any other forms of opt-in.
 
-For example, the server may advertise its support via Accept-CH header:
+For example, the server may advertise its support via Accept-CH header or an equivalent HTML meta element with http-equiv attribute:
 
 ~~~
   Accept-CH: DPR, DW
 ~~~
 
-When a client receives the Accept-CH header indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.
+When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.
 
 
 Interaction with Caches
