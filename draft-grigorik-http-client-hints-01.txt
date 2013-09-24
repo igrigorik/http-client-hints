@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                        September 22, 2013
+Internet-Draft                                        September 24, 2013
 Intended status: Informational
-Expires: March 26, 2014
+Expires: March 28, 2014
 
 
                            HTTP Client Hints
@@ -36,7 +36,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 26, 2014.
+   This Internet-Draft will expire on March 28, 2014.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 1]
+Grigorik                 Expires March 28, 2014                 [Page 1]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 2]
+Grigorik                 Expires March 28, 2014                 [Page 2]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -164,7 +164,7 @@ Internet-Draft              HTTP Client Hints             September 2013
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 3]
+Grigorik                 Expires March 28, 2014                 [Page 3]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -220,7 +220,7 @@ Internet-Draft              HTTP Client Hints             September 2013
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 4]
+Grigorik                 Expires March 28, 2014                 [Page 4]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -276,7 +276,7 @@ Internet-Draft              HTTP Client Hints             September 2013
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 5]
+Grigorik                 Expires March 28, 2014                 [Page 5]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -296,11 +296,11 @@ Internet-Draft              HTTP Client Hints             September 2013
    navigation history, or any other forms of opt-in.
 
    For example, the server may advertise its support via Accept-CH
-   header:
+   header or an equivalent HTML meta element with http-equiv attribute:
 
      Accept-CH: DPR, DW
 
-   When a client receives the Accept-CH header indicating support for
+   When the client receives the opt-in signal indicating support for
    Client Hint adaptation, it should append the CH headers that match
    the advertised field-values.  For example, based on Accept-CH example
    above, the client may append CH-DPR and CH-DW headers to subsequent
@@ -332,7 +332,7 @@ Internet-Draft              HTTP Client Hints             September 2013
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 6]
+Grigorik                 Expires March 28, 2014                 [Page 6]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -388,7 +388,7 @@ Internet-Draft              HTTP Client Hints             September 2013
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 7]
+Grigorik                 Expires March 28, 2014                 [Page 7]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -444,7 +444,7 @@ Internet-Draft              HTTP Client Hints             September 2013
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 8]
+Grigorik                 Expires March 28, 2014                 [Page 8]
 
 Internet-Draft              HTTP Client Hints             September 2013
 
@@ -500,5 +500,5 @@ Author's Address
 
 
 
-Grigorik                 Expires March 26, 2014                 [Page 9]
+Grigorik                 Expires March 28, 2014                 [Page 9]
 
