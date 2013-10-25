@@ -30,12 +30,12 @@
   <middle>
     <section anchor="introduction" title="Introduction">
       <t>There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as dynamic user and client preferences.</t>
-      <t>One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, integrating it into the serving path, and keeping it up to date. However, even once this infrastructure is deployed, UA sniffing has the following limitations:</t>
+      <t>One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, integrating it into the serving path, and keeping it up to date. However, even once this infrastructure is deployed, UA sniffing has numerous limitations:</t>
       <t>
         <list style="symbols">
-          <t>UA detection requires an external device database</t>
           <t>UA detection cannot reliably identify all static variables</t>
           <t>UA detection cannot infer any dynamic client preferences</t>
+          <t>UA detection requires an external device database</t>
           <t>UA detection is not cache friendly</t>
         </list>
       </t>
@@ -52,23 +52,23 @@ OWS, field-name and quoted-string rules from that document, and the
 parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
       </section>
     </section>
-    <section anchor="the-ch-request-header-fields" title="The “CH” Request Header Fields">
-      <t>Each “CH” request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The full name of the hint consists of a “CH-“ prefix and hint type, and the field-value is a comma-delimited list of header fields. The field-name values are case insensitive.</t>
+    <section anchor="the-client-hint-request-header-fields" title="The Client Hint Request Header Fields">
+      <t>Each Client Hint request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The field-name of the hint consists of a “CH-“ prefix and hint type and is case insensitive. The field-value consists of token, or comma-delimited list of parameters.</t>
       <figure>
         <artwork><![CDATA[
-  CH-{type} = #client-hint
-  client-hint = parameter
+  #client-hint-name = #client-hint-value
+  client-hint-name = "CH-" token
+  client-hint-value = token | 1#parameter
 ]]></artwork>
       </figure>
-      <section anchor="hint-syntax" title="Hint Syntax">
+      <section anchor="hint-value-syntax" title="Hint Value Syntax">
         <t>Hints header fields are allowed to be defined as a single boolean or numeric value, or as a list of header fields with the same types. Where possible, single boolean (i.e. as a flag) or numeric value should be used, so that the hint’s don’t consume too much space in client requests.</t>
         <t>When a single numeric or boolean value is used, the hint value is the full field value. When a list of hints is used, the hint values are the comma-separated values within the field value.</t>
-        <t>Hint header fields are allowed to have a numeric value. However, where possible, they can can be defined as flags (i.e., as a hint name only), or as a single numeric value, so that the hints don’t consume too much space in client requests.</t>
         <t>Hint values can be defined as one of two types:</t>
         <t>
           <list style="symbols">
             <t>Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.</t>
-            <t>Numeric - value indicated by the full field-value contents (single value), or by the digits after “=” of the hint name, up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.</t>
+            <t>Numeric - value indicated by the full field-value contents (single value), or by the digits after “=” of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.</t>
           </list>
         </t>
         <t>Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.</t>
@@ -88,7 +88,19 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <section anchor="ch-dw" title="CH-DW">
           <t>
             <list style="symbols">
-              <t>Description: device-width in primary orientation, in density independent pixels.</t>
+              <t>Description: display width of the requested resource in density independent pixels on the device.</t>
+              <t>Value Type: number</t>
+            </list>
+          </t>
+        </section>
+      </section>
+      <section anchor="server-selection-confirmation" title="Server Selection Confirmation">
+        <t>The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, because the alternate resource may not necessarily match the value of provided hint, it should indicate the value of selected resource via a corresponding response header.</t>
+        <t>This document defines the following confirmation headers:</t>
+        <section anchor="dpr" title="DPR">
+          <t>
+            <list style="symbols">
+              <t>Description: ratio between physical pixels and density independent pixels of the selected asset.</t>
               <t>Value Type: number</t>
             </list>
           </t>
@@ -99,25 +111,17 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
         <figure>
           <artwork><![CDATA[
   CH-DPR: 2.0
-  CH-DW: 384
+  CH-DW: 160
 ]]></artwork>
         </figure>
-        <t>The server knows that the client’s screen width is 384px, as measured by density independent pixels on the device and the device pixel ratio is 2.0.</t>
-      </section>
-      <section anchor="server-selection-confirmation" title="Server selection confirmation">
-        <t>The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, because the alternate resource does not necessarily have to match the value of provided hint, it should indicate the value of selected resource via a corresponding response header. For example, given the following request header:</t>
+        <t>The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160px, as measured by density independent pixels on the device.</t>
+        <t>If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image asset. The server does not need to confirm display width, only the ratio between physical pixels and density independent pixels of the selected image asset:</t>
         <figure>
           <artwork><![CDATA[
-  CH-DPR: 2.0
+  DPR: 1.0
 ]]></artwork>
         </figure>
-        <t>If the server uses the hint to perform resource selection, it should confirm its selection via a response header matching the hint name:</t>
-        <figure>
-          <artwork><![CDATA[
-  DPR: 1.5
-]]></artwork>
-        </figure>
-        <t>The DPR response header indicates to the client that the server has selected an asset with DPR resolution of 1.5. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of an image asset.</t>
+        <t>The DPR response header indicates to the client that the server has selected an asset with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image asset such that it is displayed at the correct resolution.</t>
       </section>
       <section anchor="opt-in-mechanism" title="Opt-in mechanism">
         <t>CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined or user specified list of origins, remembered site preference based on past navigation history, or any other forms of opt-in.</t>
@@ -127,36 +131,43 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
   Accept-CH: DPR, DW
 ]]></artwork>
         </figure>
-        <t>When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the CH headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.</t>
+        <t>When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.</t>
       </section>
       <section anchor="interaction-with-caches" title="Interaction with Caches">
         <t>Client Hints may be combined with Key (<xref target="I-D.fielding-http-key"/>) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:</t>
-        <figure>
-          <artwork><![CDATA[
-  Key: CH-DW;r=[320:640]
-]]></artwork>
-        </figure>
-        <t>Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any client whose device width (dw) falls between 320 and 640 px.</t>
         <figure>
           <artwork><![CDATA[
   Key: CH-DPR;r=[1.5:]
 ]]></artwork>
         </figure>
         <t>Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio (DPR) is 1.5, or higher.</t>
+        <figure>
+          <artwork><![CDATA[
+  Key: CH-DW;r=[320:640]
+]]></artwork>
+        </figure>
+        <t>Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any asset whose display width (dw) falls between 320 and 640px.</t>
         <t>In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.</t>
         <figure>
           <artwork><![CDATA[
   Vary: CH-DPR
 ]]></artwork>
         </figure>
+        <t>Above example indicates that the cache key should be based on the CH-DPR header.</t>
+        <figure>
+          <artwork><![CDATA[
+  Vary: CH-DPR, CH-DW
+]]></artwork>
+        </figure>
+        <t>Above example indicates that the cache key should be based on the CH-DPR and CH-DW headers.</t>
       </section>
       <section anchor="relationship-to-the-user-agent-request-header" title="Relationship to the User-Agent Request Header">
         <t>Client Hints does not supersede or replace User-Agent. Existing device detection mechanisms can continue to use both mechanisms if necessary. By advertising its capabilities within a request header, Client Hints allows for cache friendly and proactive content negotiation.</t>
       </section>
     </section>
     <section anchor="iana-considerations" title="IANA Considerations">
-      <section anchor="the-ch-request-header-field" title="The CH Request Header Field">
-        <t>This document defines the “CH-DPR”, “CH-DW” HTTP request fields, and registers it in the Permanent Message Headers registry.</t>
+      <section anchor="the-client-hints-request-header-field" title="The Client Hints Request Header Field">
+        <t>This document defines the “CH-DPR”, “CH-DW”, and “DPR” HTTP request fields, and registers it in the Permanent Message Headers registry.</t>
         <t>
           <list style="symbols">
             <t>Header field name: CH-DPR</t>
@@ -166,6 +177,12 @@ parameter rule from <xref target="I-D.ietf-httpbis-p2-semantics"/>.</t>
             <t>Specification document(s): [this document]</t>
             <t>Related information: for Client Hints</t>
             <t>Header field name: CH-DW</t>
+            <t>Applicable protocol: HTTP</t>
+            <t>Status: Informational</t>
+            <t>Author/Change controller: Ilya Grigorik, ilya@igvita.com</t>
+            <t>Specification document(s): [this document]</t>
+            <t>Related information: for Client Hints</t>
+            <t>Header field name: DPR</t>
             <t>Applicable protocol: HTTP</t>
             <t>Status: Informational</t>
             <t>Author/Change controller: Ilya Grigorik, ilya@igvita.com</t>
@@ -303,13 +320,13 @@ implementations. Specifically, new hints MUST NOT make communication non-conform
           <author initials="J" surname="Reschke" fullname="Julian Reschke">
             <organization/>
           </author>
-          <date month="July" day="15" year="2013"/>
+          <date month="September" day="25" year="2013"/>
           <abstract>
             <t>The Hypertext Transfer Protocol (HTTP) is an application-level protocol for distributed, collaborative, hypertext information systems.  HTTP has been in use by the World Wide Web global information initiative since 1990.  This document provides an overview of HTTP architecture and its associated terminology, defines the "http" and "https" Uniform Resource Identifier (URI) schemes, defines the HTTP/1.1 message syntax and parsing requirements, and describes general security concerns for implementations.</t>
           </abstract>
         </front>
-        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p1-messaging-23"/>
-        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p1-messaging-23.txt"/>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p1-messaging-24"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p1-messaging-24.txt"/>
       </reference>
       <reference anchor="I-D.ietf-httpbis-p2-semantics">
         <front>
@@ -320,13 +337,13 @@ implementations. Specifically, new hints MUST NOT make communication non-conform
           <author initials="J" surname="Reschke" fullname="Julian Reschke">
             <organization/>
           </author>
-          <date month="July" day="15" year="2013"/>
+          <date month="September" day="25" year="2013"/>
           <abstract>
             <t>The Hypertext Transfer Protocol (HTTP) is an application-level protocol for distributed, collaborative, hypertext information systems.  This document defines the semantics of HTTP/1.1 messages, as expressed by request methods, request header fields, response status codes, and response header fields, along with the payload of messages (metadata and body content) and mechanisms for content negotiation.</t>
           </abstract>
         </front>
-        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p2-semantics-23"/>
-        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p2-semantics-23.txt"/>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-httpbis-p2-semantics-24"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-httpbis-p2-semantics-24.txt"/>
       </reference>
       <reference anchor="I-D.nottingham-http-browser-hints">
         <front>
