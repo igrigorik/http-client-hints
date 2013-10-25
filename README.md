@@ -1,29 +1,85 @@
 ## Client-Hints (Internet Draft)
 
-* [Automating DPR switching with Client-Hints](http://www.igvita.com/2013/08/29/automating-dpr-switching-with-client-hints/)
-* Hands-on demo: install [this Chrome extension](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef) and visit [this page](http://www.igvita.com/downloads/ch/) and try changing your CH hints -- magic!
-* [Cookie-based polyfill](https://github.com/jonathantneal/http-client-hints) - limited to second request, same origin, but works as a proof of concept!
+Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences for the request resource.
 
-### Implementation status:
+Client Hints can be used to automate negotiation of optimal resolution and size of delivered image assets to different clients. For example, given the following HTML markup:
 
-* [Latest Client-Hints draft on IETF tracker](http://tools.ietf.org/html/draft-grigorik-http-client-hints)
-* [Blink intent to implement thread](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ) ([patch under review](https://codereview.chromium.org/23654014))
+```html
+<img src="img.jpg" width="160" alt="I'm responsive!">
+```
+
+The client and server can automatically negotiate the resolution and size of `img.jpg` via HTTP negotiation:
+
+```
+(request)
+GET /img.jpg HTTP/1.1
+User-Agent: Awesome Browser
+Accept: image/webp, image/jpg
+CH-DPR: 2.0
+CH-DW: 160
+
+(response)
+HTTP/1.1 200 OK
+Server: Awesome Server
+Content-Type: image/jpg
+Content-Length: 124523
+Vary: CH-DPR, CH-DW
+DPR: 2.0
+
+(image data)
+```
+
+In above example, the client advertises its device pixel ratio (DPR) via `CH-DPR` header, and (optionally) the display width (in DIPs) of the requested asset. Given this information, the server is then able to dynamically select the optimal asset for the client, and confirms its selection via the `DPR` header.
+
+For full details on negotiation workflow, refer to the [spec](https://github.com/igrigorik/http-client-hints/blob/master/draft-grigorik-http-client-hints-01.txt).
 
 
-### Background
+### Implementation status
 
-There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as dynamic user and client preferences.
+Client Hints support [can be enabled](https://plus.google.com/100132233764003563318/posts/AS432bKs7pY) Chrome Canary via a `--enable-client-hints` flag. Current status:
 
-One way to infer some of these capabilities is through User-Agent (UA) detection against an established database of client signatures. However, this technique requires acquiring such a database, integrating it into the serving path, and keeping it up to date. And even once this infrastructure is deployed, UA sniffing has the following limitations:
+* Chrome will only send the CH-DPR header.
+* (WIP) Intrinsic size calculation: http://crbug.com/303863
+* (WIP) Sent CH-DPR value is not updated on zoom: http://crbug.com/303856
+* (WIP) Multi-display handling: http://crbug.com/303857
 
-  - UA detection depends on acquiring and maintenance of external databases
-  - UA detection cannot reliably identify all static variables
-  - UA detection cannot infer any dynamic client preferences
-  - UA detection is not cache friendly
+To experiment with Client Hints you can also use the [Client Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH headers. (Note: extension works in any version of Chrome).
 
-A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a new request Client Hint header field, "CH", that allows the client to make available hints, both static and dynamic, to origin and intermediate servers about its preference and capabilities. "CH" allows server-side content adaption without imposing additional latency on the client, requiring the use of additional device databases, while allowing cache-friendly deployments.
+### Interaction with src-N
+
+Client Hints can be used alongside [src-N](http://tabatkins.github.io/specs/respimg/Overview.html) to automate resolution switching and simplify delivery of variable-sized images.
+
+* CH-DPR automates resolution use-case and eliminates the need to write `x` queries:
+
+```html
+<!-- src-N resolution switching -->
+<img src-1="pic.png, picHigh.png 2x, picLow.png .5x">
+
+<!-- equivalent functionality via CH-DPR -->
+<img src="pic.png"> (or) <img src-1="pic.png">
+```
+
+* CH-DW simplifies delivery of variable sized images: author specifies the breakpoints using src-N markup, the client computes the display width (in dips) of the image asset and sends it to the server. Given CH-DPR and CH-DW values, the server can then select the appropriate asset:
+
+```html
+<!-- src-N variable size + DPR selection -->
+<img src-1="100% (30em) 50% (50em) calc(33% - 100px);
+           pic100.png 100, pic200.png 200, pic400.png 400,
+           pic800.png 800, pic1600.png 1600, pic3200.png 3200">
+           
+<!-- equivalent functionality via CH-DPR + CH-DW (see HTTP negotiation example above) -->
+<img src-1="100% (30em) 50% (50em) calc(33% - 100px); pic.png">
+```
+
+The combination of `CH-DPR` and `CH-DW` allows the server to deliver 'pixel perfect' assets that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching asset (just as src-N picks the best / nearest asset based on provided urls in the markup). 
+
+
+### Comparison to User-Agent & Cookie-based strategies
+
+User-Agent sniffing cannot reliably detect the device pixel resolution of many devices (e.g. different generation iOS devices all have the same User-Agent header). Further, User-Agent detection cannot account for dynamic changes in DPR (e.g. zoomed in viewport on desktop devices). Similarly, User-Agent detection cannot tell us anything about the display width of the requested asset. In short, UA sniffing does not work.
+
+HTTP Cookies can be used to [simulate similar behavior](https://github.com/jonathantneal/http-client-hints), but also have multiple limitations: client hints are not available on first request (missing cookie) or for any client who has cleared or disabled cookies; cookies impose additional client-side latency by requiring JavaScript execution to create and manage cookies; cookie solutions are limited to same-origin requests; cookie solutions are not HTTP cache friendly (cannot Vary on Cookie). 
 
 <table>
 <thead>
@@ -48,13 +104,13 @@ This document defines a new request Client Hint header field, "CH", that allows 
     <td>No</td>
   </tr>
   <tr>
-    <td>Latency Penalty</td>
+    <td>Latency penalty</td>
     <td>No</td>
     <td>No</td>
     <td>Yes</td>
   </tr>
   <tr>
-    <td>Hides Resources from browser</td>
+    <td>Hides resources from browser</td>
     <td>No</td>
     <td>No</td>
     <td>Yes</td>
@@ -72,33 +128,13 @@ This document defines a new request Client Hint header field, "CH", that allows 
     <td>No</td>
   </tr>
   <tr>
-    <td>Standardized / Interoperable</td>
-    <td>Yes *</td>
+    <td>Standardized / interoperable</td>
+    <td>Yes</td>
     <td>No</td>
     <td>No</td>
   </tr>
 </tbody>
 </table>
-
-## FAQ
-
-#### What do you mean by cache friendly?
-
-Once the resource is optimized based on client CH hint, it can be cached through Vary: CH, or in combination with Key for fine-grained cache control.
-
-Vary: User-Agent does not work, because the amount of variation in the User-Agent header renders any asset effectively uncacheable. Same problem, but worse, for Cookies.
-
-#### Which variables will be sent in CH header?
-
-CH is a generic transport and is not tied to any specific variable. The current draft specifies three example variables (dw, dh, dpr), but CH is not restricted to these variables. Further, the UA can decide which variables should be sent and when.
-
-#### When should the CH header be sent?
-
-CH is an optional header. The client can decide when to append it to the request. Having said that, HTTP is stateless, so it is recommended that the client sends the CH header for all requests.
-
-#### CH adds extra bytes!
-
-True. The CH header will add 10-20 bytes to the outbound request. However, the 10-20 upstream bytes can easily translate to hundreds of saved Kilobytes in downstream direction when applied to images (60% of the bytes for an average page).
 
 ### Feedback
 
