@@ -47,9 +47,9 @@ To experiment with Client Hints you can also use the [Client Hints extension for
 
 ### Interaction with src-N
 
-Client Hints can be used alongside [src-N](http://tabatkins.github.io/specs/respimg/Overview.html) to automate resolution switching and simplify delivery of variable-sized images.
+Client Hints can be used alongside [src-N](http://tabatkins.github.io/specs/respimg/Overview.html) to automate resolution switching, and to simplify art-direction markup and delivery of variable-sized images.
 
-CH-DPR automates resolution use-case and eliminates the need to write `x` queries:
+CH-DPR automates resolution switching use-case and eliminates the need to write `x` queries:
 
 ```html
 <!-- src-N resolution switching -->
@@ -59,19 +59,19 @@ CH-DPR automates resolution use-case and eliminates the need to write `x` querie
 <img src="pic.png"> (or) <img src-1="pic.png">
 ```
 
-CH-DW simplifies delivery of variable sized images: author specifies the breakpoints using src-N markup, the client computes the display width (in dips) of the image asset and sends it to the server. Given CH-DPR and CH-DW values, the server can then select the appropriate asset:
+CH-DW simplifies delivery of variable sized images: author specifies the breakpoints using src-N markup, the client computes the display width (in DIPs) of the image asset and sends it to the server. Given CH-DPR and CH-DW values, the server can then select the appropriate asset:
 
 ```html
 <!-- src-N variable size + DPR selection -->
 <img src-1="100% (30em) 50% (50em) calc(33% - 100px);
            pic100.png 100, pic200.png 200, pic400.png 400,
            pic800.png 800, pic1600.png 1600, pic3200.png 3200">
-           
+
 <!-- equivalent functionality via CH-DPR + CH-DW (see HTTP exchange above) -->
 <img src-1="100% (30em) 50% (50em) calc(33% - 100px); pic.png">
 ```
 
-The combination of `CH-DPR` and `CH-DW` allows the server to deliver 'pixel perfect' assets that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching asset (just as src-N picks the best / nearest asset based on provided urls in the markup). 
+The combination of `CH-DPR` and `CH-DW` allows the server to deliver 'pixel perfect' assets that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching asset (just as src-N picks the best / nearest asset based on provided urls in the markup).
 
 Finally, Client Hints also simplifies art-direction use case covered by src-N:
 
@@ -92,7 +92,7 @@ Finally, Client Hints also simplifies art-direction use case covered by src-N:
 
 User-Agent sniffing cannot reliably detect the device pixel resolution of many devices (e.g. different generation iOS devices all have the same User-Agent header). Further, User-Agent detection cannot account for dynamic changes in DPR (e.g. zoomed in viewport on desktop devices). Similarly, User-Agent detection cannot tell us anything about the display width of the requested asset. In short, UA sniffing does not work.
 
-HTTP Cookies can be used to [simulate similar behavior](https://github.com/jonathantneal/http-client-hints), but also have multiple limitations: client hints are not available on first request (missing cookie) or for any client who has cleared or disabled cookies; cookies impose additional client-side latency by requiring JavaScript execution to create and manage cookies; cookie solutions are limited to same-origin requests; cookie solutions are not HTTP cache friendly (cannot Vary on Cookie). 
+HTTP Cookies can be used to [approximate CH behavior](https://github.com/jonathantneal/http-client-hints), but are subject to many limitations: client hints are not available on first request (missing cookie) or for any client who has cleared or disabled cookies; cookies impose additional client-side latency by requiring JavaScript execution to create and manage cookies; cookie solutions are limited to same-origin requests; cookie solutions are not HTTP cache friendly (cannot Vary on Cookie).
 
 <table>
 <thead>
@@ -104,12 +104,6 @@ HTTP Cookies can be used to [simulate similar behavior](https://github.com/jonat
   </tr>
 </thead>
 <tbody>
-  <tr>
-    <td>Future proof</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
   <tr>
     <td>Third-party database</td>
     <td>No</td>
@@ -125,6 +119,12 @@ HTTP Cookies can be used to [simulate similar behavior](https://github.com/jonat
   <tr>
     <td>Hides resources from browser</td>
     <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>Future proof</td>
+    <td>Yes</td>
     <td>No</td>
     <td>Yes</td>
   </tr>
