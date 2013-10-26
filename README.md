@@ -10,15 +10,14 @@ Client Hints can be used to automate negotiation of optimal resolution and size 
 
 The client and server can automatically negotiate the resolution and size of `img.jpg` via HTTP negotiation:
 
-```
-(request)
+```http
 GET /img.jpg HTTP/1.1
 User-Agent: Awesome Browser
 Accept: image/webp, image/jpg
 CH-DPR: 2.0
 CH-DW: 160
-
-(response)
+```
+```http
 HTTP/1.1 200 OK
 Server: Awesome Server
 Content-Type: image/jpg
@@ -43,14 +42,14 @@ Client Hints support [can be enabled](https://plus.google.com/100132233764003563
 * (WIP) Sent CH-DPR value is not updated on zoom: http://crbug.com/303856
 * (WIP) Multi-display handling: http://crbug.com/303857
 
-To experiment with Client Hints you can also use the [Client Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH headers. (Note: extension works in any version of Chrome).
+To experiment with Client Hints you can also use the [Client Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH headers. _(Note: extension works in any version of Chrome)._
 
 
 ### Interaction with src-N
 
 Client Hints can be used alongside [src-N](http://tabatkins.github.io/specs/respimg/Overview.html) to automate resolution switching and simplify delivery of variable-sized images.
 
-* CH-DPR automates resolution use-case and eliminates the need to write `x` queries:
+CH-DPR automates resolution use-case and eliminates the need to write `x` queries:
 
 ```html
 <!-- src-N resolution switching -->
@@ -60,7 +59,7 @@ Client Hints can be used alongside [src-N](http://tabatkins.github.io/specs/resp
 <img src="pic.png"> (or) <img src-1="pic.png">
 ```
 
-* CH-DW simplifies delivery of variable sized images: author specifies the breakpoints using src-N markup, the client computes the display width (in dips) of the image asset and sends it to the server. Given CH-DPR and CH-DW values, the server can then select the appropriate asset:
+CH-DW simplifies delivery of variable sized images: author specifies the breakpoints using src-N markup, the client computes the display width (in dips) of the image asset and sends it to the server. Given CH-DPR and CH-DW values, the server can then select the appropriate asset:
 
 ```html
 <!-- src-N variable size + DPR selection -->
@@ -68,11 +67,25 @@ Client Hints can be used alongside [src-N](http://tabatkins.github.io/specs/resp
            pic100.png 100, pic200.png 200, pic400.png 400,
            pic800.png 800, pic1600.png 1600, pic3200.png 3200">
            
-<!-- equivalent functionality via CH-DPR + CH-DW (see HTTP negotiation example above) -->
+<!-- equivalent functionality via CH-DPR + CH-DW (see HTTP exchange above) -->
 <img src-1="100% (30em) 50% (50em) calc(33% - 100px); pic.png">
 ```
 
 The combination of `CH-DPR` and `CH-DW` allows the server to deliver 'pixel perfect' assets that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching asset (just as src-N picks the best / nearest asset based on provided urls in the markup). 
+
+Finally, Client Hints also simplifies art-direction use case covered by src-N:
+
+```html
+<!-- src-N art-direction with resolution switching -->
+<img src-1="(max-width: 30em) pic-small-1x.jpg 1x, pic-small-2x.jpg 2x"
+     src-2="(max-width: 50em) pic-medium-1x.jpg 1x, pic-medium-2x.jpg 2x"
+     src="pic-large.jpg">
+
+<!-- equivalent functionality can be simplified with Client-Hints -->
+<img src-1="(max-width: 30em) pic-small.jpg"
+     src-2="(max-width: 50em) pic-medium.jpg"
+     src="pic-large.jpg">
+```
 
 
 ### Comparison to User-Agent & Cookie-based strategies
