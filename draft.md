@@ -108,7 +108,7 @@ This document defines the following hints:
 
 ### CH-DPR
 
-- Description: Device Pixel Ratio (dpr), is the ratio between physical pixels and density independent pixels on the device.
+- Description: Device Pixel Ratio (DPR), is the ratio between physical pixels and density independent pixels on the device.
 - Value Type: number
 
 ### CH-DW
@@ -120,7 +120,7 @@ This document defines the following hints:
 Server Selection Confirmation
 -----------------------------
 
-The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, because the alternate resource may not necessarily match the value of provided hint, it should indicate the value of selected resource via a corresponding response header.
+The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
 
 This document defines the following confirmation headers:
 
@@ -128,6 +128,9 @@ This document defines the following confirmation headers:
 
 - Description: ratio between physical pixels and density independent pixels of the selected asset.
 - Value Type: number
+- Note: DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the returned asset whenever DPR hint is used. In turn, client must use the DPR value returned by the server to perform its calculations.
+
+The server does not need to confirm display width selection, as this value can be derived from the asset itself once it is decoded by the client.
 
 
 Examples
@@ -174,13 +177,13 @@ Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine
   Key: CH-DPR;r=[1.5:]
 ~~~
 
-Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio (DPR) is 1.5, or higher.
+Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
 
 ~~~
   Key: CH-DW;r=[320:640]
 ~~~
 
-Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any asset whose display width (dw) falls between 320 and 640px.
+Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any asset whose display width falls between 320 and 640px.
 
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
