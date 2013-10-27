@@ -2,9 +2,9 @@
 
 
 Network Working Group                                        I. Grigorik
-Internet-Draft                                          October 26, 2013
+Internet-Draft                                          October 27, 2013
 Intended status: Informational
-Expires: April 29, 2014
+Expires: April 30, 2014
 
 
                            HTTP Client Hints
@@ -36,7 +36,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 29, 2014.
+   This Internet-Draft will expire on April 30, 2014.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 1]
+Grigorik                 Expires April 30, 2014                 [Page 1]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 2]
+Grigorik                 Expires April 30, 2014                 [Page 2]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -164,7 +164,7 @@ Internet-Draft              HTTP Client Hints               October 2013
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 3]
+Grigorik                 Expires April 30, 2014                 [Page 3]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -220,7 +220,7 @@ Internet-Draft              HTTP Client Hints               October 2013
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 4]
+Grigorik                 Expires April 30, 2014                 [Page 4]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -258,25 +258,25 @@ Internet-Draft              HTTP Client Hints               October 2013
    o  Description: ratio between physical pixels and density independent
       pixels of the selected asset.
    o  Value Type: number
-   o  Note: DPR ratio affects the calculation of intrinsic size of the
-      image on the client (i.e. typically, the client automatically
-      scales the natural size of the image by the DPR ratio to derive
-      its display dimensions).  As a result, the server must explicitly
-      indicate the DPR of the returned asset whenever DPR hint is used.
-      In turn, client must use the DPR value returned by the server to
-      perform its calculations.
 
-   The server does not need to confirm display width selection, as this
+   DPR ratio affects the calculation of intrinsic size of the image on
+   the client (i.e. typically, the client automatically scales the
+   natural size of the image by the DPR ratio to derive its display
+   dimensions).  As a result, the server must explicitly indicate the
+   DPR of the asset whenever CH-DPR hint is used, and the client must
+   use the DPR value returned by the server to perform its calculations.
+   In case the server returned DPR value contradicts previous client-
+   side DPR indication (e.g. srcN's x-viewport), the server returned
+   value must take precedence.
+
+   The server does not need to confirm display width selection as this
    value can be derived from the asset itself once it is decoded by the
    client.
 
 
 
 
-
-
-
-Grigorik                 Expires April 29, 2014                 [Page 5]
+Grigorik                 Expires April 30, 2014                 [Page 5]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -332,7 +332,7 @@ Internet-Draft              HTTP Client Hints               October 2013
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 6]
+Grigorik                 Expires April 30, 2014                 [Page 6]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -388,7 +388,7 @@ Internet-Draft              HTTP Client Hints               October 2013
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 7]
+Grigorik                 Expires April 30, 2014                 [Page 7]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -444,7 +444,7 @@ Internet-Draft              HTTP Client Hints               October 2013
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 8]
+Grigorik                 Expires April 30, 2014                 [Page 8]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -500,7 +500,7 @@ Internet-Draft              HTTP Client Hints               October 2013
 
 
 
-Grigorik                 Expires April 29, 2014                 [Page 9]
+Grigorik                 Expires April 30, 2014                 [Page 9]
 
 Internet-Draft              HTTP Client Hints               October 2013
 
@@ -556,5 +556,5 @@ Author's Address
 
 
 
-Grigorik                 Expires April 29, 2014                [Page 10]
+Grigorik                 Expires April 30, 2014                [Page 10]
 
