@@ -128,9 +128,10 @@ This document defines the following confirmation headers:
 
 - Description: ratio between physical pixels and density independent pixels of the selected asset.
 - Value Type: number
-- Note: DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the returned asset whenever DPR hint is used. In turn, client must use the DPR value returned by the server to perform its calculations.
 
-The server does not need to confirm display width selection, as this value can be derived from the asset itself once it is decoded by the client.
+DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the asset whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
+
+The server does not need to confirm display width selection as this value can be derived from the asset itself once it is decoded by the client.
 
 
 Examples
