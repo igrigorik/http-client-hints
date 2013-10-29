@@ -111,9 +111,9 @@ This document defines the following hints:
 - Description: Device Pixel Ratio (DPR), is the ratio between physical pixels and density independent pixels on the device.
 - Value Type: number
 
-### CH-DW
+### CH-RW
 
-- Description: display width of the requested resource in density independent pixels on the device.
+- Description: Resource Width (RW), is the display width of the requested resource in density independent pixels on the device.
 - Value Type: number
 
 
@@ -126,12 +126,12 @@ This document defines the following confirmation headers:
 
 ### DPR
 
-- Description: ratio between physical pixels and density independent pixels of the selected asset.
+- Description: ratio between physical pixels and density independent pixels of the selected resource.
 - Value Type: number
 
-DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the asset whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
+DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
 
-The server does not need to confirm display width selection as this value can be derived from the asset itself once it is decoded by the client.
+The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
 
 
 Examples
@@ -141,18 +141,18 @@ For example, given the following request header:
 
 ~~~
   CH-DPR: 2.0
-  CH-DW: 160
+  CH-RW: 160
 ~~~
 
 The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160px, as measured by density independent pixels on the device.
 
-If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image asset. The server does not need to confirm display width, only the ratio between physical pixels and density independent pixels of the selected image asset:
+If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image resource. The server does not need to confirm resource width, only the ratio between physical pixels and density independent pixels of the selected image resource:
 
 ~~~
   DPR: 1.0
 ~~~
 
-The DPR response header indicates to the client that the server has selected an asset with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image asset such that it is displayed at the correct resolution.
+The DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
 
 
 Opt-in mechanism
@@ -163,10 +163,10 @@ CH is an optional header which may be sent by the client when making a request t
 For example, the server may advertise its support via Accept-CH header or an equivalent HTML meta element with http-equiv attribute:
 
 ~~~
-  Accept-CH: DPR, DW
+  Accept-CH: DPR, RW
 ~~~
 
-When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-DW headers to subsequent requests.
+When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-RW headers to subsequent requests.
 
 
 Interaction with Caches
@@ -178,13 +178,13 @@ Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine
   Key: CH-DPR;r=[1.5:]
 ~~~
 
-Above examples indicates that the cache key should be based on the CH-DPR header, and the asset should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
+Above examples indicates that the cache key should be based on the CH-DPR header, and the resource should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
 
 ~~~
-  Key: CH-DW;r=[320:640]
+  Key: CH-RW;r=[320:640]
 ~~~
 
-Above example indicates that the cache key should be based on the CH-DW header, and the asset should be cached and made available for any asset whose display width falls between 320 and 640px.
+Above example indicates that the cache key should be based on the CH-RW header, and the resouce should be cached and made available for any request whose display width falls between 320 and 640px.
 
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
@@ -195,10 +195,10 @@ In absence of support for fine-grained control of the cache key via the Key head
 Above example indicates that the cache key should be based on the CH-DPR header.
 
 ~~~
-  Vary: CH-DPR, CH-DW
+  Vary: CH-DPR, CH-RW
 ~~~
 
-Above example indicates that the cache key should be based on the CH-DPR and CH-DW headers.
+Above example indicates that the cache key should be based on the CH-DPR and CH-RW headers.
 
 
 Relationship to the User-Agent Request Header
@@ -213,7 +213,7 @@ IANA Considerations
 The Client Hints Request Header Field
 -------------------------------------
 
-This document defines the "CH-DPR", "CH-DW", and "DPR" HTTP request fields, and registers it in the Permanent Message Headers registry.
+This document defines the "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and registers it in the Permanent Message Headers registry.
 
 - Header field name: CH-DPR
 - Applicable protocol: HTTP
@@ -222,7 +222,7 @@ This document defines the "CH-DPR", "CH-DW", and "DPR" HTTP request fields, and 
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-- Header field name: CH-DW
+- Header field name: CH-RW
 - Applicable protocol: HTTP
 - Status: Informational
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
