@@ -35,14 +35,14 @@ For full details on negotiation workflow, refer to the [spec](https://github.com
 
 ### Implementation status
 
-Client Hints support [can be enabled](https://plus.google.com/100132233764003563318/posts/AS432bKs7pY) Chrome Canary via a `--enable-client-hints` flag. Current status:
+Client Hints support can be enabled in Chrome Canary:
 
-* Chrome will only send the CH-DPR header.
-* (WIP) Intrinsic size calculation: http://crbug.com/303863
-* (WIP) Sent CH-DPR value is not updated on zoom: http://crbug.com/303856
-* (WIP) Multi-display handling: http://crbug.com/303857
+* Launch Chrome with `--enable-client-hints` flag (this tells Chrome to emit CH-DPR request header)
+* Enable _chrome://flags/#enable-experimental-web-platform-features_ (DPR selection confirmation support)
 
-To experiment with Client Hints you can also use the [Client Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH headers. _(Note: extension works in any version of Chrome)._
+If you want to override sent Client-Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH-DPR headers.
+
+_Note: Currently, Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857)._
 
 
 ### Interaction with src-N
