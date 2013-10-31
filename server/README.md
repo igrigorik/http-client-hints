@@ -8,6 +8,8 @@ If you've enabled the right flags, then the above page should render all images 
 
 _Note: above demo provides an override DPR parameter to illustrate rendering at differing resolutions. In practice, no such thing is actually required - i.e. look at the source for first example image._
 
+* See **nginx-ch-dpr.conf** for example Nginx config.
+
 
 ## Demo instance on Heroku
 
