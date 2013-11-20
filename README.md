@@ -44,6 +44,7 @@ If you want to override sent Client-Hints headers, you can also install [Client-
 
 _Note: Currently, Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857)._
 
+* Mozilla: [935216 - Implement Client-Hints HTTP header](https://bugzilla.mozilla.org/show_bug.cgi?id=935216)
 
 ### Interaction with src-N
 
