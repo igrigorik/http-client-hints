@@ -104,13 +104,20 @@ This document defines the following Client Hints:
 
 ### CH-DPR
 
-- Description: Device Pixel Ratio (DPR), is the ratio between physical pixels and density independent pixels on the device.
-- Value Type: number
+The "CH-DPR" header field indicates the client's current Device Pixel Ratio (DPR), the ratio between physical pixels and density independent pixels on the device.
+
+~~~
+    CH-DPR = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
 
 ### CH-RW
 
-- Description: Resource Width (RW), is the display width of the requested resource in density independent pixels on the device.
-- Value Type: number
+The "CH-RW" header field indicates the client's current Resource Width (RW), the display width of the requested resource in density independent pixels on the device.
+
+~~~
+    CH-RW = 1*DIGIT [ "." 1*DIGIT ]
+~~~
 
 
 ## Server Selection Confirmation
@@ -121,8 +128,11 @@ This document defines the following confirmation headers:
 
 ### DPR
 
-- Description: ratio between physical pixels and density independent pixels of the selected resource.
-- Value Type: number
+The "DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
+
+~~~
+DPR = 1*DIGIT [ "." 1*DIGIT ]
+~~~
 
 DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
 
