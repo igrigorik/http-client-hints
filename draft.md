@@ -235,29 +235,6 @@ This document registers the "ch" HTTP Hint ({{I-D.nottingham-http-browser-hints}
 - Specification: this document
 
 
-## The HTTP Client Hints Registry
-
-This document establishes the HTTP Client Hints Registry.
-
-New hints are registered using Expert Review (see {{RFC5226}}), by sending e-mail to iana@iana.org (or using other mechanisms, as established by IANA).
-
-New hints are expected to be implemented in at least one client in common use. The Expert MAY use their judgment in determining what "common" is, and when something is considered to be implemented.
-
-New hints MUST be optional; they cannot place requirements upon
-implementations. Specifically, new hints MUST NOT make communication non-conformant with HTTP itself; i.e., this is not a mechanism for changing the HTTP protocol in incompatible ways.
-
-See section 2.1 for constraints on the syntax of hint names and hint values.
-
-Registration requests MUST use the following template:
-
-* Hint Name: [name of hint]
-* Hint Value: ["boolean" or "numeric"]
-* Description: [description of hint]
-* Contact: [e-mail address(es)]
-* Specification: [optional; reference or URI to more info]
-* Notes: [optional]
-
-The initial contents of the registry are defined in section 2.2.
 
 
 # Security Considerations
