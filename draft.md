@@ -53,7 +53,7 @@ One way to infer some of these capabilities is through User-Agent (UA) detection
 
 A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a set of new request Client Hint header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
+This document defines a set of new request header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
 
 
 Notational Conventions
@@ -70,14 +70,12 @@ OWS, field-name and quoted-string rules from that document, and the
 parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 
 
-The Client Hint Request Header Fields
-=====================================
+Client Hint Request Header Fields
+=================================
 
-Each Client Hint request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The field-name of the hint consists of a "CH-" prefix and hint type and is case insensitive. The field-value consists of token, or comma-delimited list of parameters.
+Each request header field bearing a Client Hint conveys a list of client preferences that the server can use to adapt and optimize the response. As a convention, these header field names are prefixed with "CH-". Their field-values consist of either a token or a comma-delimited list of parameters.
 
 ~~~
-  #client-hint-name = #client-hint-value
-  client-hint-name = "CH-" token
   client-hint-value = token | 1#parameter
 ~~~
 
