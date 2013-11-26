@@ -100,6 +100,11 @@ Clients control which Client Hint headers and their respective header fields are
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
+## Server Processing of Client Hints
+
+The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
+
+
 
 # The CH-DPR Client Hint
 
@@ -132,11 +137,6 @@ DPR ratio affects the calculation of intrinsic size of the image on the client (
 The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
 
 
-## Server Selection Confirmation
-
-The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
-
-This document defines the following confirmation headers:
 
 
 
