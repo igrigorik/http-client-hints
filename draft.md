@@ -33,9 +33,9 @@ informative:
 
 --- abstract
 
-An increasing diversity of connected device form factors and software capabilities has created a need to deliver varying, or optimized content for each device.
+An increasing diversity of Web-connected device form factors and software capabilities has created a need to deliver varying, or optimized content for each device.
 
-Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
+HTTP Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
 --- middle
 
