@@ -102,7 +102,7 @@ The client and server, or an intermediate proxy, may use an opt-in mechanism to 
 
 ## Server Processing of Client Hints
 
-The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
+Servers can modify the response sent based upon Client Hints. When doing so, it MUST confirm the selection and indicate the value of selected resource via corresponding response header. For example, this specification defines "DPR" that corresponds to the "CH-DPR" request header field.
 
 ### Advertising Support for Client Hints
 
@@ -123,7 +123,7 @@ When a client receives Accept-CH, it SHOULD append the Client Hint headers that 
 
 ### Interaction with Caches
 
-Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
+Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
 
 ~~~
   Key: CH-DPR;r=[1.5:]
