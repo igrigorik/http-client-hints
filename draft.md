@@ -104,6 +104,36 @@ The client and server, or an intermediate proxy, may use an opt-in mechanism to 
 
 The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
 
+### Interaction with Caches
+
+Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
+
+~~~
+  Key: CH-DPR;r=[1.5:]
+~~~
+
+Above examples indicates that the cache key should be based on the CH-DPR header, and the resource should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
+
+~~~
+  Key: CH-RW;r=[320:640]
+~~~
+
+Above example indicates that the cache key should be based on the CH-RW header, and the resouce should be cached and made available for any request whose display width falls between 320 and 640px.
+
+In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
+
+~~~
+  Vary: CH-DPR
+~~~
+
+Above example indicates that the cache key should be based on the CH-DPR header.
+
+~~~
+  Vary: CH-DPR, CH-RW
+~~~
+
+Above example indicates that the cache key should be based on the CH-DPR and CH-RW headers.
+
 
 
 # The CH-DPR Client Hint
@@ -135,8 +165,6 @@ DPR = 1*DIGIT [ "." 1*DIGIT ]
 DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
 
 The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
-
-
 
 
 
@@ -173,35 +201,7 @@ For example, the server may advertise its support via Accept-CH header or an equ
 When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-RW headers to subsequent requests.
 
 
-## Interaction with Caches
 
-Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
-
-~~~
-  Key: CH-DPR;r=[1.5:]
-~~~
-
-Above examples indicates that the cache key should be based on the CH-DPR header, and the resource should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
-
-~~~
-  Key: CH-RW;r=[320:640]
-~~~
-
-Above example indicates that the cache key should be based on the CH-RW header, and the resouce should be cached and made available for any request whose display width falls between 320 and 640px.
-
-In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
-
-~~~
-  Vary: CH-DPR
-~~~
-
-Above example indicates that the cache key should be based on the CH-DPR header.
-
-~~~
-  Vary: CH-DPR, CH-RW
-~~~
-
-Above example indicates that the cache key should be based on the CH-DPR and CH-RW headers.
 
 
 ## Relationship to the User-Agent Request Header
