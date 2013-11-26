@@ -94,15 +94,14 @@ Numeric values are indicated by the full field-value contents (single value), or
 Note that HTTP allows headers with comma-separated values to be conveyed using multiple instances of the same header field; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
 
-## Predefined Hints
+## Sending Client Hints
 
-The client controls which Client Hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
+Clients control which Client Hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
-This document defines the following Client Hints:
 
-### CH-DPR
+# The CH-DPR Client Hint
 
 The "CH-DPR" header field indicates the client's current Device Pixel Ratio (DPR), the ratio between physical pixels and density independent pixels on the device.
 
@@ -111,7 +110,7 @@ The "CH-DPR" header field indicates the client's current Device Pixel Ratio (DPR
 ~~~
 
 
-### CH-RW
+# The CH-RW Client Hint
 
 The "CH-RW" header field indicates the client's current Resource Width (RW), the display width of the requested resource in density independent pixels on the device.
 
@@ -120,13 +119,7 @@ The "CH-RW" header field indicates the client's current Resource Width (RW), the
 ~~~
 
 
-## Server Selection Confirmation
-
-The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
-
-This document defines the following confirmation headers:
-
-### DPR
+### Confirming Selected DPR
 
 The "DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
 
@@ -139,7 +132,15 @@ DPR ratio affects the calculation of intrinsic size of the image on the client (
 The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
 
 
-## Examples
+## Server Selection Confirmation
+
+The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
+
+This document defines the following confirmation headers:
+
+
+
+# Examples
 
 For example, given the following request header:
 
