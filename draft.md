@@ -218,9 +218,7 @@ Client Hints does not supersede or replace User-Agent. Existing device detection
 
 # IANA Considerations
 
-## The Client Hints Request Header Field
-
-This document defines the "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and registers it in the Permanent Message Headers registry.
+This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and registers them in the Permanent Message Headers registry.
 
 - Header field name: CH-DPR
 - Applicable protocol: HTTP
