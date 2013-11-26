@@ -96,7 +96,7 @@ Note that HTTP allows headers with comma-separated values to be conveyed using m
 
 ## Sending Client Hints
 
-Clients control which Client Hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
+Clients control which Client Hint headers and their respective header fields are communicated, based on their default settings, user configuration and/or preferences. The user may be given the choice to enable, disable, or override specific hints.
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
@@ -235,18 +235,6 @@ This document defines the "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and 
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
-
- 
-## The HTTP Hints
-
-This document registers the "ch" HTTP Hint ({{I-D.nottingham-http-browser-hints}}), as defined in section 2.1:
-
-- Hint Name: ch
-- Hint Type: origin, hop
-- Description: When present, this hint indicates support for Client-Hints adaptation.
-- Value Type: numeric
-- Contact: ilya@igvita.com
-- Specification: this document
 
 
 
