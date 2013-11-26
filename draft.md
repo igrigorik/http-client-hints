@@ -104,6 +104,23 @@ The client and server, or an intermediate proxy, may use an opt-in mechanism to 
 
 The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
 
+### Advertising Support for Client Hints
+
+Servers can advertise support for Client Hints using the Accept-CH header or an equivalent HTML meta element with http-equiv attribute. 
+
+~~~
+   Accept-CH = #token
+~~~
+
+For example:
+
+~~~
+  Accept-CH: DPR, RW
+~~~
+
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append CH-DPR and CH-RW headers to subsequent requests.
+
+
 ### Interaction with Caches
 
 Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
@@ -188,17 +205,7 @@ If the server uses above hints to perform resource selection, it must confirm it
 The DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
 
 
-## Opt-in mechanism
 
-CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined or user specified list of origins, remembered site preference based on past navigation history, or any other forms of opt-in.
-
-For example, the server may advertise its support via Accept-CH header or an equivalent HTML meta element with http-equiv attribute:
-
-~~~
-  Accept-CH: DPR, RW
-~~~
-
-When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-RW headers to subsequent requests.
 
 
 
