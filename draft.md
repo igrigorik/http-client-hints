@@ -73,26 +73,26 @@ parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 Client Hint Request Header Fields
 =================================
 
-Each request header field bearing a Client Hint conveys a list of client preferences that the server can use to adapt and optimize the response. As a convention, these header field names are prefixed with "CH-". Their field-values consist of either a token or a comma-delimited list of parameters.
+Each request header field bearing a Client Hint conveys a list of client preferences that the server can use to adapt and optimize the response. As a convention, the header fields bearing hints defined by this draft have names prefixed with "CH-". Their field-values consist of either a token or a comma-delimited list of parameters.
 
 ~~~
   client-hint-value = token | 1#parameter
 ~~~
 
 
-Hint Value Syntax
------------------
+Hint Values
+-----------
 
-Hints header fields are allowed to be defined as a single boolean or numeric value, or as a list of header fields with the same types. Where possible, single boolean (i.e. as a flag) or numeric value should be used, so that the hint's don't consume too much space in client requests.
+Client Hint can have a single boolean or numeric value, or their value can be a list of header fields with the same types. Where possible, single boolean (i.e. as a flag) or numeric value SHOULD be used, so that the hints don't consume too much space in requests.
 
-When a single numeric or boolean value is used, the hint value is the full field value. When a list of hints is used, the hint values are the comma-separated values within the field value.
+When a single numeric or boolean is used, the hint value is the full field value. When a list of hints is used, the hint values are the comma-separated values within the field value.
 
 Hint values can be defined as one of two types:
 
 - Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
 - Numeric - value indicated by the full field-value contents (single value), or by the digits after "=" of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
-Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
+Note that HTTP allows headers with comma-separated values to be conveyed using multiple instances of the same header field; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
 
 Predefined Hints
