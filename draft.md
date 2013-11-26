@@ -243,7 +243,12 @@ This document defines the "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and 
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-
+- Header field name: Accept-CH
+- Applicable protocol: HTTP
+- Status: Informational
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
 
 
 # Security Considerations
