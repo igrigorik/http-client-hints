@@ -1,8 +1,8 @@
-## Client-Hints (Internet Draft)
+## HTTP Client-Hints (Internet Draft)
 
-Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences for the request resource.
+HTTP Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
-Client Hints can be used to automate negotiation of optimal resolution and size of delivered image resources to different clients. For example, given the following HTML markup:
+HTTP Client Hints can be used to automate negotiation of optimal resolution and size of delivered image resources to different clients. For example, given the following HTML markup:
 
 ```html
 <img src="img.jpg" width="160" alt="I'm responsive!">
@@ -35,16 +35,16 @@ For full details on negotiation workflow, refer to the [spec](https://github.com
 
 ### Implementation status
 
+* Blink: [Intent to Implement: Client-Hints header (DPR switching)](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ)
+* Mozilla: [935216 - Implement Client-Hints HTTP header](https://bugzilla.mozilla.org/show_bug.cgi?id=935216)
+
 Client Hints support can be enabled in Chrome Canary:
 
 * Launch Chrome with `--enable-client-hints` flag (this tells Chrome to emit CH-DPR request header)
 * Enable _chrome://flags/#enable-experimental-web-platform-features_ (DPR selection confirmation support)
 
-If you want to override sent Client-Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH-DPR headers.
+If you want to override sent Client-Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH-DPR headers. Note that (currently) Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857)._
 
-_Note: Currently, Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857)._
-
-* Mozilla: [935216 - Implement Client-Hints HTTP header](https://bugzilla.mozilla.org/show_bug.cgi?id=935216)
 
 ### Interaction with src-N
 
