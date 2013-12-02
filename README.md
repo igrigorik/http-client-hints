@@ -43,7 +43,7 @@ Client Hints support can be enabled in Chrome Canary:
 * Launch Chrome with `--enable-client-hints` flag (this tells Chrome to emit CH-DPR request header)
 * Enable _chrome://flags/#enable-experimental-web-platform-features_ (DPR selection confirmation support)
 
-If you want to override sent Client-Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH-DPR headers. Note that (currently) Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857)._
+If you want to override sent Client-Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH-DPR headers. Note that (currently) Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857).
 
 
 ### Interaction with src-N
