@@ -100,16 +100,18 @@ Clients control which Client Hint headers and their respective header fields are
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
+
 ## Server Processing of Client Hints
 
-Servers can modify the response sent based upon Client Hints. When doing so, it MUST confirm the selection and indicate the value of selected resource via corresponding response header. For example, this specification defines "DPR" that corresponds to the "CH-DPR" request header field.
+Servers can modify the response sent based upon Client Hints. When doing so, it MUST confirm the selection for certain hints and indicate the value of selected resource via corresponding response header. For example, this specification defines "DPR" that corresponds to the "CH-DPR" request header field.
+
 
 ### Advertising Support for Client Hints
 
-Servers can advertise support for Client Hints using the Accept-CH header or an equivalent HTML meta element with http-equiv attribute. 
+Servers can advertise support for Client Hints using the Accept-CH header or an equivalent HTML meta element with http-equiv attribute.
 
 ~~~
-   Accept-CH = #token
+  Accept-CH = #token
 ~~~
 
 For example:
@@ -135,7 +137,7 @@ Above examples indicates that the cache key should be based on the CH-DPR header
   Key: CH-RW;r=[320:640]
 ~~~
 
-Above example indicates that the cache key should be based on the CH-RW header, and the resouce should be cached and made available for any request whose display width falls between 320 and 640px.
+Above example indicates that the cache key should be based on the CH-RW header, and the resource should be cached and made available for any request whose display width falls between 320 and 640px.
 
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
@@ -152,13 +154,12 @@ Above example indicates that the cache key should be based on the CH-DPR header.
 Above example indicates that the cache key should be based on the CH-DPR and CH-RW headers.
 
 
-
 # The CH-DPR Client Hint
 
 The "CH-DPR" header field indicates the client's current Device Pixel Ratio (DPR), the ratio between physical pixels and density independent pixels on the device.
 
 ~~~
-    CH-DPR = 1*DIGIT [ "." 1*DIGIT ]
+  CH-DPR = 1*DIGIT [ "." 1*DIGIT ]
 ~~~
 
 
@@ -167,7 +168,7 @@ The "CH-DPR" header field indicates the client's current Device Pixel Ratio (DPR
 The "CH-RW" header field indicates the client's current Resource Width (RW), the display width of the requested resource in density independent pixels on the device.
 
 ~~~
-    CH-RW = 1*DIGIT [ "." 1*DIGIT ]
+  CH-RW = 1*DIGIT
 ~~~
 
 
@@ -176,13 +177,12 @@ The "CH-RW" header field indicates the client's current Resource Width (RW), the
 The "DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
 
 ~~~
-DPR = 1*DIGIT [ "." 1*DIGIT ]
+  DPR = 1*DIGIT [ "." 1*DIGIT ]
 ~~~
 
-DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
+DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
 
-The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
-
+The server does not need to confirm resource width (RW) selection as this value can be derived from the resource itself once it is decoded by the client.
 
 
 # Examples
@@ -203,12 +203,6 @@ If the server uses above hints to perform resource selection, it must confirm it
 ~~~
 
 The DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
-
-
-
-
-
-
 
 
 ## Relationship to the User-Agent Request Header
