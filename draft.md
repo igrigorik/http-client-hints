@@ -33,14 +33,13 @@ informative:
 
 --- abstract
 
-An increasing diversity of connected device form factors and software capabilities has created a need to deliver varying, or optimized content for each device.
+An increasing diversity of Web-connected device form factors and software capabilities has created a need to deliver varying, or optimized content for each device.
 
-Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
+HTTP Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
 --- middle
 
-Introduction
-============
+# Introduction
 
 There are thousands of different devices accessing the web, each with different device capabilities and preference information. These device capabilities include hardware and software characteristics, as well as dynamic user and client preferences.
 
@@ -53,11 +52,10 @@ One way to infer some of these capabilities is through User-Agent (UA) detection
 
 A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a set of new request Client Hint header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
+This document defines a set of new request header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
 
 
-Notational Conventions
-----------------------
+## Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -70,109 +68,62 @@ OWS, field-name and quoted-string rules from that document, and the
 parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
 
 
-The Client Hint Request Header Fields
-=====================================
+# Client Hint Request Header Fields
 
-Each Client Hint request header field describes an example list of client preferences that the server can use to adapt and optimize the resource to satisfy a given request. The field-name of the hint consists of a "CH-" prefix and hint type and is case insensitive. The field-value consists of token, or comma-delimited list of parameters.
+A Client Hint request header field is a HTTP header field that is used by HTTP clients to indicate configuration data that can be used by the server to select an appropriate response. Each one conveys a list of client preferences that the server can use to adapt and optimize the response.
+
+Client Hint request headers share a common syntax. As a convention, those defined in this specification have names prefixed with "CH-", but this is only a convenience.
+
+This document defines a selection of Client Hint request header fields, and can be referenced by other specifications wishing to use the same syntax and processing model.
+
+
+## Hint Values
+
+Client-Hint field-values consist of either a token or a comma-delimited list of parameters.
 
 ~~~
-  #client-hint-name = #client-hint-value
-  client-hint-name = "CH-" token
   client-hint-value = token | 1#parameter
 ~~~
 
+When the value is a token, it can either be boolean or a numeric value. Where possible, this form SHOULD be used, so that the hints don't consume too much space in requests.
 
-Hint Value Syntax
------------------
+Boolean values are indicated by the presence of the hint field-name in the request headers. If the hint name is absent in the last message containing the client hint header field, it is considered false.
 
-Hints header fields are allowed to be defined as a single boolean or numeric value, or as a list of header fields with the same types. Where possible, single boolean (i.e. as a flag) or numeric value should be used, so that the hint's don't consume too much space in client requests.
+Numeric values are indicated by the full field-value contents (single value), or by the digits after "=" of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
-When a single numeric or boolean value is used, the hint value is the full field value. When a list of hints is used, the hint values are the comma-separated values within the field value.
-
-Hint values can be defined as one of two types:
-
-- Boolean - indicated by the presence of the hint name. If the hint name is absent in the last message containing the client hint header field, it is considered false.
-- Numeric - value indicated by the full field-value contents (single value), or by the digits after "=" of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
-
-Note that HTTP/1.1 allows headers with comma-separated values to be conveyed using multiple instances of the same header; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
+Note that HTTP allows headers with comma-separated values to be conveyed using multiple instances of the same header field; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
 
-Predefined Hints
-----------------
+## Sending Client Hints
 
-The client controls which Client Hint headers and their respective header fields are communicated, based on its default settings, or based on user configuration and preferences. The user may be given the choice to enable, disable, or override specific hints.
+Clients control which Client Hint headers and their respective header fields are communicated, based on their default settings, user configuration and/or preferences. The user may be given the choice to enable, disable, or override specific hints.
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
-This document defines the following hints:
+## Server Processing of Client Hints
 
-### CH-DPR
+Servers can modify the response sent based upon Client Hints. When doing so, it MUST confirm the selection and indicate the value of selected resource via corresponding response header. For example, this specification defines "DPR" that corresponds to the "CH-DPR" request header field.
 
-- Description: Device Pixel Ratio (DPR), is the ratio between physical pixels and density independent pixels on the device.
-- Value Type: number
+### Advertising Support for Client Hints
 
-### CH-RW
-
-- Description: Resource Width (RW), is the display width of the requested resource in density independent pixels on the device.
-- Value Type: number
-
-
-Server Selection Confirmation
------------------------------
-
-The server may decide to use provided client hint information to select an alternate resource. When the server performs such selection, and if the choice may affect how the resource should be processed on the client, then it must confirm the selection and indicate the value of selected resource via corresponding response header.
-
-This document defines the following confirmation headers:
-
-### DPR
-
-- Description: ratio between physical pixels and density independent pixels of the selected resource.
-- Value Type: number
-
-DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
-
-The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
-
-
-Examples
----------------
-
-For example, given the following request header:
+Servers can advertise support for Client Hints using the Accept-CH header or an equivalent HTML meta element with http-equiv attribute. 
 
 ~~~
-  CH-DPR: 2.0
-  CH-RW: 160
+   Accept-CH = #token
 ~~~
 
-The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160px, as measured by density independent pixels on the device.
-
-If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image resource. The server does not need to confirm resource width, only the ratio between physical pixels and density independent pixels of the selected image resource:
-
-~~~
-  DPR: 1.0
-~~~
-
-The DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
-
-
-Opt-in mechanism
-----------------
-
-CH is an optional header which may be sent by the client when making a request to the server. The client may decide to always send the header, or use an opt-in mechanism, such as a predefined or user specified list of origins, remembered site preference based on past navigation history, or any other forms of opt-in.
-
-For example, the server may advertise its support via Accept-CH header or an equivalent HTML meta element with http-equiv attribute:
+For example:
 
 ~~~
   Accept-CH: DPR, RW
 ~~~
 
-When the client receives the opt-in signal indicating support for Client Hint adaptation, it should append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client may append CH-DPR and CH-RW headers to subsequent requests.
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append CH-DPR and CH-RW headers to subsequent requests.
 
 
-Interaction with Caches
------------------------
+### Interaction with Caches
 
-Client Hints may be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
+Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
 
 ~~~
   Key: CH-DPR;r=[1.5:]
@@ -201,19 +152,73 @@ Above example indicates that the cache key should be based on the CH-DPR header.
 Above example indicates that the cache key should be based on the CH-DPR and CH-RW headers.
 
 
-Relationship to the User-Agent Request Header
----------------
+
+# The CH-DPR Client Hint
+
+The "CH-DPR" header field indicates the client's current Device Pixel Ratio (DPR), the ratio between physical pixels and density independent pixels on the device.
+
+~~~
+    CH-DPR = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
+
+# The CH-RW Client Hint
+
+The "CH-RW" header field indicates the client's current Resource Width (RW), the display width of the requested resource in density independent pixels on the device.
+
+~~~
+    CH-RW = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
+
+### Confirming Selected DPR
+
+The "DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
+
+~~~
+DPR = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
+DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication (e.g. srcN's x-viewport), the server returned value must take precedence.
+
+The server does not need to confirm resource width selection as this value can be derived from the resource itself once it is decoded by the client.
+
+
+
+# Examples
+
+For example, given the following request header:
+
+~~~
+  CH-DPR: 2.0
+  CH-RW: 160
+~~~
+
+The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160px, as measured by density independent pixels on the device.
+
+If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image resource. The server does not need to confirm resource width, only the ratio between physical pixels and density independent pixels of the selected image resource:
+
+~~~
+  DPR: 1.0
+~~~
+
+The DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
+
+
+
+
+
+
+
+
+## Relationship to the User-Agent Request Header
 
 Client Hints does not supersede or replace User-Agent. Existing device detection mechanisms can continue to use both mechanisms if necessary. By advertising its capabilities within a request header, Client Hints allows for cache friendly and proactive content negotiation.
 
 
-IANA Considerations
-===================
+# IANA Considerations
 
-The Client Hints Request Header Field
--------------------------------------
-
-This document defines the "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and registers it in the Permanent Message Headers registry.
+This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and registers them in the Permanent Message Headers registry.
 
 - Header field name: CH-DPR
 - Applicable protocol: HTTP
@@ -236,48 +241,15 @@ This document defines the "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and 
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-
-The HTTP Hints
----------------
-
-This document registers the "ch" HTTP Hint ({{I-D.nottingham-http-browser-hints}}), as defined in section 2.1:
-
-- Hint Name: ch
-- Hint Type: origin, hop
-- Description: When present, this hint indicates support for Client-Hints adaptation.
-- Value Type: numeric
-- Contact: ilya@igvita.com
-- Specification: this document
+- Header field name: Accept-CH
+- Applicable protocol: HTTP
+- Status: Informational
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
 
 
-The HTTP Client Hints Registry
----------------
-
-This document establishes the HTTP Client Hints Registry.
-
-New hints are registered using Expert Review (see {{RFC5226}}), by sending e-mail to iana@iana.org (or using other mechanisms, as established by IANA).
-
-New hints are expected to be implemented in at least one client in common use. The Expert MAY use their judgment in determining what "common" is, and when something is considered to be implemented.
-
-New hints MUST be optional; they cannot place requirements upon
-implementations. Specifically, new hints MUST NOT make communication non-conformant with HTTP itself; i.e., this is not a mechanism for changing the HTTP protocol in incompatible ways.
-
-See section 2.1 for constraints on the syntax of hint names and hint values.
-
-Registration requests MUST use the following template:
-
-* Hint Name: [name of hint]
-* Hint Value: ["boolean" or "numeric"]
-* Description: [description of hint]
-* Contact: [e-mail address(es)]
-* Specification: [optional; reference or URI to more info]
-* Notes: [optional]
-
-The initial contents of the registry are defined in section 2.2.
-
-
-Security Considerations
-=======================
+# Security Considerations
 
 The client controls which header fields are communicated and when. In cases such as incognito or anonymous profile browsing, the header can be omitted if necessary.
 
