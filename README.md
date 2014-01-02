@@ -223,4 +223,4 @@ HTTP Cookies can be used to [approximate CH behavior](https://github.com/jonatha
 
 Please feel free to open a new issue, or send a pull request!
 
-[![Analytics](https://ga-beacon.appspot.com/UA-71196-10/ga-beacon/readme)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-71196-10/http-client-hints/readme)](https://github.com/igrigorik/ga-beacon)
