@@ -48,7 +48,7 @@ If you want to override sent Client-Hints headers, you can also install [Client-
 
 ### Interaction with picture element
 
-Client Hints can be used alongside [picture element](http://picture.responsiveimages.org/) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized and "pixel perfect" images. Let's consider the different scenarios covered by `<picture>`...
+Client Hints can be used alongside [picture element](http://picture.responsiveimages.org/) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized and "pixel perfect" images. Let's consider different `<picture>` scenarios...
 
 [Example 1](http://picture.responsiveimages.org/#examples): CH-DPR automates resolution switching use-case and eliminates the need to write `x` queries. As a result, the regular `<img>` tag becomes "resolution aware" without any extra work on behalf of the site owner:
 
@@ -94,7 +94,7 @@ Client Hints can be used alongside [picture element](http://picture.responsiveim
 <!-- equivalent functionality with CH-DPR and CH-RW -->
 <picture>
   <source sizes="100%" srcset="pic.jpg">
-  <img alt="">
+  <img src="pic400.jpg" alt="The president giving an award.">
 </picture>
 ```
 
@@ -118,22 +118,22 @@ Example flow for above example:
 <!-- (Example 5) multiple layout breakpoints -->
 <picture>
   <source sizes="(max-width: 30em) 100%, (max-width: 50em) 50%, calc(33%-100px)"
-          srcset="pic100.png 100w, pic200.png 200w, pic400.png 400w,
-                  pic800.png 800w, pic1600.png 1600w, pic3200.png 3200w">
-  <img src="pic400.png" alt="The president giving an award.">
+          srcset="pic100.jpg 100w, pic200.jpg 200w, pic400.jpg 400w,
+                  pic800.jpg 800w, pic1600.jpg 1600w, pic3200.jpg 3200w">
+  <img src="pic400.jpg" alt="The president giving an award.">
 </picture>
 
 <!-- equivalent functionality with CH -->
 <picture>
   <source sizes="(max-width: 30em) 100%, (max-width: 50em) 50%, calc(33%-100px)"
-          srcset="pic.png">
-  <img alt="">
+          srcset="pic.jpg">
+  <img src="pic400.jpg" alt="The president giving an award.">
 </picture>
 ```
 
-The combination of `CH-DPR` and `CH-RW` allows the server to deliver 'pixel perfect' images that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching resource (just as src-N picks the best / nearest resource based on provided urls in the markup).
+The combination of `CH-DPR` and `CH-RW` allows the server to deliver 'pixel perfect' images that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching resource (just as `srcset` picks the best / nearest resource based on the provided parameters in the markup).
 
-Finally, since a hands-on example is worth a thousand words (courtesy of [resrc.it](http://www.resrc.it/) who recently added Client Hints support):
+Finally, since a hands-on example is worth a thousand words (courtesy of [resrc.it](http://www.resrc.it/)):
 
 ```bash
 # Request 100 px wide asset with DPR 1.0
@@ -155,7 +155,7 @@ $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
 Image bytes: 28535
 ```
 
-Resrc.it servers automate the delivery of optimal image assets based on advertised CH-DPR and CH-RW values and append the correct caching header (Vary: CH-DPR, CH-RW), which allows the asset to be cached on the client and by any Vary-capable intermediaries.
+ReSRC.it servers automate the delivery of optimal image assets based on advertised CH-DPR and CH-RW values and append the correct caching header (Vary: CH-DPR, CH-RW), which allows the asset to be cached on the client and by any Vary-capable intermediaries.
 
 
 ### Comparison to User-Agent & Cookie-based strategies
