@@ -103,12 +103,13 @@ Example flow for above example:
 ```
 > GET /pic.jpg HTTP/1.1
 > CH-DPR: 2.0
-> CH-RW: 200
+> CH-RW: 400
 
-(Server: 2x DPR * 200 width = 400px -> selects pic400.jpg or performs a resize)
+(Server: 2x DPR * 400 width = 800px -> selects pic800.jpg or performs a resize)
 
 < 200 OK
 < DPR: 2.0
+< Vary: CH-DPR, CH-RW
 < ...
 ```
 
