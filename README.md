@@ -1,4 +1,4 @@
-## HTTP Client-Hints (Internet Draft) 
+## HTTP Client-Hints (Internet Draft)
 
 HTTP Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
@@ -87,13 +87,13 @@ Client Hints can be used alongside [picture element](http://picture.responsiveim
 ```html
 <!-- (Example 4) variable density / size selection -->
 <picture>
-  <source sizes="100%" srcset="pic400.jpg 400w, pic800.jpg 800w, pic1600.jpg 1600w">
+  <source sizes="100vw" srcset="pic400.jpg 400w, pic800.jpg 800w, pic1600.jpg 1600w">
   <img src="pic400.jpg" alt="The president giving an award.">
 </picture>
 
 <!-- equivalent functionality with CH-DPR and CH-RW -->
 <picture>
-  <source sizes="100%" srcset="pic.jpg">
+  <source sizes="100vw" srcset="pic.jpg">
   <img src="pic400.jpg" alt="The president giving an award.">
 </picture>
 ```
@@ -118,7 +118,7 @@ Example flow for above example:
 ```html
 <!-- (Example 5) multiple layout breakpoints -->
 <picture>
-  <source sizes="(max-width: 30em) 100%, (max-width: 50em) 50%, calc(33%-100px)"
+  <source sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw-100px)"
           srcset="pic100.jpg 100w, pic200.jpg 200w, pic400.jpg 400w,
                   pic800.jpg 800w, pic1600.jpg 1600w, pic3200.jpg 3200w">
   <img src="pic400.jpg" alt="The president giving an award.">
@@ -126,7 +126,7 @@ Example flow for above example:
 
 <!-- equivalent functionality with CH -->
 <picture>
-  <source sizes="(max-width: 30em) 100%, (max-width: 50em) 50%, calc(33%-100px)"
+  <source sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw-100px)"
           srcset="pic.jpg">
   <img src="pic400.jpg" alt="The president giving an award.">
 </picture>
