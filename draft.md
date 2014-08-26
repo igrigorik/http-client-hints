@@ -66,7 +66,7 @@ This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}}
 
 A Client Hint request header field is a HTTP header field that is used by HTTP clients to indicate configuration data that can be used by the server to select an appropriate response. Each one conveys a list of client preferences that the server can use to adapt and optimize the response.
 
-Client Hint request headers share a common syntax. As a convention, those defined in this specification have names prefixed with "CH-", but this is only a convenience.
+Client Hint request headers share a common syntax for their values. As a convention, those defined in this specification have names prefixed with "CH-", but this is only a convenience.
 
 This document defines a selection of Client Hint request header fields, and can be referenced by other specifications wishing to use the same syntax and processing model.
 
