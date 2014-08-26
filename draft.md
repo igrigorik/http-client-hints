@@ -53,7 +53,7 @@ A popular alternative strategy is to use HTTP cookies to communicate some inform
 
 This document defines a set of new request header fields that allow the client to perform proactive content negotiation {{RFC7231}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
 
-Client Hints does not supersede or replace User-Agent. Existing device detection mechanisms can continue to use both mechanisms if necessary. By advertising its capabilities within a request header, Client Hints allows for cache friendly and proactive content negotiation.
+Client Hints does not supersede or replace the User-Agent header field. Existing device detection mechanisms can continue to use both mechanisms if necessary. By advertising its capabilities within a request header field, Client Hints allows for cache friendly and proactive content negotiation.
 
 ## Notational Conventions
 
