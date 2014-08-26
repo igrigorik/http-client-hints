@@ -179,7 +179,7 @@ DPR ratio affects the calculation of intrinsic size of the image on the client (
 The server does not need to confirm resource width (RW) selection as this value can be derived from the resource itself once it is decoded by the client.
 
 
-# Examples
+# Example
 
 For example, given the following request header:
 
