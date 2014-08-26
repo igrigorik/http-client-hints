@@ -57,15 +57,9 @@ This document defines a set of new request header fields that allow the client t
 
 ## Notational Conventions
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in {{RFC2119}}.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in {{RFC2119}}.
 
-This document uses the Augmented Backus-Naur Form (ABNF) notation of
-{{RFC5234}} with the list rule extension defined in
-{{RFC7230}}, Appendix B. It includes by reference the
-OWS, field-name and quoted-string rules from that document, and the
-parameter rule from {{RFC7231}}.
+This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} with the list rule extension defined in {{RFC7230}}, Appendix B. It includes by reference the OWS, field-name and quoted-string rules from that document, and the parameter rule from {{RFC7231}}.
 
 
 # Client Hint Request Header Fields
