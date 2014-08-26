@@ -26,7 +26,6 @@ normative:
   RFC5226:
   RFC7230:
   RFC7231:
-  I-D.nottingham-http-browser-hints:
   I-D.fielding-http-key:
 
 informative:
