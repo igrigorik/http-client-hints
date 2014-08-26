@@ -203,7 +203,7 @@ The Content-DPR response header indicates to the client that the server has sele
 
 # IANA Considerations
 
-This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "Content-DPR" HTTP request fields, and registers them in the Permanent Message Headers registry.
+This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "Content-DPR" HTTP request fields, and registers them in the Permanent Message Header Fields registry.
 
 - Header field name: CH-DPR
 - Applicable protocol: HTTP
