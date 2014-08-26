@@ -24,8 +24,8 @@ normative:
   RFC2119:
   RFC5234:
   RFC5226:
-  I-D.ietf-httpbis-p1-messaging:
-  I-D.ietf-httpbis-p2-semantics:
+  RFC7230:
+  RFC7231:
   I-D.nottingham-http-browser-hints:
   I-D.fielding-http-key:
 
@@ -52,7 +52,7 @@ One way to infer some of these capabilities is through User-Agent (UA) detection
 
 A popular alternative strategy is to use HTTP cookies to communicate some information about the client. However, this approach is also not cache friendly, bound by same origin policy, and imposes additional client-side latency by requiring JavaScript execution to create and manage HTTP cookies.
 
-This document defines a set of new request header fields that allow the client to perform proactive content negotiation {{I-D.ietf-httpbis-p2-semantics}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
+This document defines a set of new request header fields that allow the client to perform proactive content negotiation {{RFC7231}} by indicating a list of device and agent specific preferences, through a mechanism similar to the Accept header which is used to indicate preferred response formats.
 
 
 ## Notational Conventions
@@ -63,9 +63,9 @@ document are to be interpreted as described in {{RFC2119}}.
 
 This document uses the Augmented Backus-Naur Form (ABNF) notation of
 {{RFC5234}} with the list rule extension defined in
-{{I-D.ietf-httpbis-p1-messaging}}, Appendix B. It includes by reference the
+{{RFC7230}}, Appendix B. It includes by reference the
 OWS, field-name and quoted-string rules from that document, and the
-parameter rule from {{I-D.ietf-httpbis-p2-semantics}}.
+parameter rule from {{RFC7231}}.
 
 
 # Client Hint Request Header Fields
