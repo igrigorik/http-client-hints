@@ -207,28 +207,28 @@ This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "Content-DPR" HTTP
 
 - Header field name: CH-DPR
 - Applicable protocol: HTTP
-- Status: Informational
+- Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
 - Header field name: CH-RW
 - Applicable protocol: HTTP
-- Status: Informational
+- Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
 - Header field name: Content-DPR
 - Applicable protocol: HTTP
-- Status: Informational
+- Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
 - Header field name: Accept-CH
 - Applicable protocol: HTTP
-- Status: Informational
+- Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
