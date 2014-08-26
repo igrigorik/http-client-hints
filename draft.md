@@ -168,13 +168,13 @@ The "CH-RW" header field indicates the client's current Resource Width (RW), the
 
 ### Confirming Selected DPR
 
-The "DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
+The "Content-DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
 
 ~~~
-  DPR = 1*DIGIT [ "." 1*DIGIT ]
+  Content-DPR = 1*DIGIT [ "." 1*DIGIT ]
 ~~~
 
-DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
+DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever CH-DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned Content-DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
 
 The server does not need to confirm resource width (RW) selection as this value can be derived from the resource itself once it is decoded by the client.
 
@@ -193,17 +193,17 @@ The server knows that the device pixel ratio is 2.0, and that the intended displ
 If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image resource. The server does not need to confirm resource width, only the ratio between physical pixels and density independent pixels of the selected image resource:
 
 ~~~
-  DPR: 1.0
+  Content-DPR: 1.0
 ~~~
 
-The DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
+The Content-DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
 
 
 
 
 # IANA Considerations
 
-This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "DPR" HTTP request fields, and registers them in the Permanent Message Headers registry.
+This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "Content-DPR" HTTP request fields, and registers them in the Permanent Message Headers registry.
 
 - Header field name: CH-DPR
 - Applicable protocol: HTTP
@@ -219,7 +219,7 @@ This document defines the "Accept-CH", "CH-DPR", "CH-RW", and "DPR" HTTP request
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-- Header field name: DPR
+- Header field name: Content-DPR
 - Applicable protocol: HTTP
 - Status: Informational
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
