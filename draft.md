@@ -195,11 +195,9 @@ If the server uses above hints to perform resource selection, it must confirm it
 The Content-DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
 
 
-
-
 # IANA Considerations
 
-This document defines the "Accept-CH", "DPR", "RW", and "Content-DPR" HTTP request fields, and registers them in the Permanent Message Header Fields registry.
+This document defines the "Accept-CH", "DPR", and "RW" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
 
 - Header field name: DPR
 - Applicable protocol: HTTP
