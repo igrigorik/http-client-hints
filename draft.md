@@ -79,11 +79,7 @@ Client-Hint field-values consist of either a token or a comma-delimited list of 
   client-hint-value = token | 1#parameter
 ~~~
 
-When the value is a token, it can either be boolean or a numeric value. Where possible, this form SHOULD be used, so that the hints don't consume too much space in requests.
-
-Boolean values are indicated by the presence of the hint field-name in the request headers. If the hint name is absent in the last message containing the client hint header field, it is considered false.
-
-Numeric values are indicated by the full field-value contents (single value), or by the digits after "=" of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
+When the value is a token, it must be a numeric value. Numeric values are indicated by the full field-value contents (single value), or by the digits after "=" of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
 
 Note that HTTP allows headers with comma-separated values to be conveyed using multiple instances of the same header field; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
