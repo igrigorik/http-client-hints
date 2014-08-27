@@ -1,56 +1,41 @@
 ## HTTP Client-Hints (Internet Draft)
 
-HTTP Client Hints can be used as input to proactive content negotiation; just as the Accept header allowed clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
+This specification defines a set of HTTP request header fields, colloquially known as Client Hints, that are intended to be used as input to proactive content negotiation; just as the Accept header allows clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
-HTTP Client Hints can be used to automate negotiation of optimal resolution and size of delivered image resources to different clients. For example, given the following HTML markup:
+Client Hints can be used to automate negotiation and delivery of optimized assets for a particular device - e.g. resolution and size of delivered image resources, alternate stylesheets, scripts, and so on. For example, given the following HTML markup for an image resource:
 
 ```html
 <img src="img.jpg" width="160" alt="I'm responsive!">
 ```
 
-The client and server can automatically negotiate the resolution and size of `img.jpg` via HTTP negotiation:
+The client and server can negotiate the resolution and size of `img.jpg` via HTTP negotiation:
 
 ```http
 GET /img.jpg HTTP/1.1
 User-Agent: Awesome Browser
 Accept: image/webp, image/jpg
-CH-DPR: 2.0
-CH-RW: 160
+DPR: 2.0
+RW: 160
 ```
 ```http
 HTTP/1.1 200 OK
 Server: Awesome Server
 Content-Type: image/jpg
 Content-Length: 124523
-Vary: CH-DPR, CH-RW
-DPR: 2.0
+Vary: DPR, RW
+Content-DPR: 2.0
 
 (image data)
 ```
 
-In above example, the client advertises its device pixel ratio (DPR) via `CH-DPR` header, and the resource display width via `CH-RW` (in DIPs) of the requested resource. Given this information, the server is then able to dynamically select the optimal resource for the client, and confirms its selection via the `DPR` header.
-
-For full details on negotiation workflow, refer to the [spec](https://github.com/igrigorik/http-client-hints/blob/master/draft-grigorik-http-client-hints-01.txt).
-
-
-### Implementation status
-
-* Blink: [Intent to Implement: Client-Hints header (DPR switching)](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ)
-* Mozilla: [935216 - Implement Client-Hints HTTP header](https://bugzilla.mozilla.org/show_bug.cgi?id=935216)
-
-Client Hints support can be enabled in Chrome Canary:
-
-* Launch Chrome with `--enable-client-hints` flag (this tells Chrome to emit CH-DPR request header)
-* Enable _chrome://flags/#enable-experimental-web-platform-features_ (DPR selection confirmation support)
-
-If you want to override sent Client-Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for CH-DPR headers. Note that (currently) Chrome does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857).
+In the above example, the user agent advertises its device pixel ratio (DPR) and resource display width (RW) via respective `DPR` and `RW` reqest headers on the image request. Given this information, the server is then able to select and respond with the optimal resource variant for the client. For full details on negotiation workflow, refer to the latest [spec](http://igrigorik.github.io/http-client-hints/).
 
 
 ### Interaction with picture element
 
-Client Hints can be used alongside [picture element](http://picture.responsiveimages.org/) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized and "pixel perfect" images. Let's consider different `<picture>` scenarios...
+Client Hints can be used alongside [picture element](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#the-picture-element) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized and "pixel perfect" images. Let's consider different `<picture>` scenarios...
 
-[Example 1](http://picture.responsiveimages.org/#examples): CH-DPR automates resolution switching use-case and eliminates the need to write `x` queries. As a result, the regular `<img>` tag becomes "resolution aware" without any extra work on behalf of the site owner:
+DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:device-pixel-ratio-2) by eliminating the need to write `x` queries. As a result, the `<img>` tag becomes "resolution aware" without any extra work on behalf of the site owner:
 
 ```html
 <!-- picture resolution switching -->
@@ -59,84 +44,79 @@ Client Hints can be used alongside [picture element](http://picture.responsiveim
   <img alt="A rad wolf." src="pic1x.jpg">
 </picture>
 
-<!-- equivalent functionality via CH-DPR -->
+<!-- equivalent functionality via DPR client hint -->
 <img alt="A rad wolf." src="pic.jpg">
-```
 
-[Example 2/3](http://picture.responsiveimages.org/#examples): similar to example above, CH-DPR automates resolution switching in example #3. As a result, the markup in example #2 is functionally equivalent to #3 - the UA advertises the DPR and server performs the resolution selection. As a result the site owner can focus on art-direction (which, by definition, is a manual task and must be specified in the markup).
+<!-- ... similarly ... -->
 
-```html
-<!-- (Example 2) art-direction with media queries -->
-<picture>
-  <source media="(min-width: 45em)" srcset="large.jpg">
-  <source media="(min-width: 18em)" srcset="med.jpg">
-  <img src="small.jpg" alt="The president giving an award." width="500" height="500">
-</picture>
-
-<!-- (Example 3) art-direction with media queries + resolution switching -->
+<!-- picture art-direction with resolution switching -->
 <picture>
   <source media="(min-width: 45em)" srcset="large-1.jpg, large-2.jpg 2x">
   <source media="(min-width: 18em)" srcset="med-1.jpg, med-2.jpg 2x">
   <source srcset="small-1.jpg, small-2.jpg 2x">
   <img src="small-1.jpg" alt="The president giving an award." width="500" height="500">
 </picture>
+
+<!-- equivalent functionality with resolution switching via Client Hints -->
+<picture>
+  <source media="(min-width: 45em)" srcset="large.jpg">
+  <source media="(min-width: 18em)" srcset="med.jpg">
+  <img src="small.jpg" alt="The president giving an award." width="500" height="500">
+</picture>
 ```
 
-[Example 4](http://picture.responsiveimages.org/#examples): combination of CH-RW and CH-DPR simplifies delivery of variable sized images. The site author specifies the viewport width of the image via `sizes` attribute and the source, the device DPR and resource width are both sent to the server, and given this information the server computes the optimal variant and returns it to the client.
+Note that the second example with [art direction-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:art-direction-3) illustrates that Client Hints does not eliminate the need for the picture element. Rather, Client Hints is able to simplify and automate certain parts of the negotiation, allowing the developer to focus on art direction, which by definition requires developer/designer input.
+
+Finally, the combination of RW and DPR hints also simplifies delivery of variable sized images when [viewport-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:viewport-based-selection-2) is used. The developer specifies the resource width of the image in `vw` units (which is relative to viewport width) via `sizes` attribute and the user agent handles the rest: 
 
 ```html
-<!-- (Example 4) variable density / size selection -->
-<picture>
-  <source sizes="100vw" srcset="pic400.jpg 400w, pic800.jpg 800w, pic1600.jpg 1600w">
-  <img src="pic400.jpg" alt="The president giving an award.">
-</picture>
+<!-- viewport-based selection -->
+<img src="wolf-400.jpg" sizes="100vw" alt="The rad wolf"
+     srcset="wolf-400.jpg 400w, wolf-800.jpg 800w, wolf-1600.jpg 1600w">
 
-<!-- equivalent functionality with CH-DPR and CH-RW -->
-<picture>
-  <source sizes="100vw" srcset="pic.jpg">
-  <img src="pic400.jpg" alt="The president giving an award.">
-</picture>
+<!-- equivalent functionality via DPR and RW hints -->
+<img src="wolf.jpg" sizes="100vw" alt="The rad wolf">
 ```
 
-Example flow for above example:
+* Current device pixel ratio is communicated via the `DPR` request header
+* The `vw` size is converted to CSS pixel size based on client's layout viewport size and the resulting value is communicated via the `RW` request header
+* The server computes the optimal image variant based on communicated DPR and RW values and returns the response with a `Content-DPR` response header that confirms its selection.
+
+Example HTTP request flow for the above example:
 
 ```
-> GET /pic.jpg HTTP/1.1
-> CH-DPR: 2.0
-> CH-RW: 400
+> GET /wolf.jpg HTTP/1.1
+> DPR: 2.0
+> RW: 400
 
-(Server: 2x DPR * 400 width = 800px -> selects pic800.jpg or performs a resize)
+(Server: 2x DPR * 400 width = 800px -> selects wolf-800.jpg or performs a resize)
 
 < 200 OK
-< DPR: 2.0
-< Vary: CH-DPR, CH-RW
+< Content-DPR: 2.0
+< Vary: DPR, RW
 < ...
 ```
 
-[Example 5](http://picture.responsiveimages.org/#examples): in situations where multiple layout breakpoints are present the workflow is similar to that of example #4. To select the optimal resolution and size:
+In situations where multiple layout breakpoints are present the workflow is similar to that of the previous example. To select the optimal resolution and size:
 
 ```html
-<!-- (Example 5) multiple layout breakpoints -->
-<picture>
-  <source sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw-100px)"
-          srcset="pic100.jpg 100w, pic200.jpg 200w, pic400.jpg 400w,
-                  pic800.jpg 800w, pic1600.jpg 1600w, pic3200.jpg 3200w">
-  <img src="pic400.jpg" alt="The president giving an award.">
-</picture>
+<!-- multiple layout breakpoints -->
+<img src="swing-400.jpg" alt="Kettlebell Swing"
+  sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw - 100px)"
+  srcset="swing-200.jpg 200w, swing-400.jpg 400w, swing-800.jpg 800w, swing-1600.jpg 1600w">
 
-<!-- equivalent functionality with CH -->
-<picture>
-  <source sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw, calc(33vw-100px)"
-          srcset="pic.jpg">
-  <img src="pic400.jpg" alt="The president giving an award.">
-</picture>
+<!-- equivalent functionality with Client Hints -->
+<img src="swing.jpg" alt="Kettlebell Swing"
+  sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw,calc (33vw - 100px)">
 ```
 
-The combination of `CH-DPR` and `CH-RW` allows the server to deliver 'pixel perfect' images that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round / bin the advertised values based on own logic and serve the closest matching resource (just as `srcset` picks the best / nearest resource based on the provided parameters in the markup).
+The combination of the `DPR` and `RW` hints allows the server to deliver 'pixel perfect' images that match the device resolution and the exact display size. However, note that the server is not required to do so - e.g. it can round/bin the advertised values based on own logic and serve the closest matching resource (just as `srcset` picks the best/nearest resource based on the provided parameters in the markup).
 
 Finally, since a hands-on example is worth a thousand words (courtesy of [resrc.it](http://www.resrc.it/)):
 
 ```bash
+# Note: resrc.it is folloing older spec, hence CH- prefix, which is now unnecesarry.
+#
 # Request 100 px wide asset with DPR 1.0
 $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
   -o /dev/null -w "Image bytes: %{size_download}\n" \
@@ -156,72 +136,22 @@ $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
 Image bytes: 28535
 ```
 
-ReSRC.it servers automate the delivery of optimal image assets based on advertised CH-DPR and CH-RW values and append the correct caching header (Vary: CH-DPR, CH-RW), which allows the asset to be cached on the client and by any Vary-capable intermediaries.
+ReSRC.it servers automate the delivery of optimal image assets based on advertised DPR and RW values and append the correct caching header (Vary: DPR, RW), which allows the asset to be cached on the client and by any Vary-capable intermediaries.
 
 
-### Comparison to User-Agent & Cookie-based strategies
+### Implementation status
 
-User-Agent sniffing cannot reliably detect the device pixel resolution of many devices (e.g. different generation iOS devices all have the same User-Agent header). Further, User-Agent detection cannot account for dynamic changes in DPR (e.g. zoomed in viewport on desktop devices). Similarly, User-Agent detection cannot tell us anything about the resource display width of the requested resource. In short, UA sniffing does not work.
+* Blink: [Intent to Implement: Client-Hints header (DPR switching)](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ)
+* Mozilla: [935216 - Implement Client-Hints HTTP header](https://bugzilla.mozilla.org/show_bug.cgi?id=935216)
 
-HTTP Cookies can be used to [approximate CH behavior](https://github.com/jonathantneal/http-client-hints), but are subject to many limitations: cookies are not available on first request (missing cookie) or for any client who has cleared or disabled cookies; cookies impose additional client-side latency by requiring JavaScript execution to create and manage cookies; cookie solutions are limited to same-origin requests; cookie solutions are not HTTP cache friendly (cannot Vary on Cookie).
+Chrome Canary has limited Client Hints support behind a runtime flag:
 
-<table>
-<thead>
-  <tr>
-    <th></th>
-    <th>Client-Hints</th>
-    <th>UA Sniffing</th>
-    <th>Cookies</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Third-party database</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>No</td>
-  </tr>
-  <tr>
-    <td>Latency penalty</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td>Hides resources from browser</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td>Future proof</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td>Dynamic variables</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td>User overrides</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-  </tr>
-  <tr>
-    <td>Standardized / interoperable</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-  </tr>
-</tbody>
-</table>
+* Enable _chrome://flags/#enable-experimental-web-platform-features_
+* Launch Chrome with `--enable-client-hints` flag
+
+If you want to override sent Client Hints headers, you can also install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for DPR headers. Also, note that Chrome (currently) does not update sent DPR value on (desktop) zoom (http://crbug.com/303856), and does not handle multi-display setups (http://crbug.com/303857).
+
 
 ### Feedback
 
 Please feel free to open a new issue, or send a pull request!
-
-[![Analytics](https://ga-beacon.appspot.com/UA-71196-10/http-client-hints/readme)](https://github.com/igrigorik/ga-beacon)
