@@ -159,7 +159,7 @@ The "DPR" header field indicates the client's current Device Pixel Ratio (DPR), 
 
 # The RW Client Hint
 
-The "RW" header field indicates the client's current Resource Width (RW), the display width of the requested resource in density independent pixels on the device.
+The "RW" header field indicates the client's current Resource Width (RW) in density independent pixels on the device, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
 
 ~~~
   RW = 1*DIGIT
@@ -168,15 +168,15 @@ The "RW" header field indicates the client's current Resource Width (RW), the di
 
 ### Confirming Selected DPR
 
-The "Content-DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected response.
+The "Content-DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected image response.
 
 ~~~
   Content-DPR = 1*DIGIT [ "." 1*DIGIT ]
 ~~~
 
-DPR ratio affects the calculation of intrinsic size of the image on the client (i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions). As a result, the server must explicitly indicate the DPR of the resource whenever DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned Content-DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
+DPR ratio affects the calculation of intrinsic size of image resources on the client - i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions. As a result, the server must explicitly indicate the DPR of the selected image response whenever the DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned Content-DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
 
-The server does not need to confirm resource width (RW) selection as this value can be derived from the resource itself once it is decoded by the client.
+Note that DPR confirmation is only required for image responses, and the server does not need to confirm the resource width (RW) as this value can be derived from the resource itself once it is decoded by the client.
 
 
 # Example
