@@ -146,7 +146,7 @@ Above example indicates that the cache key should be based on the DPR and RW hea
 
 # The DPR Client Hint
 
-The "DPR" header field indicates the client's current Device Pixel Ratio (DPR), the ratio between physical pixels and density independent pixels on the device.
+The "DPR" header field indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over density independent pixels on the device.
 
 ~~~
   DPR = 1*DIGIT [ "." 1*DIGIT ]
