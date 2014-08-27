@@ -61,6 +61,5 @@ update:
 	make kramdown
 	make
 	rm -rf build/*
-	mv *.txt build/
-	mv *.html build/
-	mv *.xml build/
+	mv *.{txt,html,xml} build/
+	cp build/*.html build/index.html
