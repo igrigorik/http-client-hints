@@ -16,9 +16,9 @@ author:
  -
     ins: I. Grigorik
     name: Ilya Grigorik
-    organization:
+    organization: Google
     email: ilya@igvita.com
-    uri: http://www.igvita.com/
+    uri: https://www.igvita.com/
 
 normative:
   RFC2119:
