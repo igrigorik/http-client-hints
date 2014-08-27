@@ -110,7 +110,7 @@ For example:
   Accept-CH: DPR, RW
 ~~~
 
-When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR and RW headers to subsequent requests.
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR and RW headers to all subsequent requests.
 
 
 ### Interaction with Caches
