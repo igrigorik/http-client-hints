@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: '*.md',
+      files: 'draft.md',
       tasks: ['exec:build']
     }
   });
