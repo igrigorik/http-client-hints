@@ -131,7 +131,7 @@ Above example indicates that the cache key should be based on the DPR and RW hea
 
 # The DPR Client Hint
 
-The "DPR" header field is a number that indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over density independent pixels on the device.
+The "DPR" header field is a number that, in requests, indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over density independent pixels on the device.
 
 ~~~
   DPR = 1*DIGIT [ "." 1*DIGIT ]
@@ -142,7 +142,7 @@ If DPR occurs in a message more than once, the last value overrides all previous
 
 # The RW Client Hint
 
-The "RW" header field is a number that indicates the client's current Resource Width (RW) in density independent pixels on the device, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
+The "RW" header field is a number that, in requests, indicates the client's current Resource Width (RW) in density independent pixels on the device, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
 
 ~~~
   RW = 1*DIGIT
@@ -163,10 +163,12 @@ DPR ratio affects the calculation of intrinsic size of image resources on the cl
 
 Note that DPR confirmation is only required for image responses, and the server does not need to confirm the resource width (RW) as this value can be derived from the resource itself once it is decoded by the client.
 
+If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences. 
+
 
 # Example
 
-For example, given the following request header:
+For example, given the following request headers:
 
 ~~~
   DPR: 2.0
