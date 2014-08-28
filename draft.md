@@ -59,29 +59,14 @@ Client Hints does not supersede or replace the User-Agent header field. Existing
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in {{RFC2119}}.
 
-This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} with the list rule extension defined in {{RFC7230}}, Appendix B. It includes by reference the OWS, field-name and quoted-string rules from that document, and the parameter rule from {{RFC7231}}.
+This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} with the list rule extension defined in {{RFC7230}}, Appendix B. It includes by reference the DIGIT rule from {{RFC5234}}; the OWS, field-name and quoted-string rules from {{RFC7230}}; and the parameter rule from {{RFC7231}}.
 
 
 # Client Hint Request Header Fields
 
 A Client Hint request header field is a HTTP header field that is used by HTTP clients to indicate configuration data that can be used by the server to select an appropriate response. Each one conveys a list of client preferences that the server can use to adapt and optimize the response.
 
-Client Hint request headers share a common syntax for their values. 
-
 This document defines a selection of Client Hint request header fields, and can be referenced by other specifications wishing to use the same syntax and processing model.
-
-
-## Hint Values
-
-Client-Hint field-values consist of either a token or a comma-delimited list of parameters.
-
-~~~
-  client-hint-value = token | 1#parameter
-~~~
-
-When the value is a token, it must be a numeric value. Numeric values are indicated by the full field-value contents (single value), or by the digits after "=" of the hint name (parameter value), up to the first non-digit character. If the hint does not have an argument, its value is assumed to be 0.
-
-Note that HTTP allows headers with comma-separated values to be conveyed using multiple instances of the same header field; as a result, the hints are collected from all instances of the same header on the message in question before being considered complete. If the same hint is used more than once, then the last hint overrides all previous occurrences, and the final ordering of unique hints is not significant.
 
 
 ## Sending Client Hints
@@ -146,25 +131,29 @@ Above example indicates that the cache key should be based on the DPR and RW hea
 
 # The DPR Client Hint
 
-The "DPR" header field indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over density independent pixels on the device.
+The "DPR" header field is a number that indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over density independent pixels on the device.
 
 ~~~
   DPR = 1*DIGIT [ "." 1*DIGIT ]
 ~~~
 
+If DPR occurs in a message more than once, the last value overrides all previous occurrences. 
+
 
 # The RW Client Hint
 
-The "RW" header field indicates the client's current Resource Width (RW) in density independent pixels on the device, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
+The "RW" header field is a number that indicates the client's current Resource Width (RW) in density independent pixels on the device, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
 
 ~~~
   RW = 1*DIGIT
 ~~~
 
+If RW occurs in a message more than once, the last value overrides all previous occurrences. 
+
 
 ### Confirming Selected DPR
 
-The "Content-DPR" header field indicates the ratio between physical pixels and density independent pixels of the selected image response.
+The "Content-DPR" header field is a number that indicates the ratio between physical pixels and density independent pixels of the selected image response.
 
 ~~~
   Content-DPR = 1*DIGIT [ "." 1*DIGIT ]
