@@ -131,7 +131,7 @@ Above example indicates that the cache key should be based on the DPR and RW hea
 
 # The DPR Client Hint
 
-The "DPR" header field is a number that, in requests, indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over density independent pixels on the device.
+The "DPR" header field is a number that, in requests, indicates the client's current Device Pixel Ratio (DPR), which is the ratio of physical pixels over CSS px of the layout viewport on the device.
 
 ~~~
   DPR = 1*DIGIT [ "." 1*DIGIT ]
@@ -142,7 +142,7 @@ If DPR occurs in a message more than once, the last value overrides all previous
 
 # The RW Client Hint
 
-The "RW" header field is a number that, in requests, indicates the client's current Resource Width (RW) in density independent pixels on the device, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
+The "RW" header field is a number that, in requests, indicates the Resource Width (RW) in CSS px, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
 
 ~~~
   RW = 1*DIGIT
@@ -153,7 +153,7 @@ If RW occurs in a message more than once, the last value overrides all previous 
 
 ### Confirming Selected DPR
 
-The "Content-DPR" header field is a number that indicates the ratio between physical pixels and density independent pixels of the selected image response.
+The "Content-DPR" header field is a number that indicates the ratio between physical pixels over CSS px of the selected image response.
 
 ~~~
   Content-DPR = 1*DIGIT [ "." 1*DIGIT ]
@@ -175,9 +175,9 @@ For example, given the following request headers:
   RW: 160
 ~~~
 
-The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160px, as measured by density independent pixels on the device.
+The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160 CSS px.
 
-If the server uses above hints to perform resource selection, it must confirm its selection via the DPR response header to allow the client to calculate the appropriate intrinsic size of the image resource. The server does not need to confirm resource width, only the ratio between physical pixels and density independent pixels of the selected image resource:
+If the server uses above hints to perform resource selection for an image asset, it must confirm its selection via the Content-DPR response header to allow the client to calculate the appropriate intrinsic size of the image response. The server does not need to confirm resource width, only the ratio between physical pixels and CSS px of the selected image resource:
 
 ~~~
   Content-DPR: 1.0
