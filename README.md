@@ -5,7 +5,7 @@ This specification defines a set of HTTP request header fields, colloquially kno
 Client Hints can be used to automate negotiation and delivery of optimized assets for a particular device - e.g. resolution and size of delivered image resources, alternate stylesheets, scripts, and so on. For example, given the following HTML markup for an image resource:
 
 ```html
-<img src="img.jpg" width="160" alt="I'm responsive!">
+<img src="img.jpg" width="160" alt="I'm an image!">
 ```
 
 The client and server can negotiate the resolution and size of `img.jpg` via HTTP negotiation:
@@ -35,7 +35,7 @@ In the above example, the user agent advertises its device pixel ratio (DPR) and
 
 Client Hints can be used alongside [picture element](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#the-picture-element) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized and "pixel perfect" images. Let's consider different `<picture>` scenarios...
 
-DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:device-pixel-ratio-2) by eliminating the need to write `x` queries. As a result, the `<img>` tag becomes "resolution aware" without any extra work on behalf of the site owner:
+DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:device-pixel-ratio-2) by eliminating the need to write `x` descriptors. As a result, the `<img>` tag becomes "resolution aware" without any extra work on behalf of the site owner:
 
 ```html
 <!-- picture resolution switching -->
@@ -43,6 +43,9 @@ DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/
   <source srcset="pic1x.jpg 1x, pic2x.jpg 2x, pic4x.jpg 4x">
   <img alt="A rad wolf." src="pic1x.jpg">
 </picture>
+
+<!-- alternative and equivalent syntax -->
+<img src="pic1x.jpg" srcset="pic2x.jpg 2x, pic4x.jpg 4x" alt="A rad wolf.">
 
 <!-- equivalent functionality via DPR client hint -->
 <img alt="A rad wolf." src="pic.jpg">
@@ -53,8 +56,7 @@ DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/
 <picture>
   <source media="(min-width: 45em)" srcset="large-1.jpg, large-2.jpg 2x">
   <source media="(min-width: 18em)" srcset="med-1.jpg, med-2.jpg 2x">
-  <source srcset="small-1.jpg, small-2.jpg 2x">
-  <img src="small-1.jpg" alt="The president giving an award." width="500" height="500">
+  <img src="small-1.jpg" srcset="small-2.jpg 2x" alt="The president giving an award." width="500" height="500">
 </picture>
 
 <!-- equivalent functionality with resolution switching via Client Hints -->
@@ -97,7 +99,7 @@ Example HTTP request flow for the above example:
 < ...
 ```
 
-In situations where multiple layout breakpoints are present the workflow is similar to that of the previous example. To select the optimal resolution and size:
+In situations where multiple layout breakpoints impact the image's dimensions the workflow is similar to that of the previous example. To select the optimal resolution and size:
 
 ```html
 <!-- multiple layout breakpoints -->
