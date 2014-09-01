@@ -5,15 +5,16 @@ This specification defines a set of HTTP request header fields, colloquially kno
 * [Available hints](#available-hints)
 * [Opt-in hint delvery](#opt-in-hint-delivery)
 * [Use cases](#use-cases)
-  - Responsive Design + Server Side Components (RESS)
-  - `<img>` element
-    + Delivering DPR-aware images
-    + Delivering DPR and resource width aware images
-  - `<picture>` element
-    + Interaction with picture element
-    + Resource selection
-* Hands-on example
-* Implementation status
+  - [Responsive Design + Server Side Components (RESS)](#responsive-design--server-side-components-ress)
+  - [`<img>` element](#img-element)
+    + [Delivering DPR-aware images](#delivering-dpr-aware-images)
+    + [Delivering DPR and resource width aware images](#delivering-dpr-and-resource-width-aware-images)
+  - [`<picture>` element](#picture-element)
+    + [Device-pixel-ratio-based selection](#device-pixel-ratio-based-selection)
+    + [Device-pixel-ratio and viewport-based selection](#device-pixel-ratio-and-viewport-based-selection)
+    + [Resource selection](#resource-selection)
+* [Hands-on example](#hands-on-example)
+* [Implementation status](#implementation-status)
 
 ---
 
@@ -33,11 +34,11 @@ Note that this means that the user agent will not send hints on the very first r
 
 The application may want to deliver alternate set of optimized resources based on advertised hints. For example, it may use the device pixel ratio (`DPR` hint), or the layout viewport width (`RW` hint) to respond with optimized HTML markup, CSS, or script resources - see [Responsive Design + Server Side Components (RESS)](http://www.lukew.com/ff/entry.asp?1392).
 
-Applications that use this approach must also serve appropriate `Vary` and `Cache-Control` response headers to ensure correct delivery of optimized assets.
+_Note: Applications that use this approach must also serve appropriate `Vary` and `Cache-Control` response headers to ensure correct delivery of optimized assets._
 
 #### `<img>` element
 ##### Delivering DPR-aware images
-`DPR` hint automates device-pixel-ratio-based selection and enables the server to deliver the appropriate image variant without any changes in markup. For example, given the following HTML markup:
+`DPR` hint automates device-pixel-ratio-based selection and enables delivery of optimal image variant without any changes in markup. For example, given the following HTML markup:
 
 ```html
 <img src="img.jpg" alt="I'm a DPR-aware image!">
@@ -62,7 +63,7 @@ Content-DPR: 2.0
 (image data)
 ```
 
-In the above example, the user agent advertises its device pixel ratio via `DPR` request header on the image request. Given this information, the server is able to select and respond with the optimal resource variant for the client. For full details on the negotiation workflow, refer to the latest [spec](http://igrigorik.github.io/http-client-hints/).
+In the above example, the user agent advertises its device pixel ratio via `DPR` request header on the image request. Given this information, the server is able to select and respond with the optimal resource variant for the client. For full details refer to the latest [spec](http://igrigorik.github.io/http-client-hints/).
 
 _Note: when server side DPR-selection is used the server must confirm the DPR of the selected resource via `Content-DPR` response header to allow the user agent to compute the correct intrinsic size of the image._
 
@@ -103,9 +104,9 @@ Note that the `RW` hint may not be available at request time, in which case the 
 
 #### `<picture>` element
 
-Client Hints can be used alongside [picture element](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#the-picture-element) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized images. Let's consider different `picture` scenarios...
+Client Hints can be used alongside [picture element](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#the-picture-element) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized images. 
 
-##### Automated device-pixel-ratio-based selection
+##### Device-pixel-ratio-based selection
 DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:device-pixel-ratio-2) by eliminating the need to write `x` descriptors for `img` and `picture` elements:
 
 ```html
@@ -140,7 +141,7 @@ DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/
 
 Note that the second example with [art direction-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:art-direction-3) illustrates that hints do not eliminate the need for the `picture` element. Rather, Client Hints is able to simplify and automate certain parts of the negotiation, allowing the developer to focus on art direction, which by definition requires developer/designer input.
 
-##### Automated device-pixel-ratio-based selection
+##### Device-pixel-ratio and viewport-based selection
 The combination of `DPR` and `RW` hints also simplifies delivery of variable sized images when [viewport-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:viewport-based-selection-2) is used. The developer specifies the resource width of the image in `vw` units (which are relative to viewport width) via `sizes` attribute and the user agent handles the rest: 
 
 ```html
@@ -184,7 +185,7 @@ In situations where multiple layout breakpoints impact the image's dimensions th
   sizes="(max-width: 30em) 100vw, (max-width: 50em) 50vw,calc (33vw - 100px)">
 ```
 
-The combination of the `DPR` and `RW` hints allows the server to deliver 'pixel perfect' images that match the device resolution and the exact display size. However, note that the server is not required to do so: it can round/bin the advertised values based on own logic and serve the closest matching resource - just as `srcset` picks the best/nearest resource based on the provided parameters in the markup.
+The combination of the `DPR` and `RW` hints allows the server to deliver 'pixel perfect' images that match the device resolution and exact display size. However, the server is not required to do so: it can round or bin the advertised values based on own logic and serve the closest matching resource - just as `srcset` picks the nearest resource based on the provided parameters in the markup.
 
 ##### Resource selection
 When request hints are used the resource selection algorithm logic is shared between the user agent and the server: the user agent may apply own selection rules based on specified markup and defer other decisions to the server by communicating the appropriate `DPR` and `RW` values within the image request. With that, a few considerations to keep in mind:
@@ -197,7 +198,7 @@ Use of Client Hints does not incur additional or unnecessary requests. However, 
 
 ### Hands-on example
 
-A hands-on example courtesty of [resrc.it](http://www.resrc.it/)):
+A hands-on example courtesty of [resrc.it](http://www.resrc.it/):
 
 ```bash
 # Note: resrc.it is following older version of the Clients Hint spec, 
