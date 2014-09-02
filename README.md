@@ -2,6 +2,8 @@
 
 This specification defines a set of HTTP request header fields, colloquially known as Client Hints, that are intended to be used as input to proactive content negotiation; just as the `Accept` header allows clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
+**Latest draft:** http://igrigorik.github.io/http-client-hints/
+
 * [Available hints](#available-hints)
 * [Opt-in hint delvery](#opt-in-hint-delivery)
 * [Use cases](#use-cases)
