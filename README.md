@@ -15,6 +15,7 @@ This specification defines a set of HTTP request header fields, colloquially kno
     + [Device-pixel-ratio-based selection](#device-pixel-ratio-based-selection)
     + [Device-pixel-ratio and viewport-based selection](#device-pixel-ratio-and-viewport-based-selection)
     + [Resource selection](#resource-selection)
+  - [Maximum downlink speed](#maximum-downlink-speed)
 * [Hands-on example](#hands-on-example)
 * [Implementation status](#implementation-status)
 
@@ -198,8 +199,7 @@ When request hints are used the resource selection algorithm logic is shared bet
 Use of Client Hints does not incur additional or unnecessary requests. However, as an extra optimization, the server should [advertise the Key caching header](http://igrigorik.github.io/http-client-hints/#rfc.section.2.3.2) to improve cache efficiency.
 
 
-#### Connection type 
-
+#### Maximum downlink speed
 The application may want to deliver an alternate set of resources (e.g. - alternate image asset, stylesheet, HTML document, media stream, and so on) based on the maximum downlink (`MD`) speed of the client, which is the standardized, or generally accepted, maximum download data rate for the underlying connection technology in use by the client. 
 
 The underlying connection technology represents the generation and/or version of the network connection being used by the device. For example, "HSPA" (3.5G) for cellular, or "802.11g" for Wi-Fi. The relationship between an underlying connection technology and its maximum downlink speed is [captured in the table of maximum downlink speeds](http://w3c.github.io/netinfo/#underlying-connection-technology) in the W3C Network Information API.
