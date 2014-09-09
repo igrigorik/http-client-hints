@@ -1,4 +1,5 @@
 .refcache
 .DS_Store
+.grunt
 node_modules
 build
