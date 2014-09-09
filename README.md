@@ -21,7 +21,7 @@ This specification defines a set of HTTP request header fields, colloquially kno
 ---
 
 ### Available hints
-Current list includes `DPR` (device pixel ratio) and `RW` (resource width) request headers, and `Content-DPR` response header that is used to confirm the DPR of selected image resources - see full definitions in <a href="http://igrigorik.github.io/http-client-hints/">latest spec</a>.
+Current list includes `DPR` (device pixel ratio), `RW` (resource width), and `MD` (maximum downlink speed) request headers, and `Content-DPR` response header that is used to confirm the DPR of selected image resources - see full definitions in <a href="http://igrigorik.github.io/http-client-hints/">latest spec</a>.
 
 _Note: have a proposal for another hint? Open an issue, document your use case._ 
 
@@ -196,6 +196,15 @@ When request hints are used the resource selection algorithm logic is shared bet
 * For cases where an environment change (layout, zoom, etc.) must trigger a new asset download, you should use art-direction with `source` and appropriate media queries. 
 
 Use of Client Hints does not incur additional or unnecessary requests. However, as an extra optimization, the server should [advertise the Key caching header](http://igrigorik.github.io/http-client-hints/#rfc.section.2.3.2) to improve cache efficiency.
+
+
+#### Connection type 
+
+The application may want to deliver an alternate set of resources (e.g. - alternate image asset, stylesheet, HTML document, media stream, and so on) based on the maximum downlink (`MD`) speed of the client, which is the standardized, or generally accepted, maximum download data rate for the underlying connection technology in use by the client. 
+
+The underlying connection technology represents the generation and/or version of the network connection being used by the device. For example, "HSPA" (3.5G) for cellular, or "802.11g" for Wi-Fi. The relationship between an underlying connection technology and its maximum downlink speed is [captured in the table of maximum downlink speeds](http://w3c.github.io/netinfo/#underlying-connection-technology) in the W3C Network Information API.
+
+_Note: the advertised downlink speed represents the maximum theoretical speed for the underlying connection type - i.e. it's a ceiling value, not a representation of actual or recent speeds experienced by the client._
 
 
 ### Hands-on example

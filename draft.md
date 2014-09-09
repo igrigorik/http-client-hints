@@ -92,10 +92,10 @@ Servers can advertise support for Client Hints using the Accept-CH header or an 
 For example:
 
 ~~~
-  Accept-CH: DPR, RW
+  Accept-CH: DPR, RW, MD
 ~~~
 
-When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR and RW headers to all subsequent requests.
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, RW, and MD headers to all subsequent requests.
 
 
 ### Interaction with Caches
@@ -114,6 +114,12 @@ Above examples indicates that the cache key should be based on the DPR header, a
 
 Above example indicates that the cache key should be based on the RW header, and the resource should be cached and made available for any request whose display width falls between 320 and 640px.
 
+~~~
+  Key: MD;r=[0.384:]
+~~~
+
+Above example indicates that the cache key should be based on the MD header, and the resource should be cached and made available for any request whose advertised maxim downlink speed is 0.384Mbps (GPRS EDGE), or higher.
+
 In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
 
 ~~~
@@ -123,10 +129,10 @@ In absence of support for fine-grained control of the cache key via the Key head
 Above example indicates that the cache key should be based on the DPR header.
 
 ~~~
-  Vary: DPR, RW
+  Vary: DPR, RW, MD
 ~~~
 
-Above example indicates that the cache key should be based on the DPR and RW headers.
+Above example indicates that the cache key should be based on the DPR, RW, and MD headers.
 
 
 # The DPR Client Hint
@@ -151,6 +157,19 @@ The "RW" header field is a number that, in requests, indicates the Resource Widt
 If RW occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
+# The MD Client Hint
+
+The "MD" header field is a number that, in requests, indicates the client's maximum downlink speed in megabits per second (Mbps), which is the standardized, or generally accepted, maximum download data rate for the underlying connection technology in use by the client. 
+
+~~~
+  MD = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
+The underlying connection technology represents the generation and/or version of the network connection being used by the device. For example, "HSPA" (3.5G) for cellular, or "802.11g" for Wi-Fi. The relationship between an underlying connection technology and its maximum downlink speed is captured in the table of maximum downlink speeds in the W3C Network Information API.
+
+If MD occurs in a message more than once, the last value overrides all previous occurrences. 
+
+
 ### Confirming Selected DPR
 
 The "Content-DPR" header field is a number that indicates the ratio between physical pixels over CSS px of the selected image response.
@@ -166,7 +185,7 @@ Note that DPR confirmation is only required for image responses, and the server 
 If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
-# Example
+# Examples
 
 For example, given the following request headers:
 
@@ -185,10 +204,18 @@ If the server uses above hints to perform resource selection for an image asset,
 
 The Content-DPR response header indicates to the client that the server has selected resource with DPR ratio of 1.0. The client may use this information to perform additional processing on the resource - for example, calculate the appropriate intrinsic size of the image resource such that it is displayed at the correct resolution.
 
+Alternatively, the server could select an alternate resource based on the maximum downlink speed advertised in the request headers:
+
+~~~
+  MD: 0.384
+~~~
+
+The server knows that the client's maximum downlink speed is 0.384Mbps (GPRS EDGE), and it may use this information to select an optimized resource - for example, an alternate image asset, stylesheet, HTML document, media stream, and so on.
+
 
 # IANA Considerations
 
-This document defines the "Accept-CH", "DPR", and "RW" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
+This document defines the "Accept-CH", "DPR", "RW", and "MD" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
 
 - Header field name: DPR
 - Applicable protocol: HTTP
@@ -198,6 +225,13 @@ This document defines the "Accept-CH", "DPR", and "RW" HTTP request fields, "Con
 - Related information: for Client Hints
 
 - Header field name: RW
+- Applicable protocol: HTTP
+- Status: standard
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
+
+- Header field name: MD
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
