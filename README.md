@@ -203,30 +203,26 @@ Use of Client Hints does not incur additional or unnecessary requests. However, 
 A hands-on example courtesy of [resrc.it](http://www.resrc.it/):
 
 ```bash
-# Note: resrc.it is following older version of the Clients Hint spec, 
-#       hence the CH- prefix on hint request headers, which is now 
-#       unnecessary and should be omitted.
-#
-# Request 100 px wide asset with DPR 1.0
+# Request 100 CSS px wide asset with DPR of 1.0
 $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
   -o /dev/null -w "Image bytes: %{size_download}\n" \
-  -H "CH-DPR: 1.0" -H "CH-RW: 100"
+  -H "DPR: 1.0" -H "RW: 100"
 Image bytes: 9998
 
-# Request 100 px wide asset with DPR 1.5
+# Request 100 CSS px wide asset with DPR of 1.5
 $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
   -o /dev/null -w "Image bytes: %{size_download}\n" \
-  -H "CH-DPR: 1.5" -H "CH-RW: 100"
+  -H "DPR: 1.5" -H "RW: 100"
 Image bytes: 17667
 
-# Request 200 px wide asset with DPR 1.0
+# Request 200 CSS px wide asset with DPR of 1.0
 $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
   -o /dev/null -w "Image bytes: %{size_download}\n" \
-  -H "CH-DPR: 1.0" -H "CH-RW: 200"
+  -H "DPR: 1.0" -H "RW: 200"
 Image bytes: 28535
 ```
 
-ReSRC.it servers automate the delivery of optimal image assets based on advertised DPR and RW values and append the correct caching header (Vary: DPR, RW), which allows the asset to be cached on the client and by any Vary-capable intermediaries.
+ReSRC.it servers automate the delivery of optimal image assets based on advertised `DPR` and `RW` hint values and append the correct caching header (`Vary: DPR, RW`), which allows the asset to be cached on the client and by any Vary-capable intermediaries.
 
 
 ### Implementation status
