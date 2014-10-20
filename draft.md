@@ -75,6 +75,7 @@ Clients control which Client Hint headers and their respective header fields are
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
+In order to support use-cases where server-side processing requires HTML manipulations, clients SHOULD send hints along with the initial main document request.
 
 ## Server Processing of Client Hints
 
@@ -97,6 +98,8 @@ For example:
 
 When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, RW, and MD headers to all subsequent requests.
 
+_Issue: Does the opt-in mechanism apply to third-party resources on the
+same page? iframes?_
 
 ### Interaction with Caches
 
