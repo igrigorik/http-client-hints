@@ -75,7 +75,7 @@ Clients control which Client Hint headers and their respective header fields are
 
 The client and server, or an intermediate proxy, may use an opt-in mechanism to negotiate which fields should be reported to allow for efficient content adaption.
 
-In order to support use-cases where server-side processing requires HTML manipulations, clients SHOULD send hints along with the initial main document request.
+In order to support use-cases where server-side processing requires HTML manipulations, clients SHOULD send the 'RW' hint along with the initial main document request.
 
 ## Server Processing of Client Hints
 

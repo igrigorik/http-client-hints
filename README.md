@@ -27,8 +27,8 @@ Current list includes `DPR` (device pixel ratio), `RW` (resource width), and `MD
 _Note: have a proposal for another hint? Open an issue, document your use case._ 
 
 ### Opt-in hint delivery
-For the main document request, all user agent supported hints should be sent to the server. 
-That is in order to support use-cases where server-side processing requires HTML manipulations.
+For the main document request, some user agent supported hints, and specifically the 'RW' hint, should be sent to the server. 
+That is in order to support use-cases where server-side processing requires HTML manipulations, such as the [RESS](http://www.lukew.com/ff/entry.asp?1392) technique.
 
 For other resources, in order to reduce request overhead the hints can be sent based on opt-in basis. Therefore, the user agent may refrain from sending hints over sub-resource requests, unless the server advertises support for these hints. See <a href="http://igrigorik.github.io/http-client-hints/#rfc.section.2.3.1">Advertising Support for Client Hints</a> for more details. 
 
