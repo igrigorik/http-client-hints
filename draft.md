@@ -170,6 +170,17 @@ The underlying connection technology represents the generation and/or version of
 If MD occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
+# The RQ Client Hint
+
+The "RQ" header field is a [0-100] number that, in requests, indicates client's preference for Resource Quality (RQ), which may be used to negotiate an alternative resource representation.
+
+~~~
+  RQ = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
+The meaning of the communicated value is deferred to the application, which may use the provided range to define custom resource quality semantics. For example, the application may set the value communicated to its servers based on type of requested resource, network conditions, user preferences, user agent settings, or other application specific signals. 
+
+
 ### Confirming Selected DPR
 
 The "Content-DPR" header field is a number that indicates the ratio between physical pixels over CSS px of the selected image response.
