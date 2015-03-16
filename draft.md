@@ -78,7 +78,9 @@ The client and server, or an intermediate proxy, may use an opt-in mechanism to 
 
 ## Server Processing of Client Hints
 
-Servers can modify the response sent based upon Client Hints. When doing so, it MUST confirm the selection for certain hints and indicate the value of selected resource via corresponding response header. For example, this specification defines "DPR" that corresponds to the "DPR" request header field.
+Servers MAY respond with an optimized response based on one or more received hints from the client. When doing so, and if the resource is cacheable, the server MUST also emit a Vary response header field ({{RFC7234}}), and optionally Key ({{I-D.fielding-http-key}}), to indicate which hints were used and whether the selected response is appropriate for a later request. 
+
+Further, depending on the used hint, the server MAY also need to emit additional response header fields to confirm the property of the response, such that the client can adjust its processing. For example, this specification defines "Content-DPR" response header field that MUST be returned by the server when the "DPR" hint is used to select the response.
 
 
 ### Advertising Support for Client Hints
@@ -100,7 +102,21 @@ When a client receives Accept-CH, it SHOULD append the Client Hint headers that 
 
 ### Interaction with Caches
 
-Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server may return the following set of instructions:
+When selecting an optimized response based on one or more Client Hints, and if the resource is cacheable, the server MUST also emit a Vary response header field ({{RFC7234}}) to indicate which hints were used and whether the selected response is appropriate for a later request. 
+
+~~~
+  Vary: DPR
+~~~
+
+Above example indicates that the cache key should be based on the DPR header.
+
+~~~
+  Vary: DPR, RW, MD
+~~~
+
+Above example indicates that the cache key should be based on the DPR, RW, and MD headers.
+
+Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server MAY return the following set of instructions:
 
 ~~~
   Key: DPR;r=[1.5:]
@@ -119,20 +135,6 @@ Above example indicates that the cache key should be based on the RW header, and
 ~~~
 
 Above example indicates that the cache key should be based on the MD header, and the resource should be cached and made available for any request whose advertised maxim downlink speed is 0.384Mbps (GPRS EDGE), or higher.
-
-In absence of support for fine-grained control of the cache key via the Key header field, Vary response header can be used to indicate that served resource has been adapted based on specified Client Hint preferences.
-
-~~~
-  Vary: DPR
-~~~
-
-Above example indicates that the cache key should be based on the DPR header.
-
-~~~
-  Vary: DPR, RW, MD
-~~~
-
-Above example indicates that the cache key should be based on the DPR, RW, and MD headers.
 
 
 # The DPR Client Hint
@@ -243,6 +245,13 @@ This document defines the "Accept-CH", "DPR", "RW", and "MD" HTTP request fields
 - Related information: for Client Hints
 
 - Header field name: MD
+- Applicable protocol: HTTP
+- Status: standard
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
+
+- Header field name: RQ
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
