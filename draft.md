@@ -1,7 +1,7 @@
 ---
 title: HTTP Client Hints
 abbrev:
-date: 2014
+date: 2015
 category: info
 
 ipr: trust200902
@@ -23,9 +23,9 @@ author:
 normative:
   RFC2119:
   RFC5234:
-  RFC5226:
   RFC7230:
   RFC7231:
+  RFC7234:
   I-D.fielding-http-key:
 
 informative:
