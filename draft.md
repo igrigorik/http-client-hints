@@ -148,6 +148,21 @@ The "DPR" header field is a number that, in requests, indicates the client's cur
 If DPR occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
+### Confirming Selected DPR
+
+The "Content-DPR" header field is a number that indicates the ratio between physical pixels over CSS px of the selected image response.
+
+~~~
+  Content-DPR = 1*DIGIT [ "." 1*DIGIT ]
+~~~
+
+DPR ratio affects the calculation of intrinsic size of image resources on the client - i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions. As a result, the server must explicitly indicate the DPR of the selected image response whenever the DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned Content-DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
+
+Note that DPR confirmation is only required for image responses, and the server does not need to confirm the resource width (RW) as this value can be derived from the resource itself once it is decoded by the client.
+
+If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences. 
+
+
 # The RW Client Hint
 
 The "RW" header field is a number that, in requests, indicates the Resource Width (RW) in CSS px, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
@@ -181,21 +196,6 @@ The "RQ" header field is a [0-100] number that, in requests, indicates client's 
 ~~~
 
 The communicated resource quality value may be used to negotiate an alternative resource representation. For example, a bandwidth constrained client may indicate a preference for a "lower quality" resource that consumes fewer bytes. The meaning of the communicated value is deferred to the application, which may use the provided range to define custom resource quality semantics. For example, the application may set the resource quality value communicated to its servers based on type of requested resource, network conditions, user preferences, user agent settings, or other application specific signals. In turn, the server may use the communicated value to select an optimized variant based on availability, encoding costs, or other criteria.
-
-
-### Confirming Selected DPR
-
-The "Content-DPR" header field is a number that indicates the ratio between physical pixels over CSS px of the selected image response.
-
-~~~
-  Content-DPR = 1*DIGIT [ "." 1*DIGIT ]
-~~~
-
-DPR ratio affects the calculation of intrinsic size of image resources on the client - i.e. typically, the client automatically scales the natural size of the image by the DPR ratio to derive its display dimensions. As a result, the server must explicitly indicate the DPR of the selected image response whenever the DPR hint is used, and the client must use the DPR value returned by the server to perform its calculations. In case the server returned Content-DPR value contradicts previous client-side DPR indication, the server returned value must take precedence.
-
-Note that DPR confirmation is only required for image responses, and the server does not need to confirm the resource width (RW) as this value can be derived from the resource itself once it is decoded by the client.
-
-If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
 # Examples
