@@ -189,13 +189,13 @@ If MD occurs in a message more than once, the last value overrides all previous 
 
 # The RQ Client Hint
 
-The "RQ" header field is a [0-100] number that, in requests, indicates client's preference for Resource Quality (RQ), where a higher value corresponds to a higher quality preference. 
+The "RQ" header field is an alphanumeric string that, in requests, indicates client's preference for Resource Quality (RQ).
 
 ~~~
-  RQ = 1*DIGIT [ "." 1*DIGIT ]
+  RQ = 1*ALPHA
 ~~~
 
-The communicated resource quality value may be used to negotiate an alternative resource representation. For example, a bandwidth constrained client may indicate a preference for a "lower quality" resource that consumes fewer bytes. The meaning of the communicated value is deferred to the application, which may use the provided range to define custom resource quality semantics. For example, the application may set the resource quality value communicated to its servers based on type of requested resource, network conditions, user preferences, user agent settings, or other application specific signals. In turn, the server may use the communicated value to select an optimized variant based on availability, encoding costs, or other criteria.
+The communicated resource quality value may be used to negotiate an alternative resource representation. For example, a bandwidth or cost constrained client may indicate a preference for "low" resource quality that consumes fewer response bytes. The meaning of the communicated value is deferred to the server, which may use the communicated value to select an optimized response variant based on availability, encoding costs, and other criteria.
 
 
 # Examples
