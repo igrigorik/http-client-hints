@@ -198,6 +198,17 @@ The "RQ" header field is an alphanumeric string that, in requests, indicates cli
 The communicated resource quality value may be used to negotiate an alternative resource representation. For example, a bandwidth or cost constrained client may indicate a preference for "low" resource quality that consumes fewer response bytes. The meaning of the communicated value is deferred to the server, which may use the communicated value to select an optimized response variant based on availability, encoding costs, and other criteria.
 
 
+# Reporting Data Savings
+
+The "Alternate-Content-Length" header field is a number that, in responses, indicates the size of the response, as a decimal number of octects, that would have been returned if the alternate response was not selected due to one of the provided hints.
+
+~~~
+  Alternate-Content-Length = 1*DIGIT
+~~~
+
+When an alternate response was selected due to one of the provided hints, the server MAY report the anticipated size of the alternate response as a decimal number of octets. Where available, this enables the client to estimate the byte difference achieved through the use of provided hints.
+
+
 # Examples
 
 For example, given the following request headers:
