@@ -165,7 +165,7 @@ If Content-DPR occurs in a message more than once, the last value overrides all 
 
 # The RW Client Hint
 
-The "RW" header field is a number that, in requests, indicates the Resource Width (RW) in CSS px, which is either the display width of the requested resource (e.g. display width of an image), or the layout viewport width if the resource does not have a display width (e.g. a non-image asset).
+The "RW" header field is a number that, in requests, indicates the Resource Width (RW) in CSS px, which is either the rounded up display width of the requested resource (e.g. display width of an image), or the layout viewport width if its display width is either not known at the time of the request or the resource does not have a display width (e.g. a non-image asset). The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling function).
 
 ~~~
   RW = 1*DIGIT
