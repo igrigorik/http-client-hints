@@ -94,10 +94,10 @@ Servers can advertise support for Client Hints using the Accept-CH header or an 
 For example:
 
 ~~~
-  Accept-CH: DPR, Resource-Width, MD
+  Accept-CH: DPR, Width, MD
 ~~~
 
-When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, Resource-Width, and MD headers to all subsequent requests.
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, Width, and MD headers to all subsequent requests.
 
 
 ### Interaction with Caches
@@ -111,10 +111,10 @@ When selecting an optimized response based on one or more Client Hints, and if t
 Above example indicates that the cache key should be based on the DPR header.
 
 ~~~
-  Vary: DPR, Resource-Width, MD
+  Vary: DPR, Width, MD
 ~~~
 
-Above example indicates that the cache key should be based on the DPR, Resource-Width, and MD headers.
+Above example indicates that the cache key should be based on the DPR, Width, and MD headers.
 
 Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server MAY return the following set of instructions:
 
@@ -125,10 +125,10 @@ Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine
 Above examples indicates that the cache key should be based on the DPR header, and the resource should be cached and made available for any client whose device pixel ratio is 1.5, or higher.
 
 ~~~
-  Key: Resource-Width;r=[320:640]
+  Key: Width;r=[320:640]
 ~~~
 
-Above example indicates that the cache key should be based on the Resource-Width header, and the resource should be cached and made available for any request whose display width falls between 320 and 640px.
+Above example indicates that the cache key should be based on the Width header, and the resource should be cached and made available for any request whose display width falls between 320 and 640px.
 
 ~~~
   Key: MD;r=[0.384:]
@@ -163,15 +163,15 @@ Note that DPR confirmation is only required for image responses, and the server 
 If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
-# The Resource-Width Client Hint
+# The Width Client Hint
 
-The "Resource-Width" header field is a number that, in requests, indicates the Resource Width in CSS px, which is either the rounded up display width of the requested resource (e.g. display width of an image), or the layout viewport width if its display width is either not known at the time of the request or the resource does not have a display width (e.g. a non-image asset). The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling function).
+The "Width" header field is a number that, in requests, indicates the Resource Width in CSS px, which is either the rounded up display width of the requested resource (e.g. display width of an image), or the layout viewport width if its display width is either not known at the time of the request or the resource does not have a display width (e.g. a non-image asset). The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling function).
 
 ~~~
-  Resource-Width = 1*DIGIT
+  Width = 1*DIGIT
 ~~~
 
-If Resource-Width occurs in a message more than once, the last value overrides all previous occurrences. 
+If Width occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
 # The MD Client Hint
@@ -204,7 +204,7 @@ For example, given the following request headers:
 
 ~~~
   DPR: 2.0
-  Resource-Width: 160
+  Width: 160
 ~~~
 
 The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160 CSS px.
@@ -228,7 +228,7 @@ The server knows that the client's maximum downlink speed is 0.384Mbps (GPRS EDG
 
 # IANA Considerations
 
-This document defines the "Accept-CH", "DPR", "Resource-Width", and "MD" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
+This document defines the "Accept-CH", "DPR", "Width", and "MD" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
 
 - Header field name: DPR
 - Applicable protocol: HTTP
@@ -237,7 +237,7 @@ This document defines the "Accept-CH", "DPR", "Resource-Width", and "MD" HTTP re
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-- Header field name: Resource-Width
+- Header field name: Width
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
