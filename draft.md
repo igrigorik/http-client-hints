@@ -187,12 +187,12 @@ The underlying connection technology represents the generation and/or version of
 If MD occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
-# The RQ Client Hint
+# The Quality Client Hint
 
-The "RQ" header field is an alphanumeric string that, in requests, indicates client's preference for Resource Quality (RQ).
+The "Quality" header field is an alphanumeric string that, in requests, indicates client's preference for Resource Quality.
 
 ~~~
-  RQ = 1*ALPHA
+  Quality = 1*ALPHA
 ~~~
 
 The communicated resource quality value may be used to negotiate an alternative resource representation. For example, a bandwidth or cost constrained client may indicate a preference for "low" resource quality that consumes fewer response bytes. The meaning of the communicated value is deferred to the server, which may use the communicated value to select an optimized response variant based on availability, encoding costs, and other criteria.
@@ -251,7 +251,7 @@ This document defines the "Accept-CH", "DPR", "Width", and "MD" HTTP request fie
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-- Header field name: RQ
+- Header field name: Quality
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
