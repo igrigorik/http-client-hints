@@ -94,10 +94,10 @@ Servers can advertise support for Client Hints using the Accept-CH header or an 
 For example:
 
 ~~~
-  Accept-CH: DPR, Width, Downlink
+  Accept-CH: DPR, Width, Viewport-Width, Downlink
 ~~~
 
-When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, Width, and Downlink headers to all subsequent requests.
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, Width, Viewport-Width, and Downlink headers to all subsequent requests.
 
 
 ### Interaction with Caches
@@ -165,13 +165,24 @@ If Content-DPR occurs in a message more than once, the last value overrides all 
 
 # The Width Client Hint
 
-The "Width" header field is a number that, in requests, indicates the Resource Width in CSS px, which is either the rounded up display width of the requested resource (e.g. display width of an image), or the layout viewport width if its display width is either not known at the time of the request or the resource does not have a display width (e.g. a non-image asset). The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling function).
+The "Width" header field is a number that, in requests, indicates the resource width in CSS px (e.g. display width of an image). The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling value).
 
 ~~~
   Width = 1*DIGIT
 ~~~
 
-If Width occurs in a message more than once, the last value overrides all previous occurrences. 
+If the resource width is not known at the time of the request or the resource does not have a display width, the Width header field may be omitted. If Width occurs in a message more than once, the last value overrides all previous occurrences. 
+
+
+# The Viewport-Width Client Hint
+
+The "Viewport-Width" header field is a number that, in requests, indicates the layout viewport width in CSS px. The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling value).
+
+~~~
+  Viewport-Width = 1*DIGIT
+~~~
+
+If Viewport-Width occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
 # The Downlink Client Hint
@@ -203,9 +214,10 @@ For example, given the following request headers:
 ~~~
   DPR: 2.0
   Width: 160
+  Viewport-Width: 320
 ~~~
 
-The server knows that the device pixel ratio is 2.0, and that the intended display width of requested resource is 160 CSS px.
+The server knows that the device pixel ratio is 2.0, that the intended display width of requested resource is 160 CSS px, and that the viewport width is 320 CSS px.
 
 If the server uses above hints to perform resource selection for an image asset, it must confirm its selection via the Content-DPR response header to allow the client to calculate the appropriate intrinsic size of the image response. The server does not need to confirm resource width, only the ratio between physical pixels and CSS px of the selected image resource:
 
@@ -236,6 +248,13 @@ This document defines the "Accept-CH", "DPR", "Width", and "Downlink" HTTP reque
 - Related information: for Client Hints
 
 - Header field name: Width
+- Applicable protocol: HTTP
+- Status: standard
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
+
+- Header field name: Viewport-Width
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
