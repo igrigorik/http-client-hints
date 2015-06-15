@@ -94,10 +94,10 @@ Servers can advertise support for Client Hints using the Accept-CH header or an 
 For example:
 
 ~~~
-  Accept-CH: DPR, Width, Viewport-Width, MD
+  Accept-CH: DPR, Width, Viewport-Width, Downlink
 ~~~
 
-When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, Width, Viewport-Width, and MD headers to all subsequent requests.
+When a client receives Accept-CH, it SHOULD append the Client Hint headers that match the advertised field-values. For example, based on Accept-CH example above, the client would append DPR, Width, Viewport-Width, and Downlink headers to all subsequent requests.
 
 
 ### Interaction with Caches
@@ -111,10 +111,10 @@ When selecting an optimized response based on one or more Client Hints, and if t
 Above example indicates that the cache key should be based on the DPR header.
 
 ~~~
-  Vary: DPR, Width, MD
+  Vary: DPR, Width, Downlink
 ~~~
 
-Above example indicates that the cache key should be based on the DPR, Width, and MD headers.
+Above example indicates that the cache key should be based on the DPR, Width, and Downlink headers.
 
 Client Hints MAY be combined with Key ({{I-D.fielding-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server MAY return the following set of instructions:
 
@@ -131,10 +131,10 @@ Above examples indicates that the cache key should be based on the DPR header, a
 Above example indicates that the cache key should be based on the Width header, and the resource should be cached and made available for any request whose display width falls between 320 and 640px.
 
 ~~~
-  Key: MD;r=[0.384:]
+  Key: Downlink;r=[0.384:]
 ~~~
 
-Above example indicates that the cache key should be based on the MD header, and the resource should be cached and made available for any request whose advertised maxim downlink speed is 0.384Mbps (GPRS EDGE), or higher.
+Above example indicates that the cache key should be based on the Downlink header, and the resource should be cached and made available for any request whose advertised maxim downlink speed is 0.384Mbps (GPRS EDGE), or higher.
 
 
 # The DPR Client Hint
@@ -185,17 +185,15 @@ The "Viewport-Width" header field is a number that, in requests, indicates the l
 If Viewport-Width occurs in a message more than once, the last value overrides all previous occurrences. 
 
 
-# The MD Client Hint
+# The Downlink Client Hint
 
-The "MD" header field is a number that, in requests, indicates the client's maximum downlink speed in megabits per second (Mbps), which is the standardized, or generally accepted, maximum download data rate for the underlying connection technology in use by the client. 
+The "Downlink" header field is a number that, in requests, indicates the client's maximum downlink speed in megabits per second (Mbps), as defined by the "downlinkMax" attribute in the W3C Network Information API.
 
 ~~~
-  MD = 1*DIGIT [ "." 1*DIGIT ]
+  Downlink = 1*DIGIT [ "." 1*DIGIT ]
 ~~~
 
-The underlying connection technology represents the generation and/or version of the network connection being used by the device. For example, "HSPA" (3.5G) for cellular, or "802.11g" for Wi-Fi. The relationship between an underlying connection technology and its maximum downlink speed is captured in the table of maximum downlink speeds in the W3C Network Information API.
-
-If MD occurs in a message more than once, the last value overrides all previous occurrences. 
+If Downlink occurs in a message more than once, the minimum value should be used to override other occurrences.
 
 
 # The Quality Client Hint
@@ -232,7 +230,7 @@ The Content-DPR response header indicates to the client that the server has sele
 Alternatively, the server could select an alternate resource based on the maximum downlink speed advertised in the request headers:
 
 ~~~
-  MD: 0.384
+  Downlink: 0.384
 ~~~
 
 The server knows that the client's maximum downlink speed is 0.384Mbps (GPRS EDGE), and it may use this information to select an optimized resource - for example, an alternate image asset, stylesheet, HTML document, media stream, and so on.
@@ -240,7 +238,7 @@ The server knows that the client's maximum downlink speed is 0.384Mbps (GPRS EDG
 
 # IANA Considerations
 
-This document defines the "Accept-CH", "DPR", "Width", and "MD" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
+This document defines the "Accept-CH", "DPR", "Width", and "Downlink" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
 
 - Header field name: DPR
 - Applicable protocol: HTTP
@@ -263,7 +261,7 @@ This document defines the "Accept-CH", "DPR", "Width", and "MD" HTTP request fie
 - Specification document(s): [this document]
 - Related information: for Client Hints
 
-- Header field name: MD
+- Header field name: Downlink
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
