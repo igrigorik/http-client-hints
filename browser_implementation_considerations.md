@@ -1,10 +1,18 @@
-This document's goal is to specify the various aspects of implementing
+# Client Hints - Browser implementation considerations
+
+This document's goal is to serve as an extension to the [Client Hints
+specification][client-hints], and to specify the various aspects of implementing
 Client-Hints in browsers.
+Since the Client Hints specification is destined at a wider audience
+than browser implementers, it does not include any browser-specific
+details. This document aims to fill that gap.
+
+[client-hints]: http://igrigorik.github.io/http-client-hints/
 
 ## `Width`
-The [`Width` hint][width]
+The [`Width` request header][width]
 is a hint destined to provide the server with the accurate dimensions of an image resource,
-as opposed to the dimensions of the viewport (provided by the [`Viewport-Width` hint][viewport-width]).
+as opposed to the dimensions of the viewport (provided by the [`Viewport-Width` request header][viewport-width]).
 
 Since image start downloading long before the page layout happens, at the time image download start,
 the accurate dimensions required to display certain image dimensions are not known.
@@ -41,28 +49,6 @@ info for background images.
 
 TODO: Insert normative text here?
 
-## Handling `Accept-CH` before the document is created
-The [`Accept-CH`][accept-ch] header is used by the server to notify the
-client that the server supports certain hints, and will act upon them.
-
-When provided by the server as an HTTP header, the browser often
-encounters the header before the Document object exists. That means that
-the server preference state has to be maintained and passed over to the
-Document object once one is created.
-
-[accept-ch]: http://igrigorik.github.io/http-client-hints/#advertising-support-for-client-hints
-
-## Handling `Accept-CH` in the preloader
-
-When the `Accept-CH` header is provided as an HTMLMetaElement (`<meta
-http-equiv="Accept-CH">`), we need to be able to process and apply this
-preference even when the images are requested by the preloader, and the
-image requests are sent out before the HTMLMetaElement is parsed and the
-preference is applied on the Document.
-
-That can be achieved by scanning for `<meta>` tags and maintaining the
-parsed out preference in the preloader.
-
 ## Which request contexts should hints be sent on
 TODO: Does it make sense to limit CH to image contexts?
 
@@ -96,3 +82,28 @@ preference state in the usual cases where such state is cleared.
 (Browsing history cleared, etc).
 
 TODO: Turn this into normative text.
+
+## Implementation notes
+
+### Handling `Accept-CH` before the document is created
+The [`Accept-CH`][accept-ch] header is used by the server to notify the
+client that the server supports certain hints, and will act upon them.
+
+When provided by the server as an HTTP header, the browser often
+encounters the header before the Document object exists. That means that
+the server preference state has to be maintained and passed over to the
+Document object once one is created.
+
+[accept-ch]: http://igrigorik.github.io/http-client-hints/#advertising-support-for-client-hints
+
+### Handling `Accept-CH` in the preloader
+
+When the `Accept-CH` header is provided as an HTMLMetaElement (`<meta
+http-equiv="Accept-CH">`), we need to be able to process and apply this
+preference even when the images are requested by the preloader, and the
+image requests are sent out before the HTMLMetaElement is parsed and the
+preference is applied on the Document.
+
+That can be achieved by scanning for `<meta>` tags and maintaining the
+parsed out preference in the preloader.
+
