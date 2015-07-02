@@ -65,8 +65,14 @@ TODO: Turn this into normative text.
 
 ## Server preference persistence
 
-Browsers MAY maintain a server's `Accept-CH` preference beyond the current browsing session.
+User agents MAY maintain a server's `Accept-CH` preference beyond the current browsing session.
 When they do, they MUST clear that preference in the usual cases where such state is cleared. (Browsing history cleared, etc).
+
+TODO: Turn this into normative text.
+
+## Viewport changes
+User agents MAY re-request image resources in case that the viewport
+have changed since the time in which these resources were requested.
 
 TODO: Turn this into normative text.
 
