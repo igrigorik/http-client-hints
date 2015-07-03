@@ -9,39 +9,25 @@ The Client Hints specification is intended for a wide audience, and does not spe
 
 ## `Width`
 
-The [`Width` request header][width] is sent by the client and indicates the layout width of an HTMLImageElement in CSS px.
+The [`Width` request header][width] is sent by the client and indicates the layout width of an HTMLImageElement in CSS pixels.
 
 User agents request images long before page layout occurs.
 For this reason, the `Width` hint can only be sent by user agents when the layout width of the image is indicated in markup, via either the `width` or `sizes` attributes.
 
-When an image resource is listed within an HTMLImageElement, user agents may look for these attributes directly on that HTMLImageElement.
-The value of `sizes`, if present, takes precedence over the value of `width`.
-When the image resource is listed within an HTMLSourceElement (with an HTMLPictureElement parent and an HTMLImageElement sibling),
-user agents must only use widths provided within a `sizes` attribute on that HTMLSourceElement.
+A `Width` hint should be sent only with request in the context of an
+image, when these requests are initiated by an HTMLImageElement with a
+`sizes` attribute. The value of the `Width` attribute should be the
+return value of the [parse a sizes attribute][parse-sizes] algorithm.
 
 [width]: http://igrigorik.github.io/http-client-hints/#the-width-client-hint
+[parse-sizes]: https://html.spec.whatwg.org/multipage/embedded-content.html#parse-a-sizes-attribute 
 
-TODO: Insert normative text here.
-
-## Background images and `Width`
-
-Sending `Width` request headers for background images is problematic for two reasons:
-
-* Background images are requested at style calculation time, but
-  their layout dimensions are only known later, at layout time.
-* Background images' dimensions are not constrained by the dimensions of
-  their container, and can be influenced by a multitude of CSS
-  properties. We need to account for that before we can use the container
-  dimensions as the `Width` value.
-
-At this time, it seems like there's no way to send `Width`
-info for background images.
-
-TODO: Insert normative text here?
+ISSUE: Add the 'width' attribute into the mix, once [it's added to the srcset logic](https://github.com/ResponsiveImagesCG/picture-element/issues/268).
+TODO: Shape the above to be normative text.
 
 ## Request contexts
 
-TODO: Does it make sense to limit CH to image contexts?
+ISSUE: Does it make sense to limit CH to image contexts?
 
 TODO: Insert normative text here?
 
@@ -75,6 +61,34 @@ User agents MAY re-request image resources in case that the viewport
 have changed since the time in which these resources were requested.
 
 TODO: Turn this into normative text.
+
+## `Accept-CH`
+As defined, the [`Accept-CH`][accept-ch] header is not mandatory, and
+user agents may send the various CH hints without relying on the
+`Accept-CH` header.
+User agents may also use the presence of the `Accept-CH` opt-in header
+in the response to the navigational request as a signal to send the
+various `CH` hints on sub-resource requests for that Document, including
+ones that are retrieved from third-party hosts.
+That is to address the full range of use-cases, e.g. authors hosting
+their HTML on a single server, but serving them from a different one.
+
+ISSUE: Do we want to keep `Accept-CH` or should we just send hints on all
+requests with an image context?
+
+## Background images and `Width`
+
+Sending `Width` request headers for background images is hard for two reasons:
+
+* Background images are requested at style calculation time, but
+  their layout dimensions are only known later, at layout time.
+* Background images' dimensions are not constrained by the dimensions of
+  their container, and can be influenced by a multitude of CSS
+  properties. We need to account for that before we can use the container
+  dimensions as the `Width` value.
+
+At this time, it seems like there's no way to send `Width`
+info for background images.
 
 ## Implementation notes
 
