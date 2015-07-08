@@ -6,7 +6,7 @@ category: info
 
 ipr: trust200902
 area: General
-workgroup:
+workgroup: HTTP Working Group
 keyword: Internet-Draft
 
 stand_alone: yes
@@ -196,17 +196,6 @@ The "Downlink" header field is a number that, in requests, indicates the client'
 If Downlink occurs in a message more than once, the minimum value should be used to override other occurrences.
 
 
-# The Quality Client Hint
-
-The "Quality" header field is an alphanumeric string that, in requests, indicates client's preference for Resource Quality.
-
-~~~
-  Quality = 1*ALPHA
-~~~
-
-The communicated resource quality value may be used to negotiate an alternative resource representation. For example, a bandwidth or cost constrained client may indicate a preference for "low" resource quality that consumes fewer response bytes. The meaning of the communicated value is deferred to the server, which may use the communicated value to select an optimized response variant based on availability, encoding costs, and other criteria.
-
-
 # Examples
 
 For example, given the following request headers:
@@ -262,13 +251,6 @@ This document defines the "Accept-CH", "DPR", "Width", and "Downlink" HTTP reque
 - Related information: for Client Hints
 
 - Header field name: Downlink
-- Applicable protocol: HTTP
-- Status: standard
-- Author/Change controller: Ilya Grigorik, ilya@igvita.com
-- Specification document(s): [this document]
-- Related information: for Client Hints
-
-- Header field name: Quality
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
