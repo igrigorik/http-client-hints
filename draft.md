@@ -225,6 +225,13 @@ Alternatively, the server could select an alternate resource based on the maximu
 The server knows that the client's maximum downlink speed is 0.384Mbps (GPRS EDGE), and it may use this information to select an optimized resource - for example, an alternate image asset, stylesheet, HTML document, media stream, and so on.
 
 
+# Security and Privacy Considerations
+
+Client Hints defined in this specification do not expose any new information about the user's environment beyond what is already available to, and may be communicated by, the application at runtime via JavaScript - e.g. viewport and image display width, device pixel ratio, and so on.
+
+However, implementors should consider the privacy implications of various methods to enable delivery of Client Hints - see "Sending Client Hints" section. For example, sending Client Hints on all requests may make information about the user's environment available to origins that otherwise did not have access to this data (e.g. origins hosting non-script resources), which may or not be the desired outcome. The implementors may want to provide mechanisms to control such behavior via explicit opt-in, or other mechanisms. Similarly, the implementors should consider how and whether delivery of Client Hints is affected when the user is in "incognito" or similar privacy mode.
+
+
 # IANA Considerations
 
 This document defines the "Accept-CH", "DPR", "Width", and "Downlink" HTTP request fields, "Content-DPR" HTTP response field, and registers them in the Permanent Message Header Fields registry.
