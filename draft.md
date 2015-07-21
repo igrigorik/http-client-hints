@@ -225,7 +225,7 @@ Alternatively, the server could select an alternate resource based on the maximu
 The server knows that the client's maximum downlink speed is 0.384Mbps (GPRS EDGE), and it may use this information to select an optimized resource - for example, an alternate image asset, stylesheet, HTML document, media stream, and so on.
 
 
-# Security and Privacy Considerations
+# Security Considerations
 
 Client Hints defined in this specification do not expose any new information about the user's environment beyond what is already available to, and may be communicated by, the application at runtime via JavaScript - e.g. viewport and image display width, device pixel ratio, and so on.
 
@@ -277,11 +277,5 @@ This document defines the "Accept-CH", "DPR", "Width", and "Downlink" HTTP reque
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
 - Specification document(s): [this document]
 - Related information: for Client Hints
-
-
-# Security Considerations
-
-The client controls which header fields are communicated and when. In cases such as incognito or anonymous profile browsing, the header can be omitted if necessary.
-
 
 --- back
