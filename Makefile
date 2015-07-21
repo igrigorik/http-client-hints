@@ -1,7 +1,7 @@
 # Base directory for I-D
 ID_BASE = .
 
-saxpath = "/usr/local/share/saxon-b/saxon9.jar"
+saxpath = "/Users/igrigorik/homebrew/Cellar/saxon-b/9.1.0.8/share/saxon-b/saxon9.jar"
 saxon = java -classpath $(saxpath) net.sf.saxon.Transform -novw -l
 stylesheet = "$(ID_BASE)/tools/rfc2629xslt/rfc2629.xslt"
 xml2rfc = "$(ID_BASE)/tools/xml2rfc/xml2rfc.tcl"
