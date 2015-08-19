@@ -196,6 +196,17 @@ The "Downlink" header field is a number that, in requests, indicates the client'
 If Downlink occurs in a message more than once, the minimum value should be used to override other occurrences.
 
 
+# The Save-Data Hint
+
+The "Save-Data" header field is a boolean that, in requests, indicates client's preference for reduced data usage, due to high transfer costs, slow connection speeds, or other reasons.
+
+~~~
+  Save-Data = 1
+~~~
+
+The boolean is a signal indicating explicit user opt-in into a reduced data usage mode on the client, and when communicated to origins allows them to deliver alternate content honoring such preference - e.g. smaller image and video resources, alternate markup, and so on. 
+
+
 # Examples
 
 For example, given the following request headers:
@@ -272,6 +283,13 @@ This document defines the "Accept-CH", "DPR", "Width", and "Downlink" HTTP reque
 - Related information: for Client Hints
 
 - Header field name: Accept-CH
+- Applicable protocol: HTTP
+- Status: standard
+- Author/Change controller: Ilya Grigorik, ilya@igvita.com
+- Specification document(s): [this document]
+- Related information: for Client Hints
+
+- Header field name: Save-Data
 - Applicable protocol: HTTP
 - Status: standard
 - Author/Change controller: Ilya Grigorik, ilya@igvita.com
