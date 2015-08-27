@@ -49,6 +49,14 @@ TODO: Turn this into normative text.
 
 [content-dpr]: http://igrigorik.github.io/http-client-hints/#confirming-selected-dpr 
 
+## Viewport-Width
+
+The `Viewport-Width` value should be the size of the [initial containing block](http://www.w3.org/TR/CSS21/visudet.html#containing-block-details) in CSS pixels.
+When the height or width of the initial containing block is changed, the value sent for consecutive requests should be scaled accordingly.
+
+_Note:_ The initial containing block's size is affected
+by the presence of scrollbars on the viewport.
+
 ## Server preference persistence
 
 User agents MAY maintain a server's `Accept-CH` preference beyond the current browsing session.
