@@ -22,7 +22,7 @@ This specification defines a set of HTTP request header fields, colloquially kno
 ---
 
 ### Available hints
-Current list includes `DPR` (device pixel ratio), `Width` (display width), `Viewport-Width`, and `Downlink` (maximum downlink speed) request headers, and `Content-DPR` response header that is used to confirm the DPR of selected image resources - see full definitions in <a href="http://igrigorik.github.io/http-client-hints/">latest spec</a>.
+Current list includes `DPR` (device pixel ratio), `Width` (resource width), `Viewport-Width` (layout viewport width), and `Downlink` (maximum downlink speed) request headers, and `Content-DPR` response header that is used to confirm the DPR of selected image resources - see full definitions in <a href="http://igrigorik.github.io/http-client-hints/">latest spec</a>.
 
 _Note: have a proposal for another hint? Open an issue, document your use case._
 
@@ -84,14 +84,14 @@ GET /img.jpg HTTP/1.1
 User-Agent: Awesome Browser
 Accept: image/webp, image/jpg
 DPR: 2.0
-Width: 160
+Width: 320
 ```
 ```http
 HTTP/1.1 200 OK
 Server: Awesome Server
 Content-Type: image/jpg
 Content-Length: 124523
-Vary: DPR, Width
+Vary: Width
 Content-DPR: 2.0
 
 (image data)
@@ -102,7 +102,7 @@ In the above example, the user agent advertises its device pixel ratio and image
 * The server can scale the asset to requested width, or return the closest available match to help reduce number of transfered bytes.
 * The server can factor in the device pixel ratio of the device in its selection algorithm.
 
-Note that the display width of the image may not be available at request time, in which case the user agent would omit the `Width` hint. Also, the exact logic as to which asset is selected is deferred to the server, which can optimize its selection based on available resources, cache hit rates, and other criteria.
+Note that the width of the image may not be available at request time, in which case the user agent would omit the `Width` hint. Also, the exact logic as to which asset is selected is deferred to the server, which can optimize its selection based on available resources, cache hit rates, and other criteria.
 
 
 #### `<picture>` element
@@ -157,7 +157,7 @@ The combination of `DPR` and `Width` hints also simplifies delivery of variable 
 ```
 
 * Device pixel ratio is communicated via the `DPR` request header
-* The `vw` size is converted to CSS `px` size based on client's layout viewport size and the resulting value is communicated via the `Width` request header
+* The `vw` size is converted to physical `px` size based on client's layout viewport size and the resulting value is communicated via the `Width` request header
 * The server computes the optimal image variant based on communicated `DPR` and `Width` values and responds with the optimal image variant.
 
 HTTP negotiation flow for the example above:
@@ -165,13 +165,11 @@ HTTP negotiation flow for the example above:
 ```
 > GET /wolf.jpg HTTP/1.1
 > DPR: 2.0
-> Width: 400
-
-(Server: 2x DPR * 400 CSS px = 800px -> selects wolf-800.jpg or performs a resize)
+> Width: 800
 
 < 200 OK
 < Content-DPR: 2.0
-< Vary: DPR, Width
+< Vary: Width
 < ...
 ```
 
@@ -217,7 +215,7 @@ Image bytes: 9998
 # Request 100 CSS px wide asset with DPR of 1.5
 $> curl -s http://app.resrc.it/http://www.resrc.it/img/demo/preferred.jpg \
   -o /dev/null -w "Image bytes: %{size_download}\n" \
-  -H "DPR: 1.5" -H "Width: 100"
+  -H "DPR: 1.5" -H "Width: 150"
 Image bytes: 17667
 
 # Request 200 CSS px wide asset with DPR of 1.0
