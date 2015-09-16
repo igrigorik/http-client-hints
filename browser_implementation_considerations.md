@@ -9,7 +9,7 @@ The Client Hints specification is intended for a wide audience, and does not spe
 
 ## `Width`
 
-The [`Width` request header][width] is sent by the client and indicates the layout width of an HTMLImageElement in CSS pixels.
+The [`Width` request header][width] is sent by the client and indicates the  width of an HTMLImageElement in physical pixels - i.e. same value as provided by the [w descriptor](https://html.spec.whatwg.org/multipage/embedded-content.html#introduction-3:viewport-based-selection-2) for viewport-based selection.
 
 User agents request images long before page layout occurs.
 For this reason, the `Width` hint can only be sent by user agents when the layout width of the image is indicated in markup, via the `sizes` attributes.

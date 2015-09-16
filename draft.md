@@ -165,7 +165,7 @@ If Content-DPR occurs in a message more than once, the last value overrides all 
 
 # The Width Client Hint
 
-The "Width" header field is a number that, in requests, indicates the resource width in CSS px (e.g. display width of an image). The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling value).
+The "Width" header field is a number that, in requests, indicates the resource width in physical px (i.e. intrinsic size of an image). The provided physical px value is a number rounded to the largest smallest following integer (i.e. ceiling value).
 
 ~~~
   Width = 1*DIGIT
@@ -213,11 +213,11 @@ For example, given the following request headers:
 
 ~~~
   DPR: 2.0
-  Width: 160
+  Width: 320
   Viewport-Width: 320
 ~~~
 
-The server knows that the device pixel ratio is 2.0, that the intended display width of requested resource is 160 CSS px, and that the viewport width is 320 CSS px.
+The server knows that the device pixel ratio is 2.0, that the intended display width of requested resource is 160 CSS px (320 physical pixels at 2x resolution), and that the viewport width is 320 CSS px.
 
 If the server uses above hints to perform resource selection for an image asset, it must confirm its selection via the Content-DPR response header to allow the client to calculate the appropriate intrinsic size of the image response. The server does not need to confirm resource width, only the ratio between physical pixels and CSS px of the selected image resource:
 
