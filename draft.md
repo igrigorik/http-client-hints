@@ -198,13 +198,13 @@ If Downlink occurs in a message more than once, the minimum value should be used
 
 # The Save-Data Hint
 
-The "Save-Data" header field is a boolean that, in requests, indicates client's preference for reduced data usage, due to high transfer costs, slow connection speeds, or other reasons.
+The "Save-Data" header field is a token that, in requests, indicates client's preference for reduced data usage, due to high transfer costs, slow connection speeds, or other reasons.
 
 ~~~
-  Save-Data = 1
+  Save-Data = "on"
 ~~~
 
-The boolean is a signal indicating explicit user opt-in into a reduced data usage mode on the client, and when communicated to origins allows them to deliver alternate content honoring such preference - e.g. smaller image and video resources, alternate markup, and so on. 
+The token is a signal indicating explicit user opt-in into a reduced data usage mode on the client, and when communicated to origins allows them to deliver alternate content honoring such preference - e.g. smaller image and video resources, alternate markup, and so on. 
 
 
 # Examples
