@@ -160,7 +160,7 @@ DPR ratio affects the calculation of intrinsic size of image resources on the cl
 
 Note that DPR confirmation is only required for image responses, and the server does not need to confirm the resource width as this value can be derived from the resource itself once it is decoded by the client.
 
-If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences. 
+If Content-DPR occurs in a message more than once, the last value overrides all previous occurrences.
 
 
 # The Width Client Hint
@@ -176,13 +176,13 @@ If the resource width is not known at the time of the request or the resource do
 
 # The Viewport-Width Client Hint
 
-The "Viewport-Width" header field is a number that, in requests, indicates the layout viewport width in CSS px. The provided CSS px value is a number rounded to the largest smallest following integer (i.e. ceiling value).
+The "Viewport-Width" header field is a number that, in requests, indicates the layout viewport width in physical px (i.e. layout width in CSS px multiplied by DPR). The provided physical px value is a number rounded to the largest smallest following integer (i.e. ceiling value).
 
 ~~~
   Viewport-Width = 1*DIGIT
 ~~~
 
-If Viewport-Width occurs in a message more than once, the last value overrides all previous occurrences. 
+If Viewport-Width occurs in a message more than once, the last value overrides all previous occurrences.
 
 
 # The Downlink Client Hint
