@@ -26,7 +26,7 @@ normative:
   RFC7230:
   RFC7231:
   RFC7234:
-  I-D.ietf-httpbis-http-key:
+  I-D.ietf-httpbis-key:
 
 informative:
 
@@ -78,7 +78,7 @@ The client and server, or an intermediate proxy, may use an opt-in mechanism to 
 
 ## Server Processing of Client Hints
 
-Servers MAY respond with an optimized response based on one or more received hints from the client. When doing so, and if the resource is cacheable, the server MUST also emit a Vary response header field ({{RFC7234}}), and optionally Key ({{I-D.httpbis-http-key}}), to indicate which hints were used and whether the selected response is appropriate for a later request.
+Servers MAY respond with an optimized response based on one or more received hints from the client. When doing so, and if the resource is cacheable, the server MUST also emit a Vary response header field ({{RFC7234}}), and optionally Key ({{I-D.ietf-httpbis-key}}), to indicate which hints were used and whether the selected response is appropriate for a later request.
 
 Further, depending on the used hint, the server MAY also need to emit additional response header fields to confirm the property of the response, such that the client can adjust its processing. For example, this specification defines "Content-DPR" response header field that MUST be returned by the server when the "DPR" hint is used to select the response.
 
@@ -116,7 +116,7 @@ Above example indicates that the cache key should be based on the DPR header.
 
 Above example indicates that the cache key should be based on the DPR, Width, and Downlink headers.
 
-Client Hints MAY be combined with Key ({{I-D.httpbis-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server MAY return the following set of instructions:
+Client Hints MAY be combined with Key ({{I-D.ietf-httpbis-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server MAY return the following set of instructions:
 
 ~~~
   Key: DPR;partition=1.5:2.5:4.0
