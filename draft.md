@@ -119,7 +119,7 @@ Above example indicates that the cache key should be based on the DPR, Width, an
 Client Hints MAY be combined with Key ({{I-D.httpbis-http-key}}) to enable fine-grained control of the cache key for improved cache efficiency. For example, the server MAY return the following set of instructions:
 
 ~~~
-  Key: DPR;partition=[1.5:2.5:4.0]
+  Key: DPR;partition=1.5:2.5:4.0
 ~~~
 
 Above example indicates that the cache key should be based on the value of the DPR header with three segments: less than 1.5, 1.5 to less than 2.5, and 4.0 or greater.
@@ -131,7 +131,7 @@ Above example indicates that the cache key should be based on the value of the D
 Above example indicates that the cache key should be based on the value of the Width header and be partitioned into groups of 320: 0-320, 320-640, and so on.
 
 ~~~
-  Key: Downlink;partition=[0.5:1.0:3.0:5.0:10]
+  Key: Downlink;partition=0.5:1.0:3.0:5.0:10
 ~~~
 
 Above example indicates that the cache key should be based on the (Mbps) value of the Downlink header with six segments: less than 0.5, 0.5 to less than 1.0, 1.0 to less than 3.0, 3.0 to less than 5.0, 5.0 to less than 10; 10 or higher.
