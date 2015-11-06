@@ -5,7 +5,7 @@ This specification defines a set of HTTP request header fields, colloquially kno
 **Latest draft:** http://igrigorik.github.io/http-client-hints/
 
 * [Available hints](#available-hints)
-* [Opt-in hint delvery](#opt-in-hint-delivery)
+* [Opt-in hint delivery](#opt-in-hint-delivery)
 * [Use cases](#use-cases)
   - [Responsive Design + Server Side Components (RESS)](#responsive-design--server-side-components-ress)
   - [`<img>` element](#img-element)
