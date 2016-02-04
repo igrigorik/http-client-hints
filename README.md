@@ -2,7 +2,7 @@
 
 This specification defines a set of HTTP request header fields, colloquially known as Client Hints, that are intended to be used as input to proactive content negotiation; just as the `Accept` header allows clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
-**Latest draft:** http://igrigorik.github.io/http-client-hints/
+**Latest draft:** https://httpwg.github.io/http-extensions/client-hints.html
 
 * [Available hints](#available-hints)
 * [Opt-in hint delivery](#opt-in-hint-delivery)
@@ -22,12 +22,12 @@ This specification defines a set of HTTP request header fields, colloquially kno
 ---
 
 ### Available hints
-Current list includes `DPR` (device pixel ratio), `Width` (resource width), `Viewport-Width` (layout viewport width), and `Downlink` (maximum downlink speed) request headers, and `Content-DPR` response header that is used to confirm the DPR of selected image resources - see full definitions in <a href="http://igrigorik.github.io/http-client-hints/">latest spec</a>.
+Current list includes `DPR` (device pixel ratio), `Width` (resource width), `Viewport-Width` (layout viewport width), and `Downlink` (maximum downlink speed) request headers, and `Content-DPR` response header that is used to confirm the DPR of selected image resources - see full definitions in <a href="https://httpwg.github.io/http-extensions/client-hints.html">latest spec</a>.
 
 _Note: have a proposal for another hint? Open an issue, document your use case._
 
 ### Opt-in hint delivery
-To reduce request overhead the hints are sent based on opt-in basis: the server advertises supported hints, the user agent sends the appropriate hint request headers for subsequent requests - see <a href="http://igrigorik.github.io/http-client-hints/#rfc.section.2.3.1">Advertising Support for Client Hints</a>. 
+To reduce request overhead the hints are sent based on opt-in basis: the server advertises supported hints, the user agent sends the appropriate hint request headers for subsequent requests - see <a href="https://httpwg.github.io/http-extensions/client-hints.html#advertising-support-for-client-hints">Advertising Support for Client Hints</a>. 
 
 Note that this means that the user agent will not send hints on the very first request. However, if the site provides correct opt-in information in the response, hints will be delivered by all subsequent requests. Also, the user agent may remember site opt-in across browsing sessions, enabling hint delivery of all subsequent requests.
 
@@ -66,7 +66,7 @@ Content-DPR: 2.0
 (image data)
 ```
 
-In the above example, the user agent advertises its device pixel ratio via `DPR` request header on the image request. Given this information, the server is able to select and respond with the optimal resource variant for the client. For full details refer to the latest [spec](http://igrigorik.github.io/http-client-hints/).
+In the above example, the user agent advertises its device pixel ratio via `DPR` request header on the image request. Given this information, the server is able to select and respond with the optimal resource variant for the client. For full details refer to the latest [spec](https://httpwg.github.io/http-extensions/client-hints.html).
 
 _Note: when server side DPR-selection is used the server must confirm the DPR of the selected resource via `Content-DPR` response header to allow the user agent to compute the correct intrinsic size of the image._
 
@@ -194,7 +194,7 @@ When request hints are used the resource selection algorithm logic is shared bet
 * The device pixel ratio and the resource width may change after the initial image request was sent to the server - e.g. layout change, desktop zoom, etc. When this occurs, and if resource selection is done via `sizes` or `srcset` attributes, the decision to initiate a new request is deferred to the user agent: it may send a new request advertising new hint values, or it may choose to reuse and rescale the existing asset. Note that this is the [default behavior of the user agent](https://github.com/ResponsiveImagesCG/picture-element/issues/230) - i.e. the user agent is **not** required to initiate a new request and use of hints does not modify this behavior.
 * For cases where an environment change (layout, zoom, etc.) must trigger a new asset download, you should use art-direction with `source` and appropriate media queries. 
 
-Use of Client Hints does not incur additional or unnecessary requests. However, as an extra optimization, the server should [advertise the Key caching header](http://igrigorik.github.io/http-client-hints/#rfc.section.2.3.2) to improve cache efficiency.
+Use of Client Hints does not incur additional or unnecessary requests. However, as an extra optimization, the server should [advertise the Key caching header](https://httpwg.github.io/http-extensions/client-hints.html#interaction-with-caches) to improve cache efficiency.
 
 
 #### Maximum downlink speed
