@@ -1,5 +1,0 @@
-<?xml-stylesheet type='text/xsl' href='xslt-test.xslt' ?>
-<content>
-  <whitespace-test id="ws-def"> <test/> </whitespace-test>
-  <whitespace-test id="ws-pres" xml:space="preserve"> <test/> </whitespace-test>
-</content>

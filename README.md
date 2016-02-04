@@ -1,8 +1,14 @@
-## HTTP Client-Hints (Internet Draft)
+Development of this specification has moved to the HTTPWG repository. For latest drafts and issue discussions, head to:
+
+- https://github.com/httpwg/http-extensions#client-hints
+- https://httpwg.github.io/http-extensions/client-hints.html
+
+---
+
+## HTTP Client Hints Explainer
 
 This specification defines a set of HTTP request header fields, colloquially known as Client Hints, that are intended to be used as input to proactive content negotiation; just as the `Accept` header allows clients to indicate what formats they prefer, Client Hints allow clients to indicate a list of device and agent specific preferences.
 
-**Latest draft:** https://httpwg.github.io/http-extensions/client-hints.html
 
 * [Available hints](#available-hints)
 * [Opt-in hint delivery](#opt-in-hint-delivery)
@@ -27,12 +33,12 @@ Current list includes `DPR` (device pixel ratio), `Width` (resource width), `Vie
 _Note: have a proposal for another hint? Open an issue, document your use case._
 
 ### Opt-in hint delivery
-To reduce request overhead the hints are sent based on opt-in basis: the server advertises supported hints, the user agent sends the appropriate hint request headers for subsequent requests - see <a href="https://httpwg.github.io/http-extensions/client-hints.html#advertising-support-for-client-hints">Advertising Support for Client Hints</a>. 
+To reduce request overhead the hints are sent based on opt-in basis: the server advertises supported hints, the user agent sends the appropriate hint request headers for subsequent requests - see <a href="https://httpwg.github.io/http-extensions/client-hints.html#advertising-support-for-client-hints">Advertising Support for Client Hints</a>.
 
 Note that this means that the user agent will not send hints on the very first request. However, if the site provides correct opt-in information in the response, hints will be delivered by all subsequent requests. Also, the user agent may remember site opt-in across browsing sessions, enabling hint delivery of all subsequent requests.
 
 
-### Use cases 
+### Use cases
 #### Responsive Design + Server Side Components (RESS)
 
 The application may want to deliver alternate set of optimized resources based on advertised hints. For example, it may use the device pixel ratio (`DPR`), or the layout viewport width (`Viewport-Width`) to respond with optimized HTML markup, CSS, or script resources - see [Responsive Design + Server Side Components (RESS)](http://www.lukew.com/ff/entry.asp?1392).
@@ -77,7 +83,7 @@ If the image resource width is known at request time, the user agent can communi
 <img src="img.jpg" width="160" alt="I'm a DPR and width aware image!">
 ```
 
-The client and server can negotiate an optimized asset based on `DPR` and `Width` request hints: 
+The client and server can negotiate an optimized asset based on `DPR` and `Width` request hints:
 
 ```http
 GET /img.jpg HTTP/1.1
@@ -107,7 +113,7 @@ Note that the width of the image may not be available at request time, in which 
 
 #### `<picture>` element
 
-Client Hints can be used alongside [picture element](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#the-picture-element) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized images. 
+Client Hints can be used alongside [picture element](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#the-picture-element) to automate resolution switching, simplify art-direction, and automate delivery of variable-sized images.
 
 ##### Device-pixel-ratio-based selection
 DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:device-pixel-ratio-2) by eliminating the need to write `x` descriptors for `img` and `picture` elements:
@@ -145,7 +151,7 @@ DPR header automates [device-pixel-ratio-based selection](http://www.whatwg.org/
 Note that the second example with [art direction-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:art-direction-3) illustrates that hints do not eliminate the need for the `picture` element. Rather, Client Hints is able to simplify and automate certain parts of the negotiation, allowing the developer to focus on art direction, which by definition requires developer/designer input.
 
 ##### Device-pixel-ratio and viewport-based selection
-The combination of `DPR` and `Width` hints also simplifies delivery of variable sized images when [viewport-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:viewport-based-selection-2) is used. The developer specifies the resource width of the image in `vw` units (which are relative to viewport width) via `sizes` attribute and the user agent handles the rest: 
+The combination of `DPR` and `Width` hints also simplifies delivery of variable sized images when [viewport-based selection](http://www.whatwg.org/specs/web-apps/current-work/multipage/embedded-content.html#introduction-3:viewport-based-selection-2) is used. The developer specifies the resource width of the image in `vw` units (which are relative to viewport width) via `sizes` attribute and the user agent handles the rest:
 
 ```html
 <!-- viewport-based selection -->
@@ -192,7 +198,7 @@ The combination of the `DPR` and `Width` hints allows the server to deliver 'pix
 When request hints are used the resource selection algorithm logic is shared between the user agent and the server: the user agent may apply own selection rules based on specified markup and defer other decisions to the server by communicating the appropriate `DPR` and `Width` values within the image request. With that, a few considerations to keep in mind:
 
 * The device pixel ratio and the resource width may change after the initial image request was sent to the server - e.g. layout change, desktop zoom, etc. When this occurs, and if resource selection is done via `sizes` or `srcset` attributes, the decision to initiate a new request is deferred to the user agent: it may send a new request advertising new hint values, or it may choose to reuse and rescale the existing asset. Note that this is the [default behavior of the user agent](https://github.com/ResponsiveImagesCG/picture-element/issues/230) - i.e. the user agent is **not** required to initiate a new request and use of hints does not modify this behavior.
-* For cases where an environment change (layout, zoom, etc.) must trigger a new asset download, you should use art-direction with `source` and appropriate media queries. 
+* For cases where an environment change (layout, zoom, etc.) must trigger a new asset download, you should use art-direction with `source` and appropriate media queries.
 
 Use of Client Hints does not incur additional or unnecessary requests. However, as an extra optimization, the server should [advertise the Key caching header](https://httpwg.github.io/http-extensions/client-hints.html#interaction-with-caches) to improve cache efficiency.
 
@@ -229,13 +235,11 @@ ReSRC.it servers automate the delivery of optimal image assets based on advertis
 
 
 ### Implementation status
+* Blink: shipped in M46.
+  - [Automating resource selection with Client Hints](https://developers.google.com/web/updates/2015/09/automating-resource-selection-with-client-hints?hl=en) (Web Fundamentals).
+  - [Leaner Responsive Images With Client Hints](https://www.smashingmagazine.com/2016/01/leaner-responsive-images-client-hints/) (Smashing Magazine).
 * IE: [Under Consideration](http://status.modern.ie/httpclienthints?term=client%20hints)
 * Mozilla: [935216 - Implement Client-Hints HTTP header](https://bugzilla.mozilla.org/show_bug.cgi?id=935216)
-* Blink: [Intent to Implement: Client-Hints header (DPR switching)](https://groups.google.com/a/chromium.org/d/msg/blink-dev/c38s7y6dH-Q/bNFczRZj5MsJ)
-  - Chrome Canary has limited Client Hints support behind a runtime flag:
-    * Enable _chrome://flags/#enable-experimental-web-platform-features_
-    * Launch Chrome with `--enable-client-hints` flag
-  - Alternatively, you can install [Client-Hints extension for Chrome](https://chrome.google.com/webstore/detail/client-hints/gdghpgmkfaedgngmnahnaaegpacanlef), which allows you to set different values for DPR headers.
 
 
 ### Feedback
