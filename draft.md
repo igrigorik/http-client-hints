@@ -207,6 +207,17 @@ The "Save-Data" header field is a token that, in requests, indicates client's pr
 The token is a signal indicating explicit user opt-in into a reduced data usage mode on the client, and when communicated to origins allows them to deliver alternate content honoring such preference - e.g. smaller image and video resources, alternate markup, and so on. 
 
 
+# Reporting Data Savings
+
+The "Alternate-Content-Length" header field is a number that, in responses, indicates the size of the response, as a decimal number of octects, that would have been returned if the alternate response was not selected due to one of the provided hints.
+
+~~~
+  Alternate-Content-Length = 1*DIGIT
+~~~
+
+When an alternate response was selected due to one of the provided hints, the server MAY report the anticipated size of the alternate response as a decimal number of octets. Where available, this enables the client to estimate the byte difference achieved through the use of provided hints.
+
+
 # Examples
 
 For example, given the following request headers:
